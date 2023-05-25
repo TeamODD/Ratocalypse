@@ -12,6 +12,8 @@ namespace TeamOdd.Ratocalypse.Card
             _cardList = cardDatas.ToList();
         }
 
+        public int Count { get => _cardList.Count; }
+
         public CardData GetCard(int index)
         {
             return _cardList[index];
