@@ -23,9 +23,9 @@ namespace TeamOdd.Ratocalypse.Map
 
         }
 
-        public void Initiate(Vector2Int coord, IPlaceable placeable = null)
+        public void Initiate(TileData tileData)
         {
-            TileData = new TileData(coord, placeable);
+            TileData = tileData;
         }
     }
 }

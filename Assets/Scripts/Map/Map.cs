@@ -50,7 +50,9 @@ namespace TeamOdd.Ratocalypse.Map
                     var tile = Instantiate(_tilePrefab, _tiles, false);
                     tile.transform.localPosition = position;
                     tile.name = "Tile " + Coord;
-                    tile.Initiate(Coord);
+
+                    var tileData = MapData.GetTile(Coord);
+                    tile.Initiate(tileData);
                 }
             }
         }
