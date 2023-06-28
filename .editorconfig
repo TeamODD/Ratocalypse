@@ -1,0 +1,87 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+[*.cs]
+indent_style = space
+indent_size = 4
+end_of_line = crlf
+charset = utf-8
+trim_trailing_whitespace = false
+insert_final_newline = false
+
+#default presets styles
+dotnet_naming_style.PascalCase.capitalization = pascal_case
+
+dotnet_naming_style.camelCase.capitalization = camel_case
+
+dotnet_naming_style._camelCase.capitalization = camel_case
+dotnet_naming_style._camelCase.required_prefix = _
+
+
+#Interface
+dotnet_naming_style.IPascalCase.capitalization = pascal_case
+dotnet_naming_style.IPascalCase.required_prefix = I
+
+dotnet_naming_symbols.Interface.applicable_kinds = interface
+dotnet_naming_symbols.Interface.applicable_accessibilities = *
+
+dotnet_naming_rule.Interface.severity = suggestion
+dotnet_naming_rule.Interface.symbols = Interface
+dotnet_naming_rule.Interface.style = IPascalCase
+
+
+#Class, Struct, Enum, Method, property - CSEMP
+dotnet_naming_symbols.CSEMP.applicable_kinds = class, struct, enum, method, property
+dotnet_naming_symbols.CSEMP.applicable_accessibilities = *
+
+dotnet_naming_rule.CSEMP.severity = warning
+dotnet_naming_rule.CSEMP.symbols = CSEMP
+dotnet_naming_rule.CSEMP.style = PascalCase
+
+#non-const (private, protected)
+dotnet_naming_symbols.NonConstPP.applicable_kinds = field
+dotnet_naming_symbols.NonConstPP.applicable_accessibilities = private, protected
+
+dotnet_naming_rule.NonConstPP.severity = warning
+dotnet_naming_rule.NonConstPP.symbols = NonConstPP
+dotnet_naming_rule.NonConstPP.style = _camelCase
+
+#const (private protected)
+dotnet_naming_symbols.ConstPP.applicable_kinds = field
+dotnet_naming_symbols.ConstPP.applicable_accessibilities = private, protected
+dotnet_naming_symbols.ConstPP.required_modifiers = const
+
+dotnet_naming_rule.ConstPP.severity = warning
+dotnet_naming_rule.ConstPP.symbols = ConstPP
+dotnet_naming_rule.ConstPP.style = PascalCase
+
+#Public
+dotnet_naming_symbols.Public.applicable_kinds = field
+dotnet_naming_symbols.Public.applicable_accessibilities = public
+dotnet_naming_symbols.Public.required_modifiers = *
+
+dotnet_naming_rule.Public.severity = warning
+dotnet_naming_rule.Public.symbols = Public
+dotnet_naming_rule.Public.style = PascalCase
+
+
+#parms
+dotnet_naming_symbols.Parameter.applicable_kinds = parameter
+dotnet_naming_symbols.Parameter.applicable_accessibilities = *
+
+dotnet_naming_rule.Parameter.severity = warning
+dotnet_naming_rule.Parameter.symbols = Parameter
+dotnet_naming_rule.Parameter.style = camelCase
+
+#parms
+dotnet_naming_symbols.Parameter.applicable_kinds = parameter
+dotnet_naming_symbols.Parameter.applicable_accessibilities = *
+
+dotnet_naming_rule.Parameter.severity = warning
+dotnet_naming_rule.Parameter.symbols = Parameter
+dotnet_naming_rule.Parameter.style = camelCase
+
+
+
