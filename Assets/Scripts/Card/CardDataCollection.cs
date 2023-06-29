@@ -46,6 +46,11 @@ namespace TeamOdd.Ratocalypse.Card
             }
         }
 
+        public void Clear()
+        {
+            _cardDataList.Clear();
+        }
+
         public IEnumerator<CardData> GetEnumerator()
         {
             return _cardDataList.GetEnumerator();
