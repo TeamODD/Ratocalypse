@@ -13,7 +13,7 @@ namespace TeamOdd.Ratocalypse.MapTestScripts
         public Material Material2;
         public Renderer Renderer;
 
-        void Start()
+        private void Start()
         {
             var tile = GetComponent<Tile>();
             if(tile.TileData.Coord.x%2==tile.TileData.Coord.y%2)

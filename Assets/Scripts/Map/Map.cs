@@ -45,7 +45,7 @@ namespace TeamOdd.Ratocalypse.Map
             {
                 for (int y = 0; y < MapData.Size.y; y++)
                 {
-                    var Coord = new Vector2Int(x, y);
+                    var coord = new Vector2Int(x, y);
                     var position = GetTilePosition(Coord);
                     var tile = Instantiate(_tilePrefab, _tiles, false);
                     tile.transform.localPosition = position;
