@@ -15,6 +15,11 @@ namespace TeamOdd.Ratocalypse.Card
         {
             DataValue = dataValue;
         }
+
+        public virtual CardData Clone()
+        {
+            return new CardData(CardDataId, DataValue.Clone());
+        }
     }
 
     public class CardDataValue
@@ -24,7 +29,7 @@ namespace TeamOdd.Ratocalypse.Card
         public object ValueC { get; set; } = null;
 
 
-        public CardDataValue Clone()
+        public virtual CardDataValue Clone()
         {
             return new CardDataValue();
         }
