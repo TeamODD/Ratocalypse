@@ -46,12 +46,12 @@ namespace TeamOdd.Ratocalypse.Map
                 for (int y = 0; y < MapData.Size.y; y++)
                 {
                     var coord = new Vector2Int(x, y);
-                    var position = GetTilePosition(Coord);
+                    var position = GetTilePosition(coord);
                     var tile = Instantiate(_tilePrefab, _tiles, false);
                     tile.transform.localPosition = position;
-                    tile.name = "Tile " + Coord;
+                    tile.name = "Tile " + coord;
 
-                    var tileData = MapData.GetTile(Coord);
+                    var tileData = MapData.GetTile(coord);
                     tile.Initiate(tileData);
                 }
             }
