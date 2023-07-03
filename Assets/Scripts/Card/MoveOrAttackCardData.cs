@@ -4,7 +4,7 @@ namespace TeamOdd.Ratocalypse.Card
     {
         public MoveOrAttackRangeType RangeType { get; protected set; }
 
-        public MoveOrAttackCardData(string cardDataId, MoveOrAttackRangeType rangeType) : base(cardDataId)
+        public MoveOrAttackCardData(long cardDataId, MoveOrAttackRangeType rangeType) : base(cardDataId)
         {
             RangeType = rangeType;
         }
