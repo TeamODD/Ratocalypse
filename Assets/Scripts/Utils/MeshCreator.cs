@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
-using mattatz.Triangulation2DSystem;
+using Habrador_Computational_Geometry;
+using System.Linq;
 
 [RequireComponent(typeof(MeshFilter))]
 public class MeshCreator : MonoBehaviour
@@ -48,20 +49,18 @@ public class MeshCreator : MonoBehaviour
 
             AddWall(point1, point2, vertices, triangles, uvs, i == 0, i == points.Count - 1);
         }
+        List<MyVector2> hullVertices2d = points.Select(p => new MyVector2(p.x, p.y)).ToList();
+        var triangulation = _EarClipping.Triangulate(hullVertices2d, optimizeTriangles: false);
 
-        Polygon2D polygon = new Polygon2D(points.ToArray());
-        Triangulation2D triangulation = new Triangulation2D(polygon);
-        Triangle2D[] delaunayed = triangulation.Triangles;
-        List<int> indices = new List<int>();
+        foreach (Triangle2 triangle in triangulation)
+        {
+            Vector2 point1 = triangle.p1.ToVector2();
+            Vector2 point2 = triangle.p2.ToVector2();
+            Vector2 point3 = triangle.p3.ToVector2();
+            AddTriangle(point1, point2, point3, vertices, triangles, uvs, true);
+            AddTriangle(point1, point2, point3, vertices, triangles, uvs, false);
+        }
 
-        foreach (Triangle2D triangle in delaunayed)
-        {
-            AddTriangle(triangle.a.Coordinate, triangle.b.Coordinate, triangle.c.Coordinate, vertices, triangles, uvs, true);
-        }
-        foreach (Triangle2D triangle in delaunayed)
-        {
-            AddTriangle(triangle.a.Coordinate, triangle.b.Coordinate, triangle.c.Coordinate, vertices, triangles, uvs, false);
-        }
 
         _meshFilter.mesh.vertices = vertices.ToArray();
         _meshFilter.mesh.triangles = triangles.ToArray();
@@ -91,8 +90,12 @@ public class MeshCreator : MonoBehaviour
         vertices.Add(c);
         AddSurfaceUv(uvs, c, offset);
 
+        Vector2 ab = b - a;
+        Vector2 ac = c - a;
 
-        if (Utils2D.LeftSide(a, b, c) == isFront)
+        bool isNormalFront = Vector3.Cross(ab, ac).z > 0;
+
+        if (isNormalFront == isFront)
         {
             triangles.Add(indexA);
             triangles.Add(indexB);
@@ -108,11 +111,11 @@ public class MeshCreator : MonoBehaviour
 
     private void AddSurfaceUv(List<Vector2> uvs, Vector2 uv, Vector2 offset = default)
     {
-        offset = offset==default ? Vector2.zero : offset;
+        offset = offset == default ? Vector2.zero : offset;
         float x = uv.x;
         float y = uv.y;
 
-        uvs.Add( new Vector2((x + 0.5f)/2 ,y + 0.5f) + offset);
+        uvs.Add(new Vector2((x + 0.5f) / 2, y + 0.5f) + offset);
     }
 
     private void AddWall(Vector2 point1, Vector2 point2, List<Vector3> vertices, List<int> triangles, List<Vector2> uvs, bool first, bool last)
