@@ -24,8 +24,7 @@ namespace TeamOdd.Ratocalypse.Map
 
         private void Awake()
         {
-            MapData = new MapData(_size);
-            Init();
+            UpdateTiles();
         }
 
         private Vector3 GetTilePosition(Vector2Int coord)
@@ -35,12 +34,15 @@ namespace TeamOdd.Ratocalypse.Map
             return new Vector3(mappedX, 0, mappedY) * _tileDistance;
         }
 
-        private void Init()
+        private void UpdateTiles()
         {
-            for (int i = _tiles.childCount - 1; i >= 0; i--)
-            {
-                GameObject.DestroyImmediate(_tiles.GetChild(i).gameObject);
-            }
+            RemoveTiles();
+            MapData = new MapData(_size);
+            CreateTiles();
+        }
+
+        private void CreateTiles()
+        {
             for (int x = 0; x < MapData.Size.x; x++)
             {
                 for (int y = 0; y < MapData.Size.y; y++)
@@ -57,9 +59,23 @@ namespace TeamOdd.Ratocalypse.Map
             }
         }
 
-        private void Update()
+        private void RemoveTiles()
         {
+            for (int i = _tiles.childCount - 1; i >= 0; i--)
+            {
+                DestroyImmediate(_tiles.GetChild(i).gameObject);
+            }
+        }
 
+        private void OnValidate()
+        {
+            StartCoroutine(UpdateMap());
+        }
+
+        private IEnumerator UpdateMap()
+        {
+            yield return null;
+            UpdateTiles();
         }
     }
 }
