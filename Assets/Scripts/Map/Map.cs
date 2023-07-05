@@ -9,9 +9,6 @@ namespace TeamOdd.Ratocalypse.Map
     public class Map : MonoBehaviour
     {
         [SerializeField]
-        private Vector2Int _size = new Vector2Int(8, 8);
-
-        [SerializeField]
         private float _tileDistance = 1.1f;
 
         [SerializeField]
@@ -20,6 +17,9 @@ namespace TeamOdd.Ratocalypse.Map
         [SerializeField]
         private Transform _tiles;
 
+        [field: SerializeField]
+        public MapCoord MapCoord{ get; private set; }
+
         public MapData MapData { get; private set; }
 
         private void Awake()
@@ -27,17 +27,10 @@ namespace TeamOdd.Ratocalypse.Map
             UpdateTiles();
         }
 
-        private Vector3 GetTilePosition(Vector2Int coord)
-        {
-            var mappedX = coord.x - ((float)MapData.Size.x - 1) / 2;
-            var mappedY = coord.y - ((float)MapData.Size.y - 1) / 2;
-            return new Vector3(mappedX, 0, mappedY) * _tileDistance;
-        }
-
         private void UpdateTiles()
         {
             RemoveTiles();
-            MapData = new MapData(_size);
+            MapData = new MapData(MapCoord.Size);
             CreateTiles();
         }
 
@@ -48,7 +41,7 @@ namespace TeamOdd.Ratocalypse.Map
                 for (int y = 0; y < MapData.Size.y; y++)
                 {
                     var coord = new Vector2Int(x, y);
-                    var position = GetTilePosition(coord);
+                    var position = MapCoord.GetTilePosition(coord);
                     var tile = Instantiate(_tilePrefab, _tiles, false);
                     tile.transform.localPosition = position;
                     tile.name = "Tile " + coord;
