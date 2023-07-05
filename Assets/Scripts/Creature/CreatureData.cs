@@ -5,10 +5,8 @@ namespace TeamOdd.Ratocalypse.Creature
 {
     public class CreatureData
     {
-        [SerializeField]
         public float Hp { get; private set; }
 
-        [SerializeField]
         public int Stamina { get; private set; }
 
         public List<string> StatusEffectList;
