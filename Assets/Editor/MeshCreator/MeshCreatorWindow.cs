@@ -33,6 +33,7 @@ public class MeshCreatorWindow : EditorWindow
     private void CreateMesh()
     {
         Mesh mesh = _meshCreator.CreateMesh(_sprite, _thickness);
+        Debug.Log($"Mesh creating thickness: {_thickness}");
         SaveMesh(mesh);
         
     }

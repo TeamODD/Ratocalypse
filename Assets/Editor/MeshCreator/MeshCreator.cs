@@ -24,7 +24,7 @@ public class MeshCreator
         {
             Vector2 p = points[i];
             points[i] = new Vector2(p.x / width, p.y / height);
-            Debug.Log(points[i]);
+            //Debug.Log(points[i]);
         }
 
         for (int i = 0; i < points.Count; i++)
@@ -48,10 +48,15 @@ public class MeshCreator
 
         Mesh mesh = new Mesh();
 
-        mesh.vertices = vertices.ToArray();
+        float longestSide = Mathf.Max(width,height);
+
+        mesh.vertices = vertices.ToArray().Select(v =>
+         new Vector3(v.x*width/longestSide, v.y*height/longestSide, v.z)).ToArray();
         mesh.triangles = triangles.ToArray();
         mesh.SetUVs(0, uvs);
         mesh.RecalculateNormals();
+
+
 
         return mesh;
     }
