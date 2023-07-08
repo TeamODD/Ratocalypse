@@ -6,7 +6,7 @@ namespace TeamOdd.Ratocalypse.MapLib
     public class MapData
     {
         public Vector2Int Size { get; }
-        public List<List<TileData>> Tiles {get;private set;}
+        public List<List<TileData>> TileDatas {get;private set;}
 
         public MapData(Vector2Int size)
         {
@@ -22,30 +22,30 @@ namespace TeamOdd.Ratocalypse.MapLib
 
         private void ResetTiles()
         {
-            Tiles = new List<List<TileData>>();
+            TileDatas = new List<List<TileData>>();
             for (int x = 0; x < Size.x; x++)
             {
-                Tiles.Add(new List<TileData>());
+                TileDatas.Add(new List<TileData>());
                 for (int y = 0; y < Size.y; y++)
                 {
-                    Tiles[x].Add(new TileData(new Vector2Int(x, y)));
+                    TileDatas[x].Add(new TileData(new Vector2Int(x, y)));
                 }
             }
         }
 
-        public TileData GetTile(Vector2Int coord)
+        public TileData GetTileData(Vector2Int coord)
         {
-            return Tiles[coord.x][coord.y];
+            return TileDatas[coord.x][coord.y];
         }
 
         public IPlaceable GetPlaceble(Vector2Int coord)
         {
-            return Tiles[coord.x][coord.y].Placeable;
+            return TileDatas[coord.x][coord.y].Placeable;
         }
 
         public void SetPlaceble(Vector2Int coord, IPlaceable placeable)
         {
-            var tileData = GetTile(coord);
+            var tileData = GetTileData(coord);
             tileData.SetPlaceable(placeable);
         }
 
