@@ -22,4 +22,3 @@ namespace TeamOdd.Ratocalypse.Creature
 
     }
 }
-

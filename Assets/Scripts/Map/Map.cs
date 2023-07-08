@@ -6,7 +6,7 @@ using UnityEngine;
 namespace TeamOdd.Ratocalypse.Map
 {
     [ExecuteInEditMode]
-    public class Map : MonoBehaviour
+    public class Map : MonoBehaviour, IMapCoord
     {
         [SerializeField]
         private float _tileDistance = 1.1f;
@@ -15,12 +15,14 @@ namespace TeamOdd.Ratocalypse.Map
         private Tile _tilePrefab;
 
         [SerializeField]
-        private Transform _tiles;
+        private Transform _tileParent;
 
         [field: SerializeField]
-        public MapCoord MapCoord{ get; private set; }
+        public Vector2Int Size { get; private set; }
 
         public MapData MapData { get; private set; }
+
+        private Tile[,] _tiles;
 
         private void Awake()
         {
@@ -30,19 +32,21 @@ namespace TeamOdd.Ratocalypse.Map
         private void UpdateTiles()
         {
             RemoveTiles();
-            MapData = new MapData(MapCoord.Size);
+            MapData = new MapData(Size);
             CreateTiles();
         }
 
         private void CreateTiles()
         {
+            _tiles = new Tile[MapData.Size.y,MapData.Size.x];
+
             for (int x = 0; x < MapData.Size.x; x++)
             {
                 for (int y = 0; y < MapData.Size.y; y++)
                 {
                     var coord = new Vector2Int(x, y);
-                    var position = MapCoord.GetTilePosition(coord);
-                    var tile = Instantiate(_tilePrefab, _tiles, false);
+                    var position = GetTileLocalPosition(coord);
+                    var tile = Instantiate(_tilePrefab, _tileParent, false);
                     tile.transform.localPosition = position;
                     tile.name = "Tile " + coord;
 
@@ -54,9 +58,9 @@ namespace TeamOdd.Ratocalypse.Map
 
         private void RemoveTiles()
         {
-            for (int i = _tiles.childCount - 1; i >= 0; i--)
+            for (int i = _tileParent.childCount - 1; i >= 0; i--)
             {
-                DestroyImmediate(_tiles.GetChild(i).gameObject);
+                DestroyImmediate(_tileParent.GetChild(i).gameObject);
             }
         }
 
@@ -69,6 +73,19 @@ namespace TeamOdd.Ratocalypse.Map
         {
             yield return null;
             UpdateTiles();
+        }
+
+        public Vector3 GetTileWorldPosition(Vector2Int coord)
+        {
+            return _tiles[coord.y, coord.x].transform.position;
+        }
+
+        public Vector3 GetTileLocalPosition(Vector2Int coord)
+        {
+            var mappedX = coord.x - ((float)Size.x - 1) / 2;
+            var mappedY = coord.y - ((float)Size.y - 1) / 2;
+            var newPosition = new Vector3(mappedX, 0, mappedY) * _tileDistance;
+            return newPosition;
         }
     }
 }

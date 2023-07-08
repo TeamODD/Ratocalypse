@@ -1,6 +1,7 @@
+using TeamOdd.Ratocalypse.Map;
 using UnityEngine;
 
-namespace TeamOdd.Ratocalypse.Map
+namespace TeamOdd.Ratocalypse.MapTestScripts
 {
     public class Obstacle : IPlaceable
     {
