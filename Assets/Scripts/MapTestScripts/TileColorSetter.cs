@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TeamOdd.Ratocalypse.Map;
+using TeamOdd.Ratocalypse.MapLib;
 
 namespace TeamOdd.Ratocalypse.MapTestScripts
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace TeamOdd.Ratocalypse.Map
+namespace TeamOdd.Ratocalypse.MapLib
 {
     [ExecuteInEditMode]
     public class Map : MonoBehaviour, IMapCoord
@@ -52,6 +52,7 @@ namespace TeamOdd.Ratocalypse.Map
 
                     var tileData = MapData.GetTile(coord);
                     tile.Initiate(tileData);
+                    _tiles[y, x] = tile;
                 }
             }
         }
@@ -61,6 +62,7 @@ namespace TeamOdd.Ratocalypse.Map
             for (int i = _tileParent.childCount - 1; i >= 0; i--)
             {
                 DestroyImmediate(_tileParent.GetChild(i).gameObject);
+                _tiles = null;
             }
         }
 

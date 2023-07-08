@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TeamOdd.Ratocalypse.Map
+namespace TeamOdd.Ratocalypse.MapLib
 {
     public interface IMapCoord
     {

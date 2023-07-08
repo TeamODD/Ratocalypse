@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace TeamOdd.Ratocalypse.Map
+namespace TeamOdd.Ratocalypse.MapLib
 {
     public class MapData
     {

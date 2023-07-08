@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace TeamOdd.Ratocalypse.Map
+namespace TeamOdd.Ratocalypse.MapLib
 {
     public class Tile : MonoBehaviour
     {
