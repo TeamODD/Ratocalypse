@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TeamOdd.Ratocalypse.Card
+﻿namespace TeamOdd.Ratocalypse.Card
 {
     public class Deck
     {
@@ -24,7 +22,7 @@ namespace TeamOdd.Ratocalypse.Card
 
         public CardData DrawLast()
         {
-            return Draw(Math.Max(0, DeckData.Count - 1));
+            return Draw(DeckData.Count - 1);
         }
     }
 }
