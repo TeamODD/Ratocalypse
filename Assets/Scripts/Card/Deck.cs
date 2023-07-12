@@ -4,23 +4,23 @@
     {
         public DeckData DeckData { get; } = new DeckData();
 
-        public CardData Draw(int index)
+        public CardDataValue Draw(int index)
         {
             if (DeckData.Count == 0)
             {
                 return null;
             }
-            CardData cardData = DeckData.GetCard(index);
+            CardDataValue cardData = DeckData.GetCardDataValue(index);
             DeckData.RemoveCard(index);
             return cardData;
         }
 
-        public CardData DrawFirst()
+        public CardDataValue DrawFirst()
         {
             return Draw(0);
         }
 
-        public CardData DrawLast()
+        public CardDataValue DrawLast()
         {
             return Draw(DeckData.Count - 1);
         }
