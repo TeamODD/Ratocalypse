@@ -233,6 +233,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a874e3017b8e3b4db5a7ba2bbc6c04a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _id: 0
+  MouseOverEvents:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 514294819}
+        m_TargetAssemblyTypeName: TeamOdd.Ratocalypse.Card.Card, Assembly-CSharp
+        m_MethodName: DefaultMouseOver
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  MouseOutEvents:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 514294819}
+        m_TargetAssemblyTypeName: TeamOdd.Ratocalypse.Card.Card, Assembly-CSharp
+        m_MethodName: DefaultMouseOut
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  MouseDragEvents:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 514294819}
+        m_TargetAssemblyTypeName: TeamOdd.Ratocalypse.Card.Card, Assembly-CSharp
+        m_MethodName: DefaultDrag
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &651162691
 GameObject:
   m_ObjectHideFlags: 0
