@@ -2,14 +2,17 @@ using System.Collections.Generic;
 using TeamOdd.Ratocalypse.MapLib;
 using UnityEngine;
 using DG.Tweening;
-
+using static TeamOdd.Ratocalypse.MapLib.MapData;
 
 namespace TeamOdd.Ratocalypse.Creature
 {
-    public class Creature : MonoBehaviour, IMovable
+    public class Creature : MonoBehaviour
     {
-        [field:ReadOnly, SerializeField]
-        public Vector2Int Coord{ get; private set;}
+
+        [SerializeField]
+        private Placement _placement;
+
+        public Vector2Int Coord => _placement.Coord;
 
         [SerializeField]
         private float _duration = 0.1f;
@@ -19,7 +22,7 @@ namespace TeamOdd.Ratocalypse.Creature
 
         public virtual void MoveTo(Vector2Int destination)
         {
-            Coord = destination;
+            _placement.SetCoord(destination);
             UpdateObjectPosition();
         }
 
@@ -28,11 +31,11 @@ namespace TeamOdd.Ratocalypse.Creature
             transform.DOMove(_mapCoord.GetTileWorldPosition(Coord), _duration);
         }
 
-        public void Initiate(CreatureData creatureData, IMapCoord mapCoord, Vector2Int coord)
+        public void Initiate(CreatureData creatureData, MapData mapData, IMapCoord mapCoord, Vector2Int coord)
         {
             _creatureData = creatureData;
             _mapCoord = mapCoord;
-            Coord = coord;
+            _placement = new Placement(mapData, coord, _placement.Shape);//shape for testing
             UpdateObjectPosition();
         }
     }

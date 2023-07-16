@@ -38,7 +38,7 @@ namespace TeamOdd.Ratocalypse.MapLib
 
         private void CreateTiles()
         {
-            _tiles = new Tile[MapData.Size.y,MapData.Size.x];
+            _tiles = new Tile[MapData.Size.y, MapData.Size.x];
 
             for (int x = 0; x < MapData.Size.x; x++)
             {
@@ -50,7 +50,7 @@ namespace TeamOdd.Ratocalypse.MapLib
                     tile.transform.localPosition = position;
                     tile.name = "Tile " + coord;
 
-                    var tileData = MapData.GetTileData(coord);
+                    var tileData = new TileData(coord);
                     tile.Initiate(tileData);
                     _tiles[y, x] = tile;
                 }

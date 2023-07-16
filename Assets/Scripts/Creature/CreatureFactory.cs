@@ -11,11 +11,11 @@ namespace TeamOdd.Ratocalypse.Creature
         private Map _map;
         [SerializeField]
         private Transform _parent;
-        
+
         public void CreateCreature(Vector2Int coord)
         {
             var creature = Instantiate(_creaturePrefab, _parent).GetComponent<Creature>();
-            creature.Initiate(new CreatureData(), _map, coord);
+            creature.Initiate(new CreatureData(), _map.MapData, _map, coord);
         }
     }
 }
