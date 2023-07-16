@@ -10,18 +10,18 @@ namespace TeamOdd.Ratocalypse.MapLib
 
         private void Awake()
         {
-            
+
         }
 
         private void Start()
         {
-            
+
         }
 
 
         private void Update()
         {
-            
+
         }
 
         public void Initiate(TileData tileData)

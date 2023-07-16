@@ -4,25 +4,12 @@ namespace TeamOdd.Ratocalypse.MapLib
 {
     public class TileData
     {
-        public Vector2Int Coord {get;}
-        public IPlaceable Placeable { get; private set; }
+        public Vector2Int Coord { get; }
 
-        public TileData(Vector2Int coord, IPlaceable placeable = null)
+        public TileData(Vector2Int coord)
         {
             Coord = coord;
-            Placeable = placeable;
         }
 
-        public IPlaceable RemovePlaceable()
-        {
-            IPlaceable temp = Placeable;
-            Placeable = null;
-            return temp;
-        }
-
-        public void SetPlaceable(IPlaceable placeable)
-        {
-            Placeable = placeable;
-        }
     }
 }
