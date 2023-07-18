@@ -38,6 +38,11 @@ namespace TeamOdd.Ratocalypse.MapLib
             return Placements[coord.y][coord.x];
         }
 
+        public bool IsExist(Vector2Int coord)
+        {
+            return GetPlacement(coord) != null;
+        }
+
         private Placement RemovePlaceable(Vector2Int coord)
         {
             Placement exist = GetPlacement(coord);
