@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace TeamOdd.Ratocalypse.MapLib
 {
@@ -14,6 +15,8 @@ namespace TeamOdd.Ratocalypse.MapLib
             [field: SerializeField]//readonly but for test
             public List<Vector2Int> Shape { get; private set; }
 
+            public UnityEvent<Vector2Int> OnCoordChanged = new UnityEvent<Vector2Int>();
+
             public Placement(MapData mapData, Vector2Int coord, List<Vector2Int> shape = null)
             {
                 _mapData = mapData;
@@ -27,6 +30,7 @@ namespace TeamOdd.Ratocalypse.MapLib
                 Remove();
                 Coord = newCoord;
                 UpdatePosition();
+                OnCoordChanged.Invoke(Coord);
             }
 
             public void Remove()

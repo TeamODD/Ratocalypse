@@ -11,12 +11,22 @@ namespace TeamOdd.Ratocalypse.MapTestScripts
     {
         public Material Material1;
         public Material Material2;
-        public Renderer Renderer;
 
+        public Material ValidMaterial;
+        public Material UnvalidMaterial;
+
+        public Renderer Renderer;
+        private Tile _tile;
         private void Start()
         {
-            var tile = GetComponent<Tile>();
-            if (tile.Coord.x % 2 == tile.Coord.y % 2)
+            _tile = GetComponent<Tile>();
+            Reset();
+        }
+
+        public void Reset()
+        {
+
+            if (_tile.Coord.x % 2 == _tile.Coord.y % 2)
             {
                 Renderer.material = Material1;
             }
@@ -24,6 +34,16 @@ namespace TeamOdd.Ratocalypse.MapTestScripts
             {
                 Renderer.material = Material2;
             }
+        }
+
+        public void Valid()
+        {
+            Renderer.material = ValidMaterial;
+        }
+
+        public void Invalid()
+        {
+            Renderer.material = UnvalidMaterial;
         }
     }
 }

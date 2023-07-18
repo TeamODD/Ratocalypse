@@ -1,4 +1,6 @@
 using TeamOdd.Ratocalypse.Creature;
+using TeamOdd.Ratocalypse.MapLib;
+using TeamOdd.Ratocalypse.MapTestScripts;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,9 +12,10 @@ public class CreatureTesterWindow : EditorWindow
         GetWindow<CreatureTesterWindow>("CreatureTester");
     }
 
-    private Creature _creature;
-    private CreatureFactory _creatureFactory;
 
+    private CreatureFactory _creatureFactory;
+    private TileSelector _tileSelector;
+    private Map _map;
     private Vector2Int _coord;
     private void OnGUI()
     {
@@ -26,33 +29,17 @@ public class CreatureTesterWindow : EditorWindow
         {
             _creatureFactory.CreateCreature(_coord);
         }
-        
-        _creature = (Creature)EditorGUILayout.ObjectField("Creature", _creature, typeof(Creature), true);
+
+        _tileSelector = (TileSelector)EditorGUILayout.ObjectField("TileSelector", _tileSelector, typeof(TileSelector), true);
+        _map = (Map)EditorGUILayout.ObjectField("Map", _map, typeof(Map), true);
+
+        if (GUILayout.Button("Select"))
+        {
+            MapAnalyzer analyzer = new MapAnalyzer(_map.MapData);
+            Debug.Log(_map.MapData);
+            _tileSelector.SelectAndMove(analyzer.Where((Vector2Int coord)=>coord.x%2==coord.y%2));
+        }
 
 
-        if (GUILayout.Button("up"))
-        {
-            var coord = _creature.Coord;
-            coord.y++;
-            _creature.MoveTo(coord);
-        }
-        if (GUILayout.Button("down"))
-        {
-            var coord = _creature.Coord;
-            coord.y--;
-            _creature.MoveTo(coord);
-        }
-        if (GUILayout.Button("left"))
-        {
-            var coord = _creature.Coord;
-            coord.x--;
-            _creature.MoveTo(coord);
-        }
-        if (GUILayout.Button("right"))
-        {
-            var coord = _creature.Coord;
-            coord.x++;
-            _creature.MoveTo(coord);
-        }
     }
 }

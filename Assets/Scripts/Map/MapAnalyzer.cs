@@ -116,6 +116,11 @@ namespace TeamOdd.Ratocalypse.MapLib
             return WhereIn(All(), match);
         }
 
+        public List<Vector2Int> Where(Func<Vector2Int, bool> match)
+        {
+            return WhereIn(All(), match);
+        }
+
         public int GetDistance(Vector2Int from, Vector2Int to)
         {
             return Mathf.Max(Mathf.Abs(from.x - to.x) , Mathf.Abs(from.y - to.y));

@@ -77,6 +77,11 @@ namespace TeamOdd.Ratocalypse.MapLib
             UpdateTiles();
         }
 
+        public Tile GetTile(Vector2Int coord)
+        {
+            return _tiles[coord.y, coord.x];
+        }
+
         public Vector3 GetTileWorldPosition(Vector2Int coord)
         {
             return _tiles[coord.y, coord.x].transform.position;

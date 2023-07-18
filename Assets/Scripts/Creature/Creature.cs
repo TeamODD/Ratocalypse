@@ -3,6 +3,8 @@ using TeamOdd.Ratocalypse.MapLib;
 using UnityEngine;
 using DG.Tweening;
 using static TeamOdd.Ratocalypse.MapLib.MapData;
+using System;
+using UnityEngine.Events;
 
 namespace TeamOdd.Ratocalypse.Creature
 {
@@ -23,12 +25,12 @@ namespace TeamOdd.Ratocalypse.Creature
         public virtual void MoveTo(Vector2Int destination)
         {
             _placement.SetCoord(destination);
-            UpdateObjectPosition();
+            UpdateObjectPosition(destination);
         }
 
-        public void UpdateObjectPosition()
+        public void UpdateObjectPosition(Vector2Int coord)
         {
-            transform.DOMove(_mapCoord.GetTileWorldPosition(Coord), _duration);
+            transform.DOMove(_mapCoord.GetTileWorldPosition(coord), _duration);
         }
 
         public void Initiate(CreatureData creatureData, MapData mapData, IMapCoord mapCoord, Vector2Int coord)
@@ -36,7 +38,8 @@ namespace TeamOdd.Ratocalypse.Creature
             _creatureData = creatureData;
             _mapCoord = mapCoord;
             _placement = new Placement(mapData, coord, _placement.Shape);//shape for testing
-            UpdateObjectPosition();
+            _placement.OnCoordChanged.AddListener(UpdateObjectPosition);
+            UpdateObjectPosition(coord);
         }
     }
 }
