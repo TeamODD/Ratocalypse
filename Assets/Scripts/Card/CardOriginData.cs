@@ -19,10 +19,7 @@ namespace TeamOdd.Ratocalypse.Card
         {
             if (_instance == null)
             {
-                lock (_locker)
-                {
-                    _instance ??= new CardOriginData();
-                }
+                _instance ??= new CardOriginData();
             }
             return _instance;
         }
