@@ -1,4 +1,4 @@
-using TeamOdd.Ratocalypse.Creature;
+using TeamOdd.Ratocalypse.CreatureLib;
 using TeamOdd.Ratocalypse.MapLib;
 using TeamOdd.Ratocalypse.MapTestScripts;
 using UnityEditor;
