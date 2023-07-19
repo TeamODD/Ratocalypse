@@ -9,11 +9,11 @@ namespace TeamOdd.Ratocalypse.MapLib
         [System.Serializable]
         public class Placement
         {
-            private MapData _mapData;
+            protected MapData _mapData;
             [field: ReadOnly, SerializeField]
-            public Vector2Int Coord { get; private set; }
-            [field: SerializeField]//readonly but for test
-            public List<Vector2Int> Shape { get; private set; }
+            public Vector2Int Coord { get; protected set; }
+            [field: SerializeField]
+            public List<Vector2Int> Shape { get; protected set; }
 
             public UnityEvent<Vector2Int> OnCoordChanged = new UnityEvent<Vector2Int>();
 
