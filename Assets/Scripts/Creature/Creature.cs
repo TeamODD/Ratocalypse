@@ -6,40 +6,47 @@ using static TeamOdd.Ratocalypse.MapLib.MapData;
 using System;
 using UnityEngine.Events;
 
-namespace TeamOdd.Ratocalypse.Creature
+namespace TeamOdd.Ratocalypse.CreatureLib
 {
-    public class Creature : MonoBehaviour
+    public class Creature : PlacementObject
     {
 
         [SerializeField]
-        private Placement _placement;
+        protected CreatureData _creatrueData;
 
-        public Vector2Int Coord => _placement.Coord;
-
-        [SerializeField]
-        private float _duration = 0.1f;
-
-        private CreatureData _creatureData;
-        private IMapCoord _mapCoord;
-
-        public virtual void MoveTo(Vector2Int destination)
+        public void Initiate(CreatureData creatureData, IMapCoord mapCoord)
         {
-            _placement.SetCoord(destination);
-            UpdateObjectPosition(destination);
+            _creatrueData = creatureData;
+            base.Initiate(creatureData, mapCoord);
         }
 
-        public void UpdateObjectPosition(Vector2Int coord)
+        protected override void RegisterCallbacks()
         {
-            transform.DOMove(_mapCoord.GetTileWorldPosition(coord), _duration);
+            base.RegisterCallbacks();
+
+            _creatrueData.OnHpReduced.AddListener(OnHpReduced);
+            _creatrueData.OnHpRestored.AddListener(OnHpRestored);
+            _creatrueData.OnDie.AddListener(OnDie);
         }
 
-        public void Initiate(CreatureData creatureData, MapData mapData, IMapCoord mapCoord, Vector2Int coord)
+        protected override void OnCoordChanged(Vector2Int coord)
         {
-            _creatureData = creatureData;
-            _mapCoord = mapCoord;
-            _placement = new Placement(mapData, coord, _placement.Shape);//shape for testing
-            _placement.OnCoordChanged.AddListener(UpdateObjectPosition);
-            UpdateObjectPosition(coord);
+            
+        }
+
+        protected virtual void OnHpReduced(float hp)
+        {
+            
+        }
+
+        protected virtual void OnHpRestored(float hp)
+        {
+            
+        }
+
+        protected virtual void OnDie()
+        {
+            
         }
     }
 }
