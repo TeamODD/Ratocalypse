@@ -5,7 +5,7 @@ using TeamOdd.Ratocalypse.MapLib;
 using static TeamOdd.Ratocalypse.MapLib.MapData;
 using System;
 
-namespace TeamOdd.Ratocalypse.MapTestScripts
+namespace TeamOdd.Ratocalypse.TestScripts
 {
     [RequireComponent(typeof(Map))]
     public class TileSelector : MonoBehaviour

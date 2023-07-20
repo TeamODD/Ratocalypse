@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TeamOdd.Ratocalypse.MapLib;
 
-namespace TeamOdd.Ratocalypse.MapTestScripts
+namespace TeamOdd.Ratocalypse.TestScripts
 {
     [ExecuteInEditMode]
     [RequireComponent(typeof(Tile))]

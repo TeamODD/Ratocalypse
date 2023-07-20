@@ -5,7 +5,7 @@ using TeamOdd.Ratocalypse.MapLib;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace TeamOdd.Ratocalypse.MapTestScripts
+namespace TeamOdd.Ratocalypse.TestScripts
 {
     [RequireComponent(typeof(Tile))]
     public class TileCallback : MonoBehaviour
