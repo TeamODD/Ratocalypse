@@ -1,6 +1,6 @@
 using TeamOdd.Ratocalypse.CreatureLib;
 using TeamOdd.Ratocalypse.MapLib;
-using TeamOdd.Ratocalypse.MapTestScripts;
+using TeamOdd.Ratocalypse.TestScripts;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,7 +13,7 @@ public class CreatureTesterWindow : EditorWindow
     }
 
 
-    private CreatureFactory _creatureFactory;
+    private TestObjectCreator _creator;
     private TileSelector _tileSelector;
     private Map _map;
     private Vector2Int _coord;
@@ -21,13 +21,13 @@ public class CreatureTesterWindow : EditorWindow
     {
 
         
-        _creatureFactory = (CreatureFactory)EditorGUILayout.ObjectField("CreatureFactory", _creatureFactory, typeof(CreatureFactory), true);
+        _creator = (TestObjectCreator)EditorGUILayout.ObjectField("Creator", _creator, typeof(TestObjectCreator), true);
         
         _coord = EditorGUILayout.Vector2IntField("Coord", _coord);
 
         if (GUILayout.Button("create"))
         {
-            _creatureFactory.CreateCreature(_coord);
+            _creator.CreateObject(_coord);
         }
 
         _tileSelector = (TileSelector)EditorGUILayout.ObjectField("TileSelector", _tileSelector, typeof(TileSelector), true);

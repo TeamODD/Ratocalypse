@@ -208,7 +208,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 444533092203192271}
-  - component: {fileID: 2800755613572556616}
+  - component: {fileID: 4045612607171486182}
   m_Layer: 0
   m_Name: TestRat
   m_TagString: Untagged
@@ -232,7 +232,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2800755613572556616
+--- !u!114 &4045612607171486182
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -241,11 +241,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 444533092203192257}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97101b7e8912e1447a4a349a552527ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 3177032013d729343a6cdcef92200df8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _placement:
     <Coord>k__BackingField: {x: 0, y: 0}
-    <Shape>k__BackingField:
-    - {x: 0, y: 0}
-  _duration: 0.1
+    <Shape>k__BackingField: []
+    OnCoordChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  _creatrueData:
+    <Coord>k__BackingField: {x: 0, y: 0}
+    <Shape>k__BackingField: []
+    OnCoordChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    <MaxHp>k__BackingField: 0
+    <Hp>k__BackingField: 0
+    <MaxStamina>k__BackingField: 0
+    <Stamina>k__BackingField: 0
+    StatusEffectList: []
+  _ratData:
+    <Coord>k__BackingField: {x: 0, y: 0}
+    <Shape>k__BackingField: []
+    OnCoordChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    <MaxHp>k__BackingField: 0
+    <Hp>k__BackingField: 0
+    <MaxStamina>k__BackingField: 0
+    <Stamina>k__BackingField: 0
+    StatusEffectList: []
