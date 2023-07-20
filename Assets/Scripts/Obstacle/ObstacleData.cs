@@ -7,10 +7,12 @@ using static TeamOdd.Ratocalypse.MapLib.MapData;
 
 namespace TeamOdd.Ratocalypse.Obstacle
 {
+    [System.Serializable]
     public class ObstacleData : Placement, IDamageable
     {
-
+        [SerializeField]
         public float MaxHp { get; private set; }
+        [SerializeField]
         public float Hp { get; private set; }
 
         public UnityEvent OnDie{get; private set;}

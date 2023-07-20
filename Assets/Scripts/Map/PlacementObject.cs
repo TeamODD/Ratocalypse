@@ -22,6 +22,8 @@ namespace TeamOdd.Ratocalypse.MapLib
             _placement = placement;
             _mapCoord = mapCoord;
             RegisterCallbacks();
+            
+            transform.position = mapCoord.GetTileWorldPosition(Coord);
         }
 
         protected virtual void RegisterCallbacks()

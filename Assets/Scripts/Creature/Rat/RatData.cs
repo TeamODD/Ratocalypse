@@ -5,6 +5,7 @@ using static TeamOdd.Ratocalypse.MapLib.MapData;
 
 namespace TeamOdd.Ratocalypse.CreatureLib.Rat
 {
+    [System.Serializable]
     public class RatData : CreatureData
     {
         static private List<Vector2Int> _shape = new List<Vector2Int>{Vector2Int.zero};

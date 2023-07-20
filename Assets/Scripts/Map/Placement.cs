@@ -12,7 +12,7 @@ namespace TeamOdd.Ratocalypse.MapLib
             protected MapData _mapData;
             [field: ReadOnly, SerializeField]
             public Vector2Int Coord { get; protected set; }
-            [field: SerializeField]
+            [field: ReadOnly,SerializeField]
             public List<Vector2Int> Shape { get; protected set; }
 
             public UnityEvent<Vector2Int> OnCoordChanged = new UnityEvent<Vector2Int>();

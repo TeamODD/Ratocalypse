@@ -7,18 +7,23 @@ using static TeamOdd.Ratocalypse.MapLib.MapData;
 
 namespace TeamOdd.Ratocalypse.CreatureLib
 {
+    [System.Serializable]
     public class CreatureData : Placement, IDamageable
     {
+        [field: ReadOnly, SerializeField]
         public float MaxHp { get; private set; }
+        [field: ReadOnly, SerializeField]
         public float Hp { get; private set; }
 
+        [field: ReadOnly, SerializeField]
         public int MaxStamina { get; private set; }
+        [field: ReadOnly, SerializeField]
         public int Stamina { get; private set; }
 
         public UnityEvent<float> OnHpReduced {get; private set;}
         public UnityEvent<float> OnHpRestored {get; private set;}
         public UnityEvent OnDie { get; private set;}
-
+        
         public List<string> StatusEffectList;
 
         public CreatureData(float maxHp,int maxStamina,MapData mapData, Vector2Int coord,List<Vector2Int> shape):base(mapData, coord, shape)
@@ -28,6 +33,7 @@ namespace TeamOdd.Ratocalypse.CreatureLib
 
             OnHpReduced = new UnityEvent<float>();
             OnHpRestored = new UnityEvent<float>();
+            OnDie = new UnityEvent();
             Init();
         }
 

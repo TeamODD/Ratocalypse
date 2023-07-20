@@ -10,14 +10,13 @@ namespace TeamOdd.Ratocalypse.CreatureLib
 {
     public class Creature : PlacementObject
     {
-
         [SerializeField]
         protected CreatureData _creatrueData;
 
-        public void Initiate(CreatureData creatureData, IMapCoord mapCoord)
+        public override void Initiate(Placement placement, IMapCoord mapCoord)
         {
-            _creatrueData = creatureData;
-            base.Initiate(creatureData, mapCoord);
+            _creatrueData = (CreatureData)placement;
+            base.Initiate(placement, mapCoord);
         }
 
         protected override void RegisterCallbacks()

@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using TeamOdd.Ratocalypse.MapLib;
+using TeamOdd.Ratocalypse.Obstacle;
 using UnityEngine;
+using static TeamOdd.Ratocalypse.MapLib.MapData;
 
-
-namespace TeamOdd.Ratocalypse.Obstacle
+namespace TeamOdd.Ratocalypse.ObstacleLib
 {
     public class Obstacle: PlacementObject
     {
@@ -11,12 +12,10 @@ namespace TeamOdd.Ratocalypse.Obstacle
         [SerializeField]
         protected ObstacleData _obstacleData;
 
-        public void Initiate(ObstacleData obstacleData, IMapCoord mapCoord)
+        public override void Initiate(Placement placement, IMapCoord mapCoord)
         {
-            _obstacleData = obstacleData; 
-            base.Initiate(obstacleData, mapCoord);
-
-            transform.localPosition = mapCoord.GetTileWorldPosition(Coord);
+            _obstacleData = (ObstacleData)placement;
+            base.Initiate(placement, mapCoord);
         }
 
         protected override void RegisterCallbacks()
