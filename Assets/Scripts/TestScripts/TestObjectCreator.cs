@@ -10,6 +10,7 @@ using TeamOdd.Ratocalypse.CreatureLib.Cat;
 using TeamOdd.Ratocalypse.ObstacleLib;
 using TeamOdd.Ratocalypse.CreatureLib;
 using TeamOdd.Ratocalypse.Obstacle;
+using System.Linq;
 
 namespace TeamOdd.Ratocalypse.TestScripts
 {
@@ -56,7 +57,7 @@ namespace TeamOdd.Ratocalypse.TestScripts
             {
                 ObjectType.Rat => new RatData(_maxHp, _maxStamina, _map.MapData, coord),
                 ObjectType.Cat => new CatData(_maxHp, _maxStamina, _map.MapData, coord),
-                ObjectType.Obstacle => new ObstacleData(_maxHp, _map.MapData, coord, _shape),
+                ObjectType.Obstacle => new ObstacleData(_maxHp, _map.MapData, coord, _shape.ToList()),
                 _ => null,
             };
         }

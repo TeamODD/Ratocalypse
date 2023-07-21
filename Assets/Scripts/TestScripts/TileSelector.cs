@@ -4,16 +4,18 @@ using UnityEngine;
 using TeamOdd.Ratocalypse.MapLib;
 using static TeamOdd.Ratocalypse.MapLib.MapData;
 using System;
+using static TeamOdd.Ratocalypse.TestScripts.TileColorSetter;
 
 namespace TeamOdd.Ratocalypse.TestScripts
 {
     [RequireComponent(typeof(Map))]
     public class TileSelector : MonoBehaviour
     {
+
         private Map _map;
         private MapAnalyzer _analyzer;
 
-        private List<Vector2Int> _currentCandidates;
+        private List<List<Vector2Int>> _currentCandidates;
 
         private void Start()
         {
@@ -21,64 +23,48 @@ namespace TeamOdd.Ratocalypse.TestScripts
             _analyzer = new MapAnalyzer(_map.MapData);
         }
 
-        public void SelectMovableCoord(List<Vector2Int> candidates,Action<Vector2Int> callback)
+        public void Select(List<List<Vector2Int>> candidates, Dictionary<Vector2Int, int> selectionMap, Action<int> callback)
         {
             _currentCandidates = candidates;
-            HighlightEmptyTile();
-            List<Vector2Int> valids = _analyzer.WhereIn(candidates,(Vector2Int coord)=>!_map.MapData.IsExist(coord));
-            foreach(Vector2Int valid in valids)
+            foreach (Vector2Int coord in selectionMap.Keys)
             {
-                Tile tile = _map.GetTile(valid);
+                Tile tile = _map.GetTile(coord);
                 TileCallback tileCallback = tile.GetComponent<TileCallback>();
-                tileCallback.ClickEvent.AddListener((_)=>Reset());
-                tileCallback.ClickEvent.AddListener((Tile tile)=>callback?.Invoke(tile.Coord));
-            }
-        }
-
-        public void SelectPlacement(Action<Placement> callback)
-        {
-            _currentCandidates = _analyzer.All();
-            HighlightPlacement();
-            List<Vector2Int> valids = _analyzer.Where((Vector2Int coord)=>_map.MapData.IsExist(coord));
-            foreach(Vector2Int valid in valids)
-            {
-                Tile tile = _map.GetTile(valid);
-                TileCallback tileCallback = tile.GetComponent<TileCallback>();
-                tileCallback.ClickEvent.AddListener((_)=>Reset());
-                tileCallback.ClickEvent.AddListener((Tile tile)=>{
-                    Placement placement = _map.MapData.GetPlacement(tile.Coord);
-                    callback?.Invoke(placement);
+                HightLightTile(tile, TileColor.Blue);
+                int index = selectionMap[tile.Coord];
+                tileCallback.ClickEvent.AddListener((_) => Reset());
+                tileCallback.ClickEvent.AddListener((Tile tile) =>
+                {
+                    callback?.Invoke(index);
                 });
+
+                List<Vector2Int> tiles = candidates[index];
+                tileCallback.EnterEvent.AddListener((Tile tile) =>
+                {
+                    foreach (Vector2Int point in tiles)
+                    {
+                        HightLightTile(_map.GetTile(point), TileColor.Yellow);
+                    }
+                });
+                tileCallback.ExitEvent.AddListener((Tile tile) =>
+                {
+                    foreach (Vector2Int point in tiles)
+                    {
+                        HightLightTile(_map.GetTile(point), TileColor.Blue);
+                    }
+                });
+
             }
         }
 
-        public void HighlightPlacement()
+        public void HightLightTile(Tile tile, TileColor color)
         {
-            foreach (Vector2Int coord in _currentCandidates)
-            {
-                TileColorSetter setter = _map.GetTile(coord).GetComponent<TileColorSetter>();
-                if(_map.MapData.IsExist(coord))
-                {
-                    setter.Valid();
-                }
-            }
+            tile.GetComponent<TileColorSetter>().SetColor(color);
         }
-        public void HighlightEmptyTile()
+        public void HightLightTile(Vector2Int coord, TileColor color)
         {
-            foreach (Vector2Int coord in _currentCandidates)
-            {
-                TileColorSetter setter = _map.GetTile(coord).GetComponent<TileColorSetter>();
-                if(_map.MapData.IsExist(coord))
-                {
-                    setter.Invalid();
-                }
-                else
-                {
-                    setter.Valid();
-                }
-            }
+            _map.GetTile(coord).GetComponent<TileColorSetter>().SetColor(color);
         }
-        
 
         public void Reset()
         {
@@ -87,32 +73,29 @@ namespace TeamOdd.Ratocalypse.TestScripts
             _currentCandidates = null;
         }
 
-                
+
         public void ResetHandlers()
         {
-            foreach (Vector2Int coord in _currentCandidates)
+            foreach (List<Vector2Int> coords in _currentCandidates)
             {
-                _map.GetTile(coord).GetComponent<TileCallback>().ClickEvent.RemoveAllListeners();
+                foreach (Vector2Int coord in coords)
+                {
+                    _map.GetTile(coord).GetComponent<TileCallback>().ClickEvent.RemoveAllListeners();
+                    _map.GetTile(coord).GetComponent<TileCallback>().EnterEvent.RemoveAllListeners();
+                    _map.GetTile(coord).GetComponent<TileCallback>().ExitEvent.RemoveAllListeners();
+                }
             }
         }
 
         public void ResetHighlight()
         {
-            foreach (Vector2Int coord in _currentCandidates)
+            foreach (List<Vector2Int> coords in _currentCandidates)
             {
-                _map.GetTile(coord).GetComponent<TileColorSetter>().Reset();
+                foreach (Vector2Int coord in coords)
+                {
+                    _map.GetTile(coord).GetComponent<TileColorSetter>().Default();
+                }
             }
         }
-
-        public void SelectAndMove(List<Vector2Int> candidates)
-        {
-            SelectPlacement((Placement placement)=>{
-                Debug.Log("Select placement " + placement.Coord);
-                SelectMovableCoord(candidates,(Vector2Int coord)=>{
-                    placement.SetCoord(coord);
-                });
-            });
-        }
-
     }
 }

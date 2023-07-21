@@ -9,21 +9,29 @@ namespace TeamOdd.Ratocalypse.TestScripts
     [RequireComponent(typeof(Tile))]
     public class TileColorSetter : MonoBehaviour
     {
+        public enum TileColor
+        {
+            Red,
+            Blue,
+            Yellow,
+            Default,
+        }
         public Material Material1;
         public Material Material2;
 
-        public Material ValidMaterial;
-        public Material UnvalidMaterial;
+        public Material Red;
+        public Material Blue;
+        public Material Yellow;
 
         public Renderer Renderer;
         private Tile _tile;
         private void Start()
         {
             _tile = GetComponent<Tile>();
-            Reset();
+            Default();
         }
 
-        public void Reset()
+        public void Default()
         {
 
             if (_tile.Coord.x % 2 == _tile.Coord.y % 2)
@@ -36,14 +44,23 @@ namespace TeamOdd.Ratocalypse.TestScripts
             }
         }
 
-        public void Valid()
+        public void SetColor(TileColor color)
         {
-            Renderer.material = ValidMaterial;
-        }
-
-        public void Invalid()
-        {
-            Renderer.material = UnvalidMaterial;
+            switch (color)
+            {
+                case TileColor.Red:
+                    Renderer.material = Red;
+                    break;
+                case TileColor.Blue:
+                    Renderer.material = Blue;
+                    break;
+                case TileColor.Yellow:
+                    Renderer.material = Yellow;
+                    break;
+                case TileColor.Default:
+                    Default();
+                    break;
+            }
         }
     }
 }

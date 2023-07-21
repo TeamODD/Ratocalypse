@@ -12,6 +12,8 @@ namespace TeamOdd.Ratocalypse.TestScripts
     {
         private Tile _tile;
         public UnityEvent<Tile> ClickEvent = new UnityEvent<Tile>();
+        public UnityEvent<Tile> EnterEvent = new UnityEvent<Tile>();
+        public UnityEvent<Tile> ExitEvent = new UnityEvent<Tile>();
 
         private void Awake()
         {
@@ -21,7 +23,16 @@ namespace TeamOdd.Ratocalypse.TestScripts
         private void OnMouseDown()
         {
             ClickEvent.Invoke(_tile);
-            Debug.Log("Clicked on tile " + _tile.Coord);
+        }
+
+        private void OnMouseEnter()
+        {
+            EnterEvent.Invoke(_tile);
+        }
+
+        private void OnMouseExit()
+        {
+            ExitEvent.Invoke(_tile);
         }
 
     }

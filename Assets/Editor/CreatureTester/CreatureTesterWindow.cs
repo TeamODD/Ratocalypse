@@ -1,5 +1,8 @@
+using System.Collections.Generic;
 using TeamOdd.Ratocalypse.CreatureLib;
 using TeamOdd.Ratocalypse.MapLib;
+using TeamOdd.Ratocalypse.MapLib.GameLib;
+using TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib;
 using TeamOdd.Ratocalypse.TestScripts;
 using UnityEditor;
 using UnityEngine;
@@ -17,6 +20,8 @@ public class CreatureTesterWindow : EditorWindow
     private TileSelector _tileSelector;
     private Map _map;
     private Vector2Int _coord;
+    private PlacementObject _placementObject;
+    private Movement _movement;
     private void OnGUI()
     {
 
@@ -30,14 +35,26 @@ public class CreatureTesterWindow : EditorWindow
             _creator.CreateObject(_coord);
         }
 
-        _tileSelector = (TileSelector)EditorGUILayout.ObjectField("TileSelector", _tileSelector, typeof(TileSelector), true);
+        
         _map = (Map)EditorGUILayout.ObjectField("Map", _map, typeof(Map), true);
-
-        if (GUILayout.Button("Select"))
+        if(_map!=null)
         {
-            MapAnalyzer analyzer = new MapAnalyzer(_map.MapData);
-            Debug.Log(_map.MapData);
-            _tileSelector.SelectAndMove(analyzer.Where((Vector2Int coord)=>coord.x%2==coord.y%2));
+            _tileSelector = _map.GetComponent<TileSelector>();
+        }
+        
+        _placementObject = (PlacementObject)EditorGUILayout.ObjectField("PlacementObject", _placementObject, typeof(PlacementObject), true);
+        
+
+        if (GUILayout.Button("Move"))
+        {
+            Pattern pattern = new Pattern(new List<Vector2Int> { new Vector2Int(0, 1),new Vector2Int(1, 0),new Vector2Int(-1, 0),new Vector2Int(0, -1) ,new Vector2Int(1, 1),new Vector2Int(-1, -1) ,new Vector2Int(1, -1) ,new Vector2Int(-1, 1)  });
+            _map.MapData.Print();
+            _movement = new Movement(_map.MapData.GetPlacement(_placementObject.Coord) ,_map.MapData, pattern);
+            var (currentCandidates, selectionMap) = _movement.StartSelect();
+            _tileSelector.Select(currentCandidates, selectionMap, (int index) =>
+            {
+                _movement.Select(index);
+            });
         }
 
 
