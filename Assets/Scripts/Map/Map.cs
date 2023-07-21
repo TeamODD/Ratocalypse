@@ -68,6 +68,10 @@ namespace TeamOdd.Ratocalypse.MapLib
 
         private void OnValidate()
         {
+            if (Application.isPlaying)
+            {
+                return;
+            }
             StartCoroutine(UpdateMap());
         }
 
@@ -94,5 +98,6 @@ namespace TeamOdd.Ratocalypse.MapLib
             var newPosition = new Vector3(mappedX, 0, mappedY) * _tileDistance;
             return newPosition;
         }
+
     }
 }
