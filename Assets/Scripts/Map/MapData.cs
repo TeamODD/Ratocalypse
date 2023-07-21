@@ -64,6 +64,21 @@ namespace TeamOdd.Ratocalypse.MapLib
             Placements[coord.y][coord.x] = placement;
 
         }
+
+        public void Print()
+        {
+            string line = "";
+            for (int y = 0; y < Size.y; y++)
+            {
+
+                for (int x = 0; x < Size.x; x++)
+                {
+                    line += Placements[y][x] == null ? "0" : "1";
+                }
+                line += "\n";
+            }
+            Debug.Log(line);
+        }
     }
 
 }
