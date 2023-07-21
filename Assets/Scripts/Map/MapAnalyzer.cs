@@ -126,6 +126,18 @@ namespace TeamOdd.Ratocalypse.MapLib
             return Mathf.Max(Mathf.Abs(from.x - to.x) , Mathf.Abs(from.y - to.y));
         }
 
+        public bool CheckAllIn(List<Vector2Int> coords, Func<Vector2Int, Placement, bool> filter)
+        {
+            foreach (Vector2Int coord in coords)
+            {
+                Placement placement = _mapData.GetPlacement(coord);
+                if (!filter(coord,placement))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
 
     }
 }
