@@ -191,8 +191,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Material1: {fileID: 2100000, guid: 99dae3c210d61634799f158cab7b03c5, type: 2}
   Material2: {fileID: 2100000, guid: 7ffca1a0978fb5b49b0f7d2adb519a6a, type: 2}
-  ValidMaterial: {fileID: 2100000, guid: 841acb606e0e5e041b32cf3ba79aa07b, type: 2}
-  UnvalidMaterial: {fileID: 2100000, guid: 949dfba96fb4b3e4c9f2dcf1dfe8f085, type: 2}
+  Red: {fileID: 2100000, guid: 949dfba96fb4b3e4c9f2dcf1dfe8f085, type: 2}
+  Blue: {fileID: 2100000, guid: 841acb606e0e5e041b32cf3ba79aa07b, type: 2}
+  Yellow: {fileID: 2100000, guid: 8ffe62a3294556644a674d09e825e07f, type: 2}
   Renderer: {fileID: 7969770717323548305}
 --- !u!114 &1154895942733737795
 MonoBehaviour:
@@ -207,6 +208,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ClickEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  EnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  ExitEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &7656650043745040760
