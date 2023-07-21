@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using TeamOdd.Ratocalypse.MapLib;
 using UnityEngine;
 using static TeamOdd.Ratocalypse.MapLib.MapData;
-
+using DG.Tweening;
 namespace TeamOdd.Ratocalypse.CreatureLib.Rat
 {
     public class Rat : Creature
@@ -24,7 +24,7 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Rat
 
         protected override void OnCoordChanged(Vector2Int coord)
         {
-            
+            transform.DOMove(_mapCoord.GetTileWorldPosition(coord), 0.2f);
         }
     }
 }

@@ -3,6 +3,7 @@ using TeamOdd.Ratocalypse.MapLib;
 using TeamOdd.Ratocalypse.Obstacle;
 using UnityEngine;
 using static TeamOdd.Ratocalypse.MapLib.MapData;
+using DG.Tweening;
 
 namespace TeamOdd.Ratocalypse.ObstacleLib
 {
@@ -21,6 +22,11 @@ namespace TeamOdd.Ratocalypse.ObstacleLib
         protected override void RegisterCallbacks()
         {
             base.RegisterCallbacks();
+        }
+
+        protected override void OnCoordChanged(Vector2Int coord)
+        {
+            transform.DOMove(_mapCoord.GetTileWorldPosition(coord), 0.2f);
         }
     }
 }
