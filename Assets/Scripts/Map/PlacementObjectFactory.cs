@@ -3,7 +3,7 @@ using UnityEngine;
 using TeamOdd.Ratocalypse.MapLib;
 using static TeamOdd.Ratocalypse.MapLib.MapData;
 
-namespace TeamOdd.Ratocalypse.CreatureLib
+namespace TeamOdd.Ratocalypse.MapLib
 {
     public class PlacementObjectFactory : MonoBehaviour
     {
