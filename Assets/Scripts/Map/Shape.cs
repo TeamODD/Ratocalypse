@@ -41,7 +41,7 @@ namespace TeamOdd.Ratocalypse.MapLib
             {
                 for (int x = 0; x < size.x; x++)
                 {
-                    _coords.Add(offset+new Vector2Int(x, y));
+                    _coords.Add(offset + new Vector2Int(x, y));
                 }
             }
         }

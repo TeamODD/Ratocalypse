@@ -50,10 +50,13 @@ public class CreatureTesterWindow : EditorWindow
             Pattern pattern = new Pattern(new List<Vector2Int> { new Vector2Int(0, 1),new Vector2Int(1, 0),new Vector2Int(-1, 0),new Vector2Int(0, -1) ,new Vector2Int(1, 1),new Vector2Int(-1, -1) ,new Vector2Int(1, -1) ,new Vector2Int(-1, 1)  });
             _map.MapData.Print();
             _movement = new DirectionalMovement(_map.MapData.GetPlacement(_placementObject.Coord) ,_map.MapData, pattern);
-            var (currentCandidates, selectionMap) = _movement.StartSelect();
-            _tileSelector.Select(currentCandidates, selectionMap, (int index) =>
+            var selection = _movement.CreateSelection((ShapedCoordList currentCandidates,int index) =>
             {
-                _movement.Select(index);
+                _map.MapData.GetPlacement(_placementObject.Coord).SetCoord(currentCandidates.GetCoord(index));
+            });
+            _tileSelector.Select(selection, (int index) =>
+            {
+                selection.SelectTile(index);
             });
         }
 

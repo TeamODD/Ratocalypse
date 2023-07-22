@@ -5,6 +5,7 @@ using TeamOdd.Ratocalypse.MapLib;
 using static TeamOdd.Ratocalypse.MapLib.MapData;
 using System;
 using static TeamOdd.Ratocalypse.TestScripts.TileColorSetter;
+using TeamOdd.Ratocalypse.MapLib.GameLib.SelectionLib;
 
 namespace TeamOdd.Ratocalypse.TestScripts
 {
@@ -15,7 +16,7 @@ namespace TeamOdd.Ratocalypse.TestScripts
         private Map _map;
         private MapAnalyzer _analyzer;
 
-        private List<List<Vector2Int>> _currentCandidates;
+        private ShapedCoordList _currentCandidates;
 
         private void Start()
         {
@@ -23,22 +24,23 @@ namespace TeamOdd.Ratocalypse.TestScripts
             _analyzer = new MapAnalyzer(_map.MapData);
         }
 
-        public void Select(List<List<Vector2Int>> candidates, Dictionary<Vector2Int, int> selectionMap, Action<int> callback)
+        public void Select(Selection selection, Action<int> callback)
         {
-            _currentCandidates = candidates;
-            foreach (Vector2Int coord in selectionMap.Keys)
+            _currentCandidates = selection.TileCandidates;
+            var tileSelectionMap = selection.TileSelectionMap;
+            foreach (Vector2Int coord in selection.TileSelectionMap.Keys)
             {
                 Tile tile = _map.GetTile(coord);
                 TileCallback tileCallback = tile.GetComponent<TileCallback>();
                 HightLightTile(tile, TileColor.Blue);
-                int index = selectionMap[tile.Coord];
+                int index = tileSelectionMap[tile.Coord];
                 tileCallback.ClickEvent.AddListener((_) => Reset());
                 tileCallback.ClickEvent.AddListener((Tile tile) =>
                 {
                     callback?.Invoke(index);
                 });
 
-                List<Vector2Int> tiles = candidates[index];
+                List<Vector2Int> tiles = _currentCandidates.GetCoords(index);
                 tileCallback.EnterEvent.AddListener((Tile tile) =>
                 {
                     foreach (Vector2Int point in tiles)

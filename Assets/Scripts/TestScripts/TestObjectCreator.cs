@@ -33,7 +33,7 @@ namespace TeamOdd.Ratocalypse.TestScripts
         private ObjectType _objectType;
 
         [SerializeField]
-        private List<Vector2Int> _shape;
+        private List<Vector2Int> _shapeList;
 
         [SerializeField]
         private Map _map;
@@ -57,7 +57,7 @@ namespace TeamOdd.Ratocalypse.TestScripts
             {
                 ObjectType.Rat => new RatData(_maxHp, _maxStamina, _map.MapData, coord),
                 ObjectType.Cat => new CatData(_maxHp, _maxStamina, _map.MapData, coord),
-                ObjectType.Obstacle => new ObstacleData(_maxHp, _map.MapData, coord, _shape.ToList()),
+                ObjectType.Obstacle => new ObstacleData(_maxHp, _map.MapData, coord, new Shape(_shapeList)),
                 _ => null,
             };
         }

@@ -1,26 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TeamOdd.Ratocalypse.MapLib.GameLib.SelectionLib;
 using UnityEngine;
 using static TeamOdd.Ratocalypse.MapLib.MapData;
-
+using System.Linq;
 namespace TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib
 {
     public class DirectionalMovement
     {
-        public enum State
-        {
-            None,
-            Selecting,
-            Moved,
-        }
         private MapData _mapData;
         private MapAnalyzer _analyzer;
         private Placement _target;
         private Pattern _pattern;
-
-        public State CurrentState { get; private set; } = State.None;
-        private List<List<Vector2Int>> _candidates = new List<List<Vector2Int>>();
-        private Dictionary<Vector2Int, int> _selectionMap = new Dictionary<Vector2Int, int>();
 
         public DirectionalMovement(Placement target, MapData mapData, Pattern pattern)
         {
@@ -30,49 +22,47 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib
             _analyzer = new MapAnalyzer(mapData);
         }
 
-        public (List<List<Vector2Int>>, Dictionary<Vector2Int, int>) StartSelect()
+        public Selection CreateSelection(Action<ShapedCoordList,int> tileSelectionCallback, Action<Placement> placementSelectionCallback = null)
         {
-            if (CurrentState == State.Selecting)
-            {
-                throw new System.Exception("Already Started Selecting");
-            }
-            _candidates.Clear();
-            _selectionMap.Clear();
-
+            ShapedCoordList candidates = new ShapedCoordList(_target.Shape);
+            Dictionary<Vector2Int, int> selectionMap = new Dictionary<Vector2Int, int>();
+            HashSet<Placement> placements = new HashSet<Placement>();
             var calculations = _pattern.Calculate(_mapData.Size, _target.Coord, _target.Shape);
 
             foreach (var calculation in calculations)
             {
                 while (calculation.MoveNext())
                 {
-                    
+
                     var coords = calculation.Current;
                     if (!_analyzer.CheckAllIn(coords, (_, placement) => placement == null || placement == _target))
                     {
+                        if (placementSelectionCallback!=null)
+                        {
+                            _analyzer.WhereIn(coords, (placement) => placement != _target)
+                                     .ForEach((placement) => placements.Add(placement));
+                        }
                         break;
                     }
-                    
-                    _candidates.Add(coords);
+
+                    candidates.Add(coords[0]);
 
                     foreach (Vector2Int coord in coords)
                     {
-                        if (!_selectionMap.ContainsKey(coord))
+                        if (!selectionMap.ContainsKey(coord))
                         {
-                            int candidateIndex = _candidates.Count - 1;
-                            _selectionMap.Add(coord, candidateIndex);
+                            int candidateIndex = candidates.Count - 1;
+                            selectionMap.Add(coord, candidateIndex);
                         }
                     }
                 }
             }
-
-            CurrentState = State.Selecting;
-            return (_candidates, _selectionMap);
-        }
-
-        public void Select(int index)
-        {
-            _target.SetCoord(_candidates[index][0]);
-            CurrentState = State.Moved;
+            Selection selection = new Selection(candidates, selectionMap, tileSelectionCallback);
+            if(placementSelectionCallback!=null)
+            {
+                selection.SetPlacementSelection(placements.ToList(), placementSelectionCallback);
+            }
+            return selection;
         }
 
     }
