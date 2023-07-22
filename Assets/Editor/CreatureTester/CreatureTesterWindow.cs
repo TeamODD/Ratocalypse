@@ -21,7 +21,7 @@ public class CreatureTesterWindow : EditorWindow
     private Map _map;
     private Vector2Int _coord;
     private PlacementObject _placementObject;
-    private Movement _movement;
+    private DirectionalMovement _movement;
     private void OnGUI()
     {
 
@@ -49,7 +49,7 @@ public class CreatureTesterWindow : EditorWindow
         {
             Pattern pattern = new Pattern(new List<Vector2Int> { new Vector2Int(0, 1),new Vector2Int(1, 0),new Vector2Int(-1, 0),new Vector2Int(0, -1) ,new Vector2Int(1, 1),new Vector2Int(-1, -1) ,new Vector2Int(1, -1) ,new Vector2Int(-1, 1)  });
             _map.MapData.Print();
-            _movement = new Movement(_map.MapData.GetPlacement(_placementObject.Coord) ,_map.MapData, pattern);
+            _movement = new DirectionalMovement(_map.MapData.GetPlacement(_placementObject.Coord) ,_map.MapData, pattern);
             var (currentCandidates, selectionMap) = _movement.StartSelect();
             _tileSelector.Select(currentCandidates, selectionMap, (int index) =>
             {

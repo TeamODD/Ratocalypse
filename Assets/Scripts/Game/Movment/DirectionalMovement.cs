@@ -5,7 +5,7 @@ using static TeamOdd.Ratocalypse.MapLib.MapData;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib
 {
-    public class Movement
+    public class DirectionalMovement
     {
         public enum State
         {
@@ -22,7 +22,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib
         private List<List<Vector2Int>> _candidates = new List<List<Vector2Int>>();
         private Dictionary<Vector2Int, int> _selectionMap = new Dictionary<Vector2Int, int>();
 
-        public Movement(Placement target, MapData mapData, Pattern pattern)
+        public DirectionalMovement(Placement target, MapData mapData, Pattern pattern)
         {
             _mapData = mapData;
             _pattern = pattern;
