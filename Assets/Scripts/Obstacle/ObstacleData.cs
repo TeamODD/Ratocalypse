@@ -19,7 +19,7 @@ namespace TeamOdd.Ratocalypse.Obstacle
         public UnityEvent<float> OnHpReduced{ get; private set; }
         public UnityEvent<float> OnHpRestored{ get; private set; }
 
-        public ObstacleData(float maxHp, MapData mapData, Vector2Int coord,List<Vector2Int> shape):base(mapData, coord, shape)
+        public ObstacleData(float maxHp, MapData mapData, Vector2Int coord, Shape shape):base(mapData, coord, shape)
         {
             MaxHp = maxHp;
             Hp = MaxHp;

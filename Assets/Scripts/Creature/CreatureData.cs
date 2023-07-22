@@ -26,7 +26,7 @@ namespace TeamOdd.Ratocalypse.CreatureLib
         
         public List<string> StatusEffectList;
 
-        public CreatureData(float maxHp,int maxStamina,MapData mapData, Vector2Int coord,List<Vector2Int> shape):base(mapData, coord, shape)
+        public CreatureData(float maxHp,int maxStamina,MapData mapData, Vector2Int coord,Shape shape):base(mapData, coord, shape)
         {
             MaxHp = maxHp;
             MaxStamina = maxStamina;

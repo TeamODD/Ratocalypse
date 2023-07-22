@@ -8,7 +8,7 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Rat
     [System.Serializable]
     public class RatData : CreatureData
     {
-        static private List<Vector2Int> _shape = new List<Vector2Int>{Vector2Int.zero};
+        static private Shape _shape = new Shape(1, 1);
 
         public RatData(float maxHp, int maxStamina, MapData mapData, Vector2Int coord)
         : base(maxHp, maxStamina, mapData, coord, _shape)

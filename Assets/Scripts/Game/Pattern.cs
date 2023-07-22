@@ -18,7 +18,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
         }
 
 
-        public List<IEnumerator<List<Vector2Int>>> Calculate(Vector2Int size, Vector2Int origin, List<Vector2Int> shape)
+        public List<IEnumerator<List<Vector2Int>>> Calculate(Vector2Int size, Vector2Int origin, Shape shape)
         {
             List<IEnumerator<List<Vector2Int>>> result = new List<IEnumerator<List<Vector2Int>>>();
             foreach (Vector2Int delta in _deltas)
@@ -29,7 +29,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
         }
 
 
-        private IEnumerator<List<Vector2Int>> CalculateDelta(Vector2Int delta, Vector2Int size, Vector2Int origin, List<Vector2Int> shape)
+        private IEnumerator<List<Vector2Int>> CalculateDelta(Vector2Int delta, Vector2Int size, Vector2Int origin, Shape shape)
         {
             int maxLoop = Mathf.Max(size.y, size.x);
             

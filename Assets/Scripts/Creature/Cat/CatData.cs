@@ -8,13 +8,12 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Cat
     [System.Serializable]
     public class CatData : CreatureData
     {
-        static private List<Vector2Int> _shape = new List<Vector2Int>{
-            new Vector2Int(0,0),new Vector2Int(0,1),new Vector2Int(1,0),new Vector2Int(1,1)};
-        
+        static private Shape _shape = new Shape(2, 2);
+
         public CatData(float maxHp, int maxStamina, MapData mapData, Vector2Int coord)
         : base(maxHp, maxStamina, mapData, coord, _shape)
         {
-            
+
         }
 
     }
