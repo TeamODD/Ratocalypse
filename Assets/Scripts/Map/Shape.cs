@@ -5,8 +5,10 @@ using System.Collections;
 
 namespace TeamOdd.Ratocalypse.MapLib
 {
+    [System.Serializable]
     public class Shape : IEnumerable<Vector2Int>
     {
+        [SerializeField]
         private List<Vector2Int> _coords = new List<Vector2Int>();
         public Vector2Int Origin { get => _coords[0]; }
 

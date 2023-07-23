@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using TeamOdd.Ratocalypse.CreatureLib;
+using TeamOdd.Ratocalypse.CreatureLib.Attributes;
 using TeamOdd.Ratocalypse.MapLib;
 using TeamOdd.Ratocalypse.MapLib.GameLib;
 using TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib;
 using TeamOdd.Ratocalypse.TestScripts;
 using UnityEditor;
 using UnityEngine;
+using static TeamOdd.Ratocalypse.MapLib.MapData;
 
 public class CreatureTesterWindow : EditorWindow
 {
@@ -53,11 +55,12 @@ public class CreatureTesterWindow : EditorWindow
             var selection = _movement.CreateSelection((ShapedCoordList currentCandidates,int index) =>
             {
                 _map.MapData.GetPlacement(_placementObject.Coord).SetCoord(currentCandidates.GetCoord(index));
+            },
+            (Placement placement)=>{
+                ((IDamageable)placement).ReduceHp(10);
             });
-            _tileSelector.Select(selection, (int index) =>
-            {
-                selection.SelectTile(index);
-            });
+
+            _tileSelector.Select(selection);
         }
 
 

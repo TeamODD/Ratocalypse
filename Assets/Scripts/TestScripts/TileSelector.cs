@@ -6,6 +6,7 @@ using static TeamOdd.Ratocalypse.MapLib.MapData;
 using System;
 using static TeamOdd.Ratocalypse.TestScripts.TileColorSetter;
 using TeamOdd.Ratocalypse.MapLib.GameLib.SelectionLib;
+using TeamOdd.Ratocalypse.CreatureLib.Attributes;
 
 namespace TeamOdd.Ratocalypse.TestScripts
 {
@@ -24,7 +25,7 @@ namespace TeamOdd.Ratocalypse.TestScripts
             _analyzer = new MapAnalyzer(_map.MapData);
         }
 
-        public void Select(Selection selection, Action<int> callback)
+        public void Select(Selection selection)
         {
             _currentCandidates = selection.TileCandidates;
             var tileSelectionMap = selection.TileSelectionMap;
@@ -37,7 +38,7 @@ namespace TeamOdd.Ratocalypse.TestScripts
                 tileCallback.ClickEvent.AddListener((_) => Reset());
                 tileCallback.ClickEvent.AddListener((Tile tile) =>
                 {
-                    callback?.Invoke(index);
+                    selection.SelectTile(index);
                 });
 
                 List<Vector2Int> tiles = _currentCandidates.GetCoords(index);
@@ -48,6 +49,7 @@ namespace TeamOdd.Ratocalypse.TestScripts
                         HightLightTile(_map.GetTile(point), TileColor.Yellow);
                     }
                 });
+
                 tileCallback.ExitEvent.AddListener((Tile tile) =>
                 {
                     foreach (Vector2Int point in tiles)
@@ -55,14 +57,61 @@ namespace TeamOdd.Ratocalypse.TestScripts
                         HightLightTile(_map.GetTile(point), TileColor.Blue);
                     }
                 });
+            }
+
+            if(!selection.HasTileSelection)
+            {
+                return;
+            }
+            
+            for(int i = 0; i < selection.PlacementCandidates.Count; i++)
+            {
+                Placement placement = selection.PlacementCandidates[i];
+                if (placement is not IDamageable damagable)
+                {
+                    continue;
+                }
+
+                List<Vector2Int> coords = placement.Shape.GetCoords(placement.Coord);
+                coords.ForEach((coord) => {
+                    Tile tile = _map.GetTile(coord);
+                    HightLightTile(coord, TileColor.Blue);
+                    _currentCandidates.Add(coord);
+                    TileCallback tileCallback = tile.GetComponent<TileCallback>();
+
+                    int index = i;
+                    tileCallback.ClickEvent.AddListener((_) => Reset());
+                    tileCallback.ClickEvent.AddListener((_) =>
+                    {
+                        selection.SelectPlacement(index);
+                    });
+
+                    tileCallback.EnterEvent.AddListener((_) =>
+                    {
+                        foreach (Vector2Int point in coords)
+                        {
+                            HightLightTile(point, TileColor.Red);
+                        }
+                    });
+
+                    tileCallback.ExitEvent.AddListener((_) =>
+                    {
+                        foreach (Vector2Int point in coords)
+                        {
+                            HightLightTile(point, TileColor.Blue);
+                        }
+                    });
+                });
 
             }
+
         }
 
         public void HightLightTile(Tile tile, TileColor color)
         {
             tile.GetComponent<TileColorSetter>().SetColor(color);
         }
+
         public void HightLightTile(Vector2Int coord, TileColor color)
         {
             _map.GetTile(coord).GetComponent<TileColorSetter>().SetColor(color);

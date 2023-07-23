@@ -19,11 +19,13 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.SelectionLib
         public State CurrentState { get; private set; } = State.NonSelected;
         public ShapedCoordList TileCandidates{ get; private set; }
         public Dictionary<Vector2Int, int> TileSelectionMap{ get; private set; }
-        public TileCallback _tileSelectionCallback;
+        private TileCallback _tileSelectionCallback;
 
         public List<Placement> PlacementCandidates{ get; private set; }
         private PlacementCallback _placementSelectionCallback;
 
+        public bool HasTileSelection => _tileSelectionCallback != null;
+        public bool HasPlacementSelection => _placementSelectionCallback != null;
 
         public Selection()
         {
@@ -36,7 +38,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.SelectionLib
             SetTileSelection(tileCandidates, tileSelectionMap, tileSelectionCallback);
             SetPlacementSelection(placementCandidates, placementSelectionCallback);
         }
-
+ 
         public Selection(ShapedCoordList tileCandidates, Dictionary<Vector2Int, int> tileSelectionMap, TileCallback tileSelectionCallback)
         {
             SetTileSelection(tileCandidates, tileSelectionMap, tileSelectionCallback);
@@ -58,11 +60,6 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.SelectionLib
         {
             PlacementCandidates = placementCandidate;
             _placementSelectionCallback = placementSelectionCallback;
-        }
-
-        public void SetObjectCandidates(List<Placement> objectCandidates)
-        {
-            PlacementCandidates = objectCandidates;
         }
 
         public void SelectTile(int index)
