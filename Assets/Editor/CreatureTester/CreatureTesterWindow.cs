@@ -49,15 +49,16 @@ public class CreatureTesterWindow : EditorWindow
 
         if (GUILayout.Button("Move"))
         {
-            Pattern pattern = new Pattern(new List<Vector2Int> { new Vector2Int(0, 1),new Vector2Int(1, 0),new Vector2Int(-1, 0),new Vector2Int(0, -1) ,new Vector2Int(1, 1),new Vector2Int(-1, -1) ,new Vector2Int(1, -1) ,new Vector2Int(-1, 1)  });
+            Pattern pattern = new Pattern(new List<Vector2Int> { new Vector2Int(0, 1),new Vector2Int(1, 0),new Vector2Int(-1, 0),new Vector2Int(0, -1) });
             _map.MapData.Print();
+            Placement currentPlacement = _map.MapData.GetPlacement(_placementObject.Coord);
             _movement = new DirectionalMovement(_map.MapData.GetPlacement(_placementObject.Coord) ,_map.MapData, pattern);
             var selection = _movement.CreateSelection((ShapedCoordList currentCandidates,int index) =>
             {
-                _map.MapData.GetPlacement(_placementObject.Coord).SetCoord(currentCandidates.GetCoord(index));
+                currentPlacement.SetCoord(currentCandidates.GetCoord(index));
             },
             (Placement placement)=>{
-                ((IDamageable)placement).ReduceHp(10);
+                ((CreatureData)currentPlacement).Attack((IDamageable)placement,10);
             });
 
             _tileSelector.Select(selection);

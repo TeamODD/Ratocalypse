@@ -26,5 +26,11 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Cat
         {
             transform.DOMove(_mapCoord.GetTileWorldPosition(coord), 0.2f);
         }
+
+        protected override void OnHpReduced(float hp)
+        {
+            var hit = transform.DORotate(new Vector3(0, 0, 10), 0.2f).SetLoops(2, LoopType.Yoyo);
+            DOTween.Sequence().AppendInterval(0.5f).Append(hit);
+        }
     }
 }
