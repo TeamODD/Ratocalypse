@@ -8,7 +8,7 @@ using static TeamOdd.Ratocalypse.MapLib.MapData;
 namespace TeamOdd.Ratocalypse.CreatureLib
 {
     [System.Serializable]
-    public class CreatureData : Placement, IDamageable
+    public class CreatureData : Placement, IDamageable, IAttackable
     {
         [field: ReadOnly, SerializeField]
         public float MaxHp { get; private set; }
@@ -20,10 +20,12 @@ namespace TeamOdd.Ratocalypse.CreatureLib
         [field: ReadOnly, SerializeField]
         public int Stamina { get; private set; }
 
-        public UnityEvent<float> OnHpReduced {get; private set;}
-        public UnityEvent<float> OnHpRestored {get; private set;}
-        public UnityEvent OnDie { get; private set;}
-        
+        public UnityEvent<float> OnHpReduced {get; private set;} = new UnityEvent<float>();
+        public UnityEvent<float> OnHpRestored {get; private set;} = new UnityEvent<float>();
+        public UnityEvent OnDie { get; private set;} = new UnityEvent();
+
+        public UnityEvent<IDamageable, float> OnAttack {get; private set;} = new UnityEvent<IDamageable, float>();
+
         public List<string> StatusEffectList;
 
         public CreatureData(float maxHp,int maxStamina,MapData mapData, Vector2Int coord,Shape shape):base(mapData, coord, shape)
@@ -31,9 +33,6 @@ namespace TeamOdd.Ratocalypse.CreatureLib
             MaxHp = maxHp;
             MaxStamina = maxStamina;
 
-            OnHpReduced = new UnityEvent<float>();
-            OnHpRestored = new UnityEvent<float>();
-            OnDie = new UnityEvent();
             Init();
         }
 
@@ -63,6 +62,12 @@ namespace TeamOdd.Ratocalypse.CreatureLib
         {
             Hp = Mathf.Min(MaxHp, Hp + amount);
             OnHpRestored.Invoke(Hp);
+        }
+
+        public void Attack(IDamageable target, float damage)
+        {
+            target.ReduceHp(damage);
+            OnAttack.Invoke(target, damage);
         }
     }
 }

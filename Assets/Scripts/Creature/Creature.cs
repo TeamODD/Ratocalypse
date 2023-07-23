@@ -5,6 +5,7 @@ using DG.Tweening;
 using static TeamOdd.Ratocalypse.MapLib.MapData;
 using System;
 using UnityEngine.Events;
+using TeamOdd.Ratocalypse.CreatureLib.Attributes;
 
 namespace TeamOdd.Ratocalypse.CreatureLib
 {
@@ -26,6 +27,7 @@ namespace TeamOdd.Ratocalypse.CreatureLib
             _creatrueData.OnHpReduced.AddListener(OnHpReduced);
             _creatrueData.OnHpRestored.AddListener(OnHpRestored);
             _creatrueData.OnDie.AddListener(OnDie);
+            _creatrueData.OnAttack.AddListener(OnAttack);
         }
 
         protected override void OnCoordChanged(Vector2Int coord)
@@ -44,6 +46,11 @@ namespace TeamOdd.Ratocalypse.CreatureLib
         }
 
         protected virtual void OnDie()
+        {
+            
+        }
+
+        protected virtual void OnAttack(IDamageable target, float damage)
         {
             
         }
