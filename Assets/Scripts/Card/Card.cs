@@ -12,15 +12,11 @@ namespace TeamOdd.Ratocalypse.Card
         private const float DefaultY = 2.88f;
         private const float DefaultZ = 0.05f;
 
-        [SerializeField]
-        private long _id;
-
-        [SerializeField]
-        private CardDataValue _cardDataValue;
-
         public UnityEvent MouseOverEvents;
         public UnityEvent MouseOutEvents;
         public UnityEvent MouseDragEvents;
+
+        protected CardDataValue _cardDataValue;
 
         public void Awake()
         {
@@ -36,6 +32,11 @@ namespace TeamOdd.Ratocalypse.Card
         public void Update()
         {
             // TODO: implement this...
+        }
+
+        public void AttachDataValue(CardDataValue value)
+        {
+            _cardDataValue = value;
         }
 
         public void OnMouseOver()
@@ -75,25 +76,17 @@ namespace TeamOdd.Ratocalypse.Card
 
         public void Initiate(CardData cardData, bool clone = false)
         {
-            if (clone)
-            {
-                Initiate(cardData.CardDataId, cardData.DataValue.Clone());
-            }
-            else
-            {
-                Initiate(cardData.CardDataId, cardData.DataValue);
-            }
+            Initiate(clone ? cardData.DataValue.Clone() : cardData.DataValue);
         }
 
-        public void Initiate(long id, CardDataValue cardDataValue)
+        public void Initiate(CardDataValue cardDataValue)
         {
-            _id = id;
             _cardDataValue = cardDataValue;
         }
 
         public void DefaultMouseOver()
         {
-            float scale = 1.25f;
+            const float scale = 1.25f;
             SetScale(DefaultX * scale, DefaultY * scale, DefaultZ);
         }
 
@@ -104,14 +97,16 @@ namespace TeamOdd.Ratocalypse.Card
 
         public void DefaultDrag()
         {
-            //Vector2 position = Input.mousePosition;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            float distance = Vector3.Distance(transform.position, Camera.main.transform.position);
+            Camera mainCamera = Camera.main;
+            if (mainCamera == null)
+            {
+                return;
+            }
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            float distance = Vector3.Distance(transform.position, mainCamera.transform.position);
             Vector3 position = ray.GetPoint(distance);
             position.z = 0.0f;
-            //Debug.Log($"(x: {position.x}, y:{position.y})");
             SetPosition(position);
         }
     }
 }
-
