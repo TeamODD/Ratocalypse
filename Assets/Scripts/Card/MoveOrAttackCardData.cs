@@ -8,6 +8,11 @@ namespace TeamOdd.Ratocalypse.Card
         {
             RangeType = rangeType;
         }
+
+        public override CardData Clone()
+        {
+            return new MoveOrAttackCardData(CardDataId, RangeType);
+        }
     }
 
     public enum MoveOrAttackRangeType
