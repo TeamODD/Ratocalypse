@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TeamOdd.Ratocalypse.Card
 {
     public class CardOriginData
     {
-        private static readonly object _locker = new object();
-        private static CardOriginData _instance = null;
+        private static CardOriginData _instance;
 
         private readonly Dictionary<long, CardData> _data;
 
@@ -15,14 +15,7 @@ namespace TeamOdd.Ratocalypse.Card
             _data = new Dictionary<long, CardData>();
         }
 
-        public static CardOriginData Instance()
-        {
-            if (_instance == null)
-            {
-                _instance ??= new CardOriginData();
-            }
-            return _instance;
-        }
+        public static CardOriginData Instance => _instance ??= new CardOriginData();
 
         public int Count => _data.Count;
 
@@ -54,12 +47,9 @@ namespace TeamOdd.Ratocalypse.Card
         public bool RemoveDataBy(Func<CardData, bool> filter)
         {
             bool ret = true;
-            foreach (CardData data in _data.Values)
+            foreach (CardData data in _data.Values.Where(filter))
             {
-                if (filter(data))
-                {
-                    ret &= _data.Remove(data.CardDataId);
-                }
+                ret &= _data.Remove(data.CardDataId);
             }
             return ret;
         }
@@ -71,11 +61,11 @@ namespace TeamOdd.Ratocalypse.Card
                 return null;
             }
             CardData data = _data[id];
-            if (data is not TCardData)
+            if (data is not TCardData cardData)
             {
                 throw new InvalidCastException("Cannot cast");
             }
-            return data as TCardData;
+            return cardData;
         }
     }
 }
