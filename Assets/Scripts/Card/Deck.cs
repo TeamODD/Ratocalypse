@@ -1,4 +1,4 @@
-﻿namespace TeamOdd.Ratocalypse.Card
+namespace TeamOdd.Ratocalypse.Card
 {
     public class Deck
     {
