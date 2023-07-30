@@ -14,6 +14,9 @@ namespace TeamOdd.Ratocalypse.Card
         private const float DefaultY = 2.88f;
         private const float DefaultZ = 0.05f;
 
+        private const float TestTimeStart = 0;
+        private const float TestTimeEnd = 1;
+
         private static readonly Vector3 TestLeftTop = new Vector3(-12, 4);
         private static readonly Vector3 TestRightBottom = new Vector3(-10, 2);
         private static readonly Vector3 TestMiddle = new Vector3((TestLeftTop.x + TestRightBottom.x) / 2, (TestLeftTop.y + TestRightBottom.y) / 2);
@@ -76,6 +79,31 @@ namespace TeamOdd.Ratocalypse.Card
             transform.position = vector;
         }
 
+        public void SetPositionWithAnimation(float x, float y, float timeStart, float timeEnd)
+        {
+            SetPositionWithAnimation(new Vector3(x, y), timeStart, timeEnd);
+        }
+
+        public void SetPositionWithAnimation(Vector3 vector, float timeStart, float timeEnd)
+        {
+            Animation animation = GetComponent<Animation>();
+            if (!animation)
+            {
+                animation = this.AddComponent<Animation>();
+            }
+            Vector3 currentPosition = transform.position;
+            AnimationClip clip = new AnimationClip();
+            AnimationCurve curveX = AnimationCurve.Linear(timeStart, currentPosition.x, timeEnd, vector.x);
+            AnimationCurve curveY = AnimationCurve.Linear(timeStart, currentPosition.y, timeEnd, vector.y);
+            clip.SetCurve("", typeof(Transform), "localPosition.x", curveX);
+            clip.SetCurve("", typeof(Transform), "localPosition.y", curveY);
+            clip.name = "Move";
+            clip.legacy = true;
+            animation.clip = clip;
+            animation.AddClip(clip, clip.name);
+            animation.Play();
+        }
+
         public void SetScale(float x, float y, float z)
         {
             SetScale(new Vector3(x, y, z));
@@ -130,7 +158,7 @@ namespace TeamOdd.Ratocalypse.Card
                 Debug.Log("Card is cast!");
                 return;
             }
-            SetPosition(DefaultPositionX, DefaultPositionY);
+            SetPositionWithAnimation(DefaultPositionX, DefaultPositionY, TestTimeStart, TestTimeEnd);
         }
 
         private static Vector3 GetMousePosition(Transform transform)
