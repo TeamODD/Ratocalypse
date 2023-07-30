@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,9 +14,14 @@ namespace TeamOdd.Ratocalypse.Card
         private const float DefaultY = 2.88f;
         private const float DefaultZ = 0.05f;
 
+        private static readonly Vector3 TestLeftTop = new Vector3(-12, 4);
+        private static readonly Vector3 TestRightBottom = new Vector3(-10, 2);
+        private static readonly Vector3 TestMiddle = new Vector3((TestLeftTop.x + TestRightBottom.x) / 2, (TestLeftTop.y + TestRightBottom.y) / 2);
+
         public UnityEvent MouseOverEvents;
         public UnityEvent MouseOutEvents;
         public UnityEvent MouseDragEvents;
+        public UnityEvent MouseUpEvents;
 
         protected CardDataValue _cardDataValue;
 
@@ -52,6 +59,11 @@ namespace TeamOdd.Ratocalypse.Card
         public void OnMouseDrag()
         {
             MouseDragEvents.Invoke();
+        }
+
+        public void OnMouseUp()
+        {
+            MouseUpEvents.Invoke();
         }
 
         public void SetPosition(float x, float y)
@@ -97,16 +109,52 @@ namespace TeamOdd.Ratocalypse.Card
 
         public void DefaultDrag()
         {
+            Vector3 position = GetMousePosition(transform);
+            SetPosition(position);
+        }
+
+        public void AttachCardCastArea()
+        {
+            Vector3 position = GetMousePosition(transform);
+            if (HasPointEnteredArea(position, TestLeftTop, TestRightBottom))
+            {
+                SetPosition(TestMiddle);
+            }
+        }
+
+        public void ExecuteCommand()
+        {
+            Vector3 position = GetMousePosition(transform);
+            if (HasPointEnteredArea(position, TestLeftTop, TestRightBottom))
+            {
+                Debug.Log("Card is cast!");
+                return;
+            }
+            SetPosition(DefaultPositionX, DefaultPositionY);
+        }
+
+        private static Vector3 GetMousePosition(Transform transform)
+        {
             Camera mainCamera = Camera.main;
             if (mainCamera == null)
             {
-                return;
+                throw new NullReferenceException("Camera.main");
             }
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             float distance = Vector3.Distance(transform.position, mainCamera.transform.position);
             Vector3 position = ray.GetPoint(distance);
             position.z = 0.0f;
-            SetPosition(position);
+            return position;
+        }
+
+        private static bool HasPointEnteredArea(Vector3 point, Vector3 leftTop, Vector3 rightBottom)
+        {
+            bool checkX = leftTop.x <= point.x && point.x <= rightBottom.x;
+            if (checkX)
+            {
+                return rightBottom.y <= point.y && point.y <= leftTop.y;
+            }
+            return false;
         }
     }
 }
