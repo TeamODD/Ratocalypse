@@ -67,7 +67,7 @@ namespace TeamOdd.Ratocalypse.TestScripts
             return _factory.Create(CreateData(coord),_prefab);
         }
 
-        private void Start()
+        private void Awake()
         {
             if (_createOnStart)
             {
