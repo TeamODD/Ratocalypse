@@ -1,3 +1,6 @@
+using TeamOdd.Ratocalypse.Card.Command;
+using TeamOdd.Ratocalypse.MapLib.GameLib.Commands;
+
 namespace TeamOdd.Ratocalypse.Card
 {
     public class CardData
@@ -20,6 +23,11 @@ namespace TeamOdd.Ratocalypse.Card
         {
             return new CardData(CardDataId, DataValue.Clone());
         }
+
+        public virtual CardCommand CreateCardCommand()
+        {
+            return null; 
+        } 
     }
 
     public class CardDataValue
