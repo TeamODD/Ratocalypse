@@ -1,3 +1,8 @@
+using TeamOdd.Ratocalypse.Card.Command;
+using TeamOdd.Ratocalypse.CreatureLib;
+using TeamOdd.Ratocalypse.MapLib.GameLib.Commands;
+using UnityEngine;
+
 namespace TeamOdd.Ratocalypse.Card
 {
     public class MoveOrAttackCardData : CardData
@@ -12,6 +17,24 @@ namespace TeamOdd.Ratocalypse.Card
         public override CardData Clone()
         {
             return new MoveOrAttackCardData(CardDataId, RangeType);
+        }
+
+        public override CardCommand CreateCardCommand()
+        {
+            CreatureData caster = null;
+            CardCommand cardCommand = new CardCommand((CardCastData data) =>
+            {
+                caster = data.Caster;
+                return new Select(MoveOrAttackRangeType.King, data.Caster);
+            });
+
+            cardCommand.AddCommand((result) =>
+            {
+                Select.Result selectResult = (Select.Result)result;
+                return new Move(caster, selectResult.SelectedCoord);
+            });
+
+            return cardCommand;
         }
     }
 
