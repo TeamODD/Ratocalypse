@@ -7,11 +7,12 @@ using System;
 using static TeamOdd.Ratocalypse.TestScripts.TileColorSetter;
 using TeamOdd.Ratocalypse.MapLib.GameLib.SelectionLib;
 using TeamOdd.Ratocalypse.CreatureLib.Attributes;
+using TeamOdd.Ratocalypse.MapLib.GameLib;
 
 namespace TeamOdd.Ratocalypse.TestScripts
 {
     [RequireComponent(typeof(Map))]
-    public class TileSelector : MonoBehaviour
+    public class TileSelector : MonoBehaviour, ISelector
     {
 
         private Map _map;
@@ -25,7 +26,7 @@ namespace TeamOdd.Ratocalypse.TestScripts
             _analyzer = new MapAnalyzer(_map.MapData);
         }
 
-        public void Select(Selection selection)
+        public void Select(Selection selection, Action cancel)
         {
             _currentCandidates = selection.TileCandidates;
             var tileSelectionMap = selection.TileSelectionMap;
@@ -59,7 +60,7 @@ namespace TeamOdd.Ratocalypse.TestScripts
                 });
             }
 
-            if(!selection.HasTileSelection)
+            if(!selection.HasPlacementSelection)
             {
                 return;
             }
@@ -148,5 +149,6 @@ namespace TeamOdd.Ratocalypse.TestScripts
                 }
             }
         }
+
     }
 }
