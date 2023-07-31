@@ -297,7 +297,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bc71b73559ab2468f30086dcce2c75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeckText: {fileID: 1078179828}
 --- !u!1 &1027420574
 GameObject:
   m_ObjectHideFlags: 0
@@ -350,7 +349,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f035e684ab2d5734f976e5679ba7d4db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TombText: {fileID: 1100052057}
 --- !u!114 &1027420577
 MonoBehaviour:
   m_ObjectHideFlags: 0

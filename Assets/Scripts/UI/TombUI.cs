@@ -9,17 +9,17 @@ namespace TeamOdd.Ratocalypse.UI
     public class TombUI : MonoBehaviour
     { 
         public int TombDataCount { get; private set; }
-        public TextMeshProUGUI TombText { get; set; }
+        private TextMeshProUGUI _tombText;
         public bool ActivationStatus { get; set; }
 
         public void Awake()
         {
-            TombText = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            _tombText = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         }
 
         public void Execute()
         {
-            TombText.text = TombDataCount.ToString();
+            _tombText.text = TombDataCount.ToString();
         }
 
         public void Activation()

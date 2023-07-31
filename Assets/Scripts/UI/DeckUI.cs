@@ -9,17 +9,17 @@ namespace TeamOdd.Ratocalypse.UI
     public class DeckUI : MonoBehaviour
     {
         public int DeckDataCount { get; private set; }
-        public TextMeshProUGUI DeckText { get; set; }
+        private TextMeshProUGUI _deckText;
         public bool ActivationStatus { get; set; }
 
         public void Awake()
         {
-            DeckText = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            _deckText = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         }
 
         public void Execute()
         {
-            DeckText.text = DeckDataCount.ToString();
+            _deckText.text = DeckDataCount.ToString();
         }
 
         public void Activation() 
