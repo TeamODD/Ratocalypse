@@ -5,24 +5,35 @@ namespace TeamOdd.Ratocalypse.Card
 {
     public class CardData
     {
-        public int CardDataId { get; }
+        public int Id { get; }
 
         public CardDataValue OriginDataValue;
         public CardDataValue DeckDataValue = new CardDataValue();
         public CardDataValue GameDataValue = new CardDataValue();
 
-        public CardData(int cardDataId, CardDataValue originDataValue)
+        public CardData(int id, CardDataValue originDataValue)
         {
-            CardDataId = cardDataId;
+            Id = id;
             OriginDataValue = originDataValue;
         }
 
-        public virtual CardData Clone()
+        public virtual CardData CloneOriginCard()
         {
-            CardData cloned = new CardData(CardDataId, OriginDataValue.Clone())
-            {
-                DeckDataValue = DeckDataValue
-            };
+            CardData cloned = new CardData(Id, OriginDataValue);
+            return cloned;
+        }
+
+        public virtual CardData CloneDeckCard()
+        {
+            CardData cloned = CloneOriginCard();
+            cloned.DeckDataValue = DeckDataValue.Clone();
+            return cloned;
+        }
+
+        public virtual CardData CloneGameCard()
+        {
+            CardData cloned = CloneDeckCard();
+            cloned.GameDataValue = GameDataValue.Clone();
             return cloned;
         }
 
@@ -40,12 +51,16 @@ namespace TeamOdd.Ratocalypse.Card
         {
             return "Description";
         }
+
+        public virtual int GetCost()
+        {
+            return OriginDataValue.Cost + DeckDataValue.Cost + GameDataValue.Cost;
+        }
     }
 
     public class CardDataValue
     {
         public int Cost { get; private set; }
-        public string Title { get; private set; }
 
         public CardDataValue()
         {
@@ -61,7 +76,6 @@ namespace TeamOdd.Ratocalypse.Card
         {
             Cost = cost;
         }
-
 
         public virtual CardDataValue Clone()
         {

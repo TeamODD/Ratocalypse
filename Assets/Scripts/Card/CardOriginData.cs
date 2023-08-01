@@ -21,11 +21,11 @@ namespace TeamOdd.Ratocalypse.Card
 
         public bool AddData(CardData data)
         {
-            if (_data.ContainsKey(data.CardDataId))
+            if (_data.ContainsKey(data.Id))
             {
                 return false;
             }
-            _data[data.CardDataId] = data;
+            _data[data.Id] = data;
             return true;
         }
 
@@ -41,7 +41,7 @@ namespace TeamOdd.Ratocalypse.Card
 
         public bool RemoveData(CardData cardData)
         {
-            return RemoveData(cardData.CardDataId);
+            return RemoveData(cardData.Id);
         }
 
         public bool RemoveDataBy(Func<CardData, bool> filter)
@@ -49,7 +49,7 @@ namespace TeamOdd.Ratocalypse.Card
             bool ret = true;
             foreach (CardData data in _data.Values.Where(filter))
             {
-                ret &= _data.Remove(data.CardDataId);
+                ret &= _data.Remove(data.Id);
             }
             return ret;
         }
@@ -66,6 +66,16 @@ namespace TeamOdd.Ratocalypse.Card
                 throw new InvalidCastException("Cannot cast");
             }
             return cardData;
+        }
+
+        public CardData CreateOriginCard(int id)
+        {
+            if (!_data.ContainsKey(id))
+            {
+                throw new KeyNotFoundException("No card data with id " + id + " found");
+            }
+
+            return _data[id].CloneOriginCard();
         }
     }
 }
