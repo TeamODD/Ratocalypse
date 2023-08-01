@@ -1,17 +1,11 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using TeamOdd.Ratocalypse.MapLib.GameLib.SelectionLib;
 using UnityEngine;
-using static TeamOdd.Ratocalypse.MapLib.MapData;
-using System.Linq;
-using TeamOdd.Ratocalypse.Card;
-using UnityEngine.Events;
 using TeamOdd.Ratocalypse.CreatureLib;
 using TeamOdd.Ratocalypse.CreatureLib.Rat;
 using TeamOdd.Ratocalypse.CreatureLib.Cat;
 using TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib;
-using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
+using static TeamOdd.Ratocalypse.Card.Cards.Templates.MoveOrAttackCardData;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 {
