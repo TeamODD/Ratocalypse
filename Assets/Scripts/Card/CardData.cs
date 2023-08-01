@@ -5,49 +5,56 @@ namespace TeamOdd.Ratocalypse.Card
 {
     public class CardData
     {
-        public long CardDataId { get; }
-        public CardDataValue DataValue { get; }
+        public int CardDataId { get; }
 
-        public CardData(long cardDataId)
+        public CardDataValue OriginDataValue;
+        public CardDataValue DeckDataValue = new CardDataValue();
+        public CardDataValue GameDataValue = new CardDataValue();
+
+        public CardData(int cardDataId, CardDataValue originDataValue)
         {
             CardDataId = cardDataId;
-            DataValue = new CardDataValue();
-        }
-
-        public CardData(long cardDataId, CardDataValue dataValue) : this(cardDataId)
-        {
-            DataValue = dataValue;
+            OriginDataValue = originDataValue;
         }
 
         public virtual CardData Clone()
         {
-            return new CardData(CardDataId, DataValue.Clone());
+            CardData cloned = new CardData(CardDataId, OriginDataValue.Clone())
+            {
+                DeckDataValue = DeckDataValue
+            };
+            return cloned;
         }
 
         public virtual CardCommand CreateCardCommand()
         {
-            return null; 
-        } 
+            return new CardCommand((CardCastData data) => { return null; });
+        }
+
+        public virtual string GetTitle()
+        {
+            return "Card";
+        }
+
+        public virtual string GetDescription()
+        {
+            return "Description";
+        }
     }
 
     public class CardDataValue
     {
         public int Cost { get; private set; }
         public string Title { get; private set; }
-        public string Description { get; private set; }
 
         public CardDataValue()
         {
             Cost = 0;
-            Title = "";
-            Description = "";
         }
 
-        public CardDataValue(int cost, string title, string description)
+        public CardDataValue(int cost)
         {
             Cost = cost;
-            Title = title;
-            Description = description;
         }
 
         public void SetCost(int cost)
@@ -55,19 +62,10 @@ namespace TeamOdd.Ratocalypse.Card
             Cost = cost;
         }
 
-        public void SetTitle(string title)
-        {
-            Title = title;
-        }
-
-        public void SetDescription(string description)
-        {
-            Description = description;
-        }
 
         public virtual CardDataValue Clone()
         {
-            return new CardDataValue(Cost, Title, Description);
+            return new CardDataValue(Cost);
         }
     }
 }
