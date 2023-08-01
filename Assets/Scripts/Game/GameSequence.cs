@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using TeamOdd.Ratocalypse.Card.Cards.Templates;
+using TeamOdd.Ratocalypse.CardLib.Cards.Templates;
 using TeamOdd.Ratocalypse.CreatureLib;
 using TeamOdd.Ratocalypse.MapLib.GameLib.Commands;
 using UnityEngine;
-using static TeamOdd.Ratocalypse.Card.Cards.Templates.MoveOrAttackCardData;
+using static TeamOdd.Ratocalypse.CardLib.Cards.Templates.MoveOrAttackCardData;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib
 {

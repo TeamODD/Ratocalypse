@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace TeamOdd.Ratocalypse.Card
+namespace TeamOdd.Ratocalypse.CardLib
 {
     public class Card : MonoBehaviour
     {
@@ -12,9 +12,16 @@ namespace TeamOdd.Ratocalypse.Card
         public UnityEvent MouseDragEvents;
         public UnityEvent MouseUpEvents;
 
+        private CardData _cardData;
+
         public void Awake()
         {
             
+        }
+
+        public void Initialize(CardData cardData)
+        {
+            _cardData = cardData;
         }
 
         public void OnMouseOver()
@@ -40,6 +47,12 @@ namespace TeamOdd.Ratocalypse.Card
         public void SetPosition(float x, float y)
         {
             SetPosition(new Vector3(x, y));
+        }
+
+        public void SetZRotation(float z)
+        {
+            var rotation = transform.rotation;
+            rotation.z = z;
         }
 
         public void SetPosition(Vector3 vector)

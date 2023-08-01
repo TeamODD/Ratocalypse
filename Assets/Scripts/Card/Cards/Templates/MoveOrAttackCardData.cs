@@ -1,9 +1,9 @@
-using TeamOdd.Ratocalypse.Card.Command;
+using TeamOdd.Ratocalypse.CardLib.Command;
 using TeamOdd.Ratocalypse.CreatureLib;
 using TeamOdd.Ratocalypse.MapLib.GameLib.Commands;
 using UnityEngine;
 
-namespace TeamOdd.Ratocalypse.Card.Cards.Templates
+namespace TeamOdd.Ratocalypse.CardLib.Cards.Templates
 {
     public class MoveOrAttackCardData : CardData
     {

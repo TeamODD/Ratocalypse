@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TeamOdd.Ratocalypse.Card;
+using TeamOdd.Ratocalypse.CardLib;
 using UnityEngine;
 
 namespace TeamOdd.Ratocalypse.Deck

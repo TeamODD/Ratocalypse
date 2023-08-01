@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using TeamOdd.Ratocalypse.MapLib.GameLib;
 
-namespace TeamOdd.Ratocalypse.Card.Command
+namespace TeamOdd.Ratocalypse.CardLib.Command
 {
     public class CardCommand
     {

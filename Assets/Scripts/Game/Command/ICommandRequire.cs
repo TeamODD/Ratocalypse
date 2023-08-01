@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using TeamOdd.Ratocalypse.Card;
+using TeamOdd.Ratocalypse.CardLib;
 using UnityEngine;
 using static TeamOdd.Ratocalypse.MapLib.MapData;
 
