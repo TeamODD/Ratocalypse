@@ -8,9 +8,9 @@ namespace TeamOdd.Ratocalypse.UI
 {
     public class DeckUI : MonoBehaviour
     {
-        public int DeckDataCount { get; private set; }
         private TextMeshProUGUI _deckText;
-        public bool ActivationStatus { get; set; }
+
+        public int DeckDataCount { get; private set; }
 
         public void Awake()
         {
@@ -22,9 +22,9 @@ namespace TeamOdd.Ratocalypse.UI
             _deckText.text = DeckDataCount.ToString();
         }
 
-        public void Activation() 
+        public void ActivationChange() 
         {
-            gameObject.SetActive(ActivationStatus);
+            gameObject.SetActive(!gameObject.activeSelf);
         }
     }
 }

@@ -8,10 +8,9 @@ namespace TeamOdd.Ratocalypse.UI
 {
     public class TombUI : MonoBehaviour
     { 
-        public int TombDataCount { get; private set; }
         private TextMeshProUGUI _tombText;
-        public bool ActivationStatus { get; set; }
 
+        public int TombDataCount { get; private set; }
         public void Awake()
         {
             _tombText = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
@@ -22,9 +21,9 @@ namespace TeamOdd.Ratocalypse.UI
             _tombText.text = TombDataCount.ToString();
         }
 
-        public void Activation()
+        public void ActivationChange()
         {
-            gameObject.SetActive(ActivationStatus);
+            gameObject.SetActive(!gameObject.activeSelf);
         }
     }
 }
