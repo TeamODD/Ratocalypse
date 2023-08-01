@@ -6,11 +6,18 @@ using UnityEngine.UI;
 [Serializable]
 public class TurnUI : MonoBehaviour
 {
-    public List<Icon> Deployment {private get; set; }
+    public List<Image> TestIconList;
+
+    private List<Icon> _deployment = new List<Icon>();
     private List<int> _deploymentNumber = new List<int>(); 
 
     private Vector2 _size;
     private int _interval;
+
+    public List<Icon> Deployment
+    {
+        set { _deployment = value;}
+    }
 
     private void Start()
     {
@@ -19,24 +26,20 @@ public class TurnUI : MonoBehaviour
 
     private void Update()
     {
-        SetIcon();
+        SetTest();
         SetDeployment();
     }
-    public void SetIcon() 
+    public void SetTest() 
     {
-        for (int i = 0; i < transform.childCount; i++)
+        foreach (Image a in TestIconList)
         {
-            if (!Deployment.Equals(transform.GetChild(i).GetComponent<Icon>()))
-            {
-                Deployment.Add(transform.GetChild(i).GetComponent<Icon>());
-            }
-
+            _deployment.Add(a.GetComponent<Icon>());
         }
     }
     public void SetDeployment()
     {
         _deploymentNumber.Clear();
-        foreach (Icon a in Deployment) 
+        foreach (Icon a in _deployment) 
         {
            if (!_deploymentNumber.Exists(x=>x== a.Order)) 
            {
@@ -56,7 +59,7 @@ public class TurnUI : MonoBehaviour
         _deploymentNumber.Sort();
 
         _interval = Mathf.RoundToInt((_size.x - 20) / _deploymentNumber.Count);
-        foreach (Icon a in Deployment)
+        foreach (Icon a in _deployment)
         {
             a.SetPosition = (a.Order ==-1) ? a.SetPosition = 
                 new Vector3((_size.x - 20) / 2, -30 - 30 * NumberOfDuplicates(a), 0): 
@@ -68,7 +71,7 @@ public class TurnUI : MonoBehaviour
     public int NumberOfDuplicates(Icon a)
     {
         int i = 0;
-        foreach (Icon b in Deployment)
+        foreach (Icon b in _deployment)
         {
             if (b.Order == a.Order && b != a)
             {
