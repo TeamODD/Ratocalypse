@@ -5,7 +5,7 @@ using TeamOdd.Ratocalypse.CreatureLib;
 using TeamOdd.Ratocalypse.CreatureLib.Rat;
 using TeamOdd.Ratocalypse.CreatureLib.Cat;
 using TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib;
-using static TeamOdd.Ratocalypse.Card.Cards.Templates.MoveOrAttackCardData;
+using static TeamOdd.Ratocalypse.CardLib.Cards.Templates.MoveOrAttackCardData;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 {

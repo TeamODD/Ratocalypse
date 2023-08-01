@@ -1,7 +1,7 @@
-using TeamOdd.Ratocalypse.Card.Command;
+using TeamOdd.Ratocalypse.CardLib.Command;
 using TeamOdd.Ratocalypse.MapLib.GameLib.Commands;
 
-namespace TeamOdd.Ratocalypse.Card
+namespace TeamOdd.Ratocalypse.CardLib
 {
     public class CardData
     {
