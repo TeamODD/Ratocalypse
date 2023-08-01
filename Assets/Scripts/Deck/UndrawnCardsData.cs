@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TeamOdd.Ratocalypse.CardLib;
 
-namespace TeamOdd.Ratocalypse.Deck
+namespace TeamOdd.Ratocalypse.DeckLib
 {
     public class UndrawnCards : CardDataCollection
     {

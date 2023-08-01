@@ -1,4 +1,4 @@
-﻿namespace TeamOdd.Ratocalypse.Deck
+﻿namespace TeamOdd.Ratocalypse.DeckLib
 {
     public class TombData : CardDataCollection
     {

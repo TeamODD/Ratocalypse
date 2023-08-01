@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TeamOdd.Ratocalypse.Deck
+namespace TeamOdd.Ratocalypse.DeckLib
 {
     public class HandData : CardDataCollection
     {
