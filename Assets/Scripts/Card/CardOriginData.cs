@@ -8,11 +8,11 @@ namespace TeamOdd.Ratocalypse.Card
     {
         private static CardOriginData _instance;
 
-        private readonly Dictionary<long, CardData> _data;
+        private readonly Dictionary<int, CardData> _data;
 
         private CardOriginData()
         {
-            _data = new Dictionary<long, CardData>();
+            _data = new Dictionary<int, CardData>();
         }
 
         public static CardOriginData Instance => _instance ??= new CardOriginData();
@@ -34,7 +34,7 @@ namespace TeamOdd.Ratocalypse.Card
             return AddData(generator());
         }
 
-        public bool RemoveData(long id)
+        public bool RemoveData(int id)
         {
             return _data.Remove(id);
         }
@@ -54,7 +54,7 @@ namespace TeamOdd.Ratocalypse.Card
             return ret;
         }
 
-        public TCardData GetData<TCardData>(long id) where TCardData : CardData
+        public TCardData GetData<TCardData>(int id) where TCardData : CardData
         {
             if (!_data.ContainsKey(id))
             {
