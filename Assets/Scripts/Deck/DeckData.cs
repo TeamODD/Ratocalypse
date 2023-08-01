@@ -2,7 +2,7 @@
 using TeamOdd.Ratocalypse.CardLib;
 using UnityEngine;
 
-namespace TeamOdd.Ratocalypse.Deck
+namespace TeamOdd.Ratocalypse.DeckLib
 {
 
     public class DeckData
