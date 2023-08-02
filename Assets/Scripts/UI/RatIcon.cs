@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-public class RatIcon : MonoBehaviour ,Icon
+public class RatIcon : MonoBehaviour ,IIcon
 {
     [field: SerializeField]
     public int Order { get; set; }

@@ -8,13 +8,13 @@ public class TurnUI : MonoBehaviour
 {
     public List<Image> TestIconList;
 
-    private List<Icon> _deployment = new List<Icon>();
+    private List<IIcon> _deployment = new List<IIcon>();
     private List<int> _deploymentNumber = new List<int>(); 
 
     private Vector2 _size;
     private int _interval;
 
-    public List<Icon> Deployment
+    public List<IIcon> Deployment
     {
         set { _deployment = value;}
     }
@@ -33,13 +33,13 @@ public class TurnUI : MonoBehaviour
     {
         foreach (Image a in TestIconList)
         {
-            _deployment.Add(a.GetComponent<Icon>());
+            _deployment.Add(a.GetComponent<IIcon>());
         }
     }
     public void SetDeployment()
     {
         _deploymentNumber.Clear();
-        foreach (Icon a in _deployment) 
+        foreach (IIcon a in _deployment) 
         {
            if (!_deploymentNumber.Exists(x=>x== a.Order)) 
            {
@@ -59,7 +59,7 @@ public class TurnUI : MonoBehaviour
         _deploymentNumber.Sort();
 
         _interval = Mathf.RoundToInt((_size.x - 20) / _deploymentNumber.Count);
-        foreach (Icon a in _deployment)
+        foreach (IIcon a in _deployment)
         {
             a.SetPosition = (a.Order ==-1) ? a.SetPosition = 
                 new Vector3((_size.x - 20) / 2, -30 - 30 * NumberOfDuplicates(a), 0): 
@@ -68,10 +68,10 @@ public class TurnUI : MonoBehaviour
         }
     }
 
-    public int NumberOfDuplicates(Icon a)
+    public int NumberOfDuplicates(IIcon a)
     {
         int i = 0;
-        foreach (Icon b in _deployment)
+        foreach (IIcon b in _deployment)
         {
             if (b.Order == a.Order && b != a)
             {

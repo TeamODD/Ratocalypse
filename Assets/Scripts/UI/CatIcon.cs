@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CatIcon : MonoBehaviour, Icon
+public class CatIcon : MonoBehaviour, IIcon
 {
     [field: SerializeField] 
     public int Order { get; set; }

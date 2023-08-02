@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-public interface Icon 
+public interface IIcon 
 {
     [SerializeField]
     public int Order {get; set; }
