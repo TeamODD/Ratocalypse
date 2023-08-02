@@ -6,14 +6,22 @@ using UnityEngine.UI;
 
 public class CatIcon : MonoBehaviour, IIcon
 {
-    [field: SerializeField] 
-    public int Order { get; set; }
     [field: SerializeField]
-    public Vector3 SetPosition { get; set; }
-  
-    // Update is called once per frame
-    private void Update()
+    public int Order { get; set; }
+
+    public void SetPosition(Vector3 position)
     {
-        GetComponent<Image>().rectTransform.localPosition = Vector3.MoveTowards(transform.localPosition, SetPosition, (SetPosition - transform.position).magnitude * Time.deltaTime );
+        StartCoroutine(MoveMent(position));
+    }
+
+    private IEnumerator MoveMent(Vector3 position)
+    {
+        while ((transform.localPosition - position).magnitude >= 0.001f)
+        {
+            GetComponent<Image>().transform.localPosition = Vector3.MoveTowards(transform.localPosition, position, (transform.localPosition - position).magnitude * Time.fixedDeltaTime);
+            yield return null;
+        }
+
+        transform.localPosition = position;
     }
 }

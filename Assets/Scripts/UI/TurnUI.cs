@@ -9,6 +9,7 @@ public class TurnUI : MonoBehaviour
     public List<Image> TestIconList;
 
     private List<IIcon> _deployment = new List<IIcon>();
+    [SerializeField]
     private List<int> _deploymentNumber = new List<int>(); 
 
     private Vector2 _size;
@@ -27,7 +28,10 @@ public class TurnUI : MonoBehaviour
     private void Update()
     {
         SetTest();
-        SetDeployment();
+        if (Input.GetKeyDown(KeyCode.Space)) 
+        {
+            SetDeployment();
+        }
     }
     public void SetTest() 
     {
@@ -61,10 +65,7 @@ public class TurnUI : MonoBehaviour
         _interval = Mathf.RoundToInt((_size.x - 20) / _deploymentNumber.Count);
         foreach (IIcon a in _deployment)
         {
-            a.SetPosition = (a.Order ==-1) ? a.SetPosition = 
-                new Vector3((_size.x - 20) / 2, -30 - 30 * NumberOfDuplicates(a), 0): 
-                a.SetPosition = new Vector3(-(_size.x - 20) / 2 + _interval * _deploymentNumber.FindIndex(element => element == a.Order), -30 - 30 * NumberOfDuplicates(a), 0);;
-
+            a.SetPosition((a.Order == -1) ? new Vector3((_size.x - 20) / 2, -30 - 30 * NumberOfDuplicates(a), 0) : new Vector3(-(_size.x - 20) / 2 + _interval * _deploymentNumber.FindIndex(element => element == a.Order), -30 - 30 * NumberOfDuplicates(a), 0));
         }
     }
 
