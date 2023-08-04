@@ -3,15 +3,19 @@ using UnityEngine;
 
 namespace TeamOdd.Ratocalypse.CardLib
 {
-    public class CardFactory:MonoBehaviour
+    public class CardFactory : MonoBehaviour
     {
         [SerializeField]
-        private Card _prefab;
+        private GameObject _prefab;
+        [SerializeField]
+        private Transform _createPosition;
 
-        public Card Create(CardData cardData, Transform parent)
+        public CardView Create(CardData cardData, Transform parent)
         {
-            Card card = Instantiate(_prefab);
+            CardView card = Instantiate(_prefab).GetComponent<CardView>();
             card.transform.SetParent(parent);
+            card.transform.position = _createPosition.position;
+            card.transform.localRotation = Quaternion.Euler(0, 0, 0);
             card.Initialize(cardData);
             return card;
         }
