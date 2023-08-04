@@ -7,7 +7,7 @@ namespace TeamOdd.Ratocalypse.DeckLib
 {
     public class CardDataCollection : IEnumerable<CardData>
     {
-        protected List<CardData> _cardDatas;
+        protected List<CardData> _cardDatas = new List<CardData>();
 
         public CardDataCollection(params CardData[] cardDataItems)
         {
