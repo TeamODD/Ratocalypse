@@ -14,6 +14,7 @@ namespace TeamOdd.Ratocalypse.DeckLib
             Normal,
             Dragging,
             Focused,
+            Unactive,
         }
 
         public enum CardAction
@@ -23,10 +24,11 @@ namespace TeamOdd.Ratocalypse.DeckLib
             StartDrag,
             EndDrag,
             UpdateOrigin,
+            Consume,
             None,
         }
 
-        [field:ReadOnly, SerializeField]
+        [field: ReadOnly, SerializeField]
         public CardState CurrentState { get; private set; } = CardState.Normal;
         [ReadOnly, SerializeField]
         private CardAction _currentAction = CardAction.None;
@@ -40,21 +42,26 @@ namespace TeamOdd.Ratocalypse.DeckLib
         private Sequence _sequence = null;
 
         private Vector3 _cardTilt = Vector3.zero;
-        private List<(Vector3 position,float time)> _prevPositions = new List<(Vector3,float)>();
+        private List<(Vector3 position, float time)> _prevPositions = new List<(Vector3, float)>();
 
+        private CardGlow _cardGlow = null;
 
+        public UnityEvent<HandCard> OnExecute { get; private set; } = new UnityEvent<HandCard>();
 
 
         private void Awake()
         {
+            _cardGlow = GetComponent<CardGlow>();
             _sequence = DOTween.Sequence();
         }
 
-
         public void Initialize(MovementValues movementValues)
         {
+            _currentAction = CardAction.None;
+            CurrentState = CardState.Normal;
             _movementValues = movementValues;
             transform.localPosition = movementValues.drawPosition;
+            OnExecute.RemoveAllListeners();
         }
 
         private Action GetAction(CardAction action)
@@ -66,6 +73,7 @@ namespace TeamOdd.Ratocalypse.DeckLib
                 CardAction.StartDrag => StartDrag,
                 CardAction.EndDrag => EndDrag,
                 CardAction.UpdateOrigin => UpdateOriginTransform,
+                CardAction.Consume => Consume,
                 _ => null,
             };
         }
@@ -74,6 +82,13 @@ namespace TeamOdd.Ratocalypse.DeckLib
         {
             Action action = GetAction(cardAction);
             action?.Invoke();
+        }
+
+        private void Consume()
+        {
+            ResetSequence();
+            _currentAction = CardAction.Consume;
+            CurrentState = CardState.Unactive;
         }
 
         private void Focus()
@@ -92,7 +107,7 @@ namespace TeamOdd.Ratocalypse.DeckLib
 
         private void UnFocus()
         {
-            if (AllowStates(CardState.Focused,CardState.Normal) || AllowActions(CardAction.Focus))
+            if (AllowStates(CardState.Focused, CardState.Normal) || AllowActions(CardAction.Focus))
             {
                 _currentAction = CardAction.UnFocus;
                 ResetSequence();
@@ -112,8 +127,8 @@ namespace TeamOdd.Ratocalypse.DeckLib
 
         private void UpdateOriginTransform()
         {
-            if (AllowStates(CardState.Normal, CardState.Focused)||AllowActions(CardAction.UpdateOrigin))     
-            {   
+            if (AllowStates(CardState.Normal, CardState.Focused) || AllowActions(CardAction.UpdateOrigin))
+            {
                 ResetSequence();
                 _currentAction = CardAction.UpdateOrigin;
 
@@ -135,7 +150,7 @@ namespace TeamOdd.Ratocalypse.DeckLib
                     }, second);
                 }
             }
-            else if(AllowActions(CardAction.EndDrag, CardAction.UnFocus, CardAction.Focus))
+            else if (AllowActions(CardAction.EndDrag, CardAction.UnFocus, CardAction.Focus))
             {
                 CardAction action = _currentAction;
                 _currentAction = CardAction.None;
@@ -166,13 +181,21 @@ namespace TeamOdd.Ratocalypse.DeckLib
             if (AllowStates(CardState.Dragging))
             {
                 _currentAction = CardAction.EndDrag;
+                _cardGlow.SetActiveGlow();
                 ResetSequence();
+
                 Normal(() =>
                 {
                     CurrentState = CardState.Normal;
                     _currentAction = CardAction.None;
                     RunEnd();
                 }, _movementValues.moveSecond);
+
+                
+                if (transform.localPosition.y > _movementValues.ExecuteYlimit)
+                {
+                    OnExecute?.Invoke(this);
+                }
             }
         }
 
@@ -182,7 +205,7 @@ namespace TeamOdd.Ratocalypse.DeckLib
         private void Normal(Action callback, float second)
         {
             _sequence.Join(TweenMove(_originPosition, second));
-            Vector3 targetAngle = new Vector3(0f, 0f ,_originZRotation);
+            Vector3 targetAngle = new Vector3(0f, 0f, _originZRotation);
             _sequence.Join(TweenRotation(targetAngle, second));
             _sequence.Join(TweenScale(new Vector3(1f, 1f, 1f), second));
 
@@ -238,7 +261,7 @@ namespace TeamOdd.Ratocalypse.DeckLib
             Vector3 position = ray.GetPoint(distance);
             return position;
         }
-        
+
 
         private void UpadatePositions()
         {
@@ -251,14 +274,14 @@ namespace TeamOdd.Ratocalypse.DeckLib
 
         private Vector2 CalculateVelocity()
         {
-            if(_prevPositions.Count < 2)
+            if (_prevPositions.Count < 2)
             {
                 return Vector2.zero;
             }
-            var (pa,ta) = _prevPositions[0];
-            var (pb,tb) = _prevPositions[1];
+            var (pa, ta) = _prevPositions[0];
+            var (pb, tb) = _prevPositions[1];
 
-            Vector2 velocity = (pb-pa)/(tb-ta);
+            Vector2 velocity = (pb - pa) / (tb - ta);
 
             return velocity;
         }
@@ -269,18 +292,27 @@ namespace TeamOdd.Ratocalypse.DeckLib
             {
                 Vector3 position = GetMousePosition(_movementValues.dragHeight);
                 transform.position = position;
-                
+
+                if(transform.localPosition.y> _movementValues.ExecuteYlimit)
+                {
+                    _cardGlow.SetHightLightGlow();
+                }
+                else
+                {
+                    _cardGlow.SetActiveGlow();
+                }
+
 
                 UpadatePositions();
                 Vector2 velocity = CalculateVelocity();
                 Vector3 angle = new Vector3(velocity.y, -velocity.x, 0f);
 
                 _cardTilt = Vector3.Lerp(_cardTilt, Vector3.zero, _movementValues.tiltReturnRatio);
-                _cardTilt += angle*_movementValues.maxCardTiltSensitivity;
+                _cardTilt += angle * _movementValues.maxCardTiltSensitivity;
                 var limit = _movementValues.maxCardTiltAngle;
                 _cardTilt.x = Mathf.Clamp(_cardTilt.x, -limit, limit);
                 _cardTilt.y = Mathf.Clamp(_cardTilt.y, -limit, limit);
-                transform.localRotation  = Quaternion.Euler(_cardTilt);
+                transform.localRotation = Quaternion.Euler(_cardTilt);
             }
         }
 
@@ -319,6 +351,8 @@ namespace TeamOdd.Ratocalypse.DeckLib
             public float tiltReturnRatio = 0.1f;
             public float maxCardTiltAngle = 10f;
             public float maxCardTiltSensitivity = 0.5f;
+
+            public float ExecuteYlimit = 0.5f;
         }
 
     }

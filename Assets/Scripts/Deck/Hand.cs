@@ -51,7 +51,6 @@ namespace TeamOdd.Ratocalypse.DeckLib
                 CardView card = _cardFactory.Create(new CardData(0, new CardDataValue()), transform);
                 HandCard handCard = card.gameObject.AddComponent<HandCard>();
                 card.gameObject.AddComponent<CardEvents>();
-                handCard.Initialize(_movementValues);
                 card.gameObject.SetActive(false);
                 _deactiveCards.Push(handCard);
             }
@@ -60,8 +59,9 @@ namespace TeamOdd.Ratocalypse.DeckLib
         public void AddCard(CardData cardData)
         {
             HandCard card = _deactiveCards.Pop();
+            card.Initialize(_movementValues);
             card.gameObject.SetActive(true);
-
+            card.OnExecute.AddListener(Execute);
             CardEvents cardEvents = card.GetComponent<CardEvents>();
             cardEvents.MouseOverEvents.AddListener(() => SetFocus(card));
             cardEvents.MouseOutEvents.AddListener(() => UnFocus(card));
@@ -79,6 +79,16 @@ namespace TeamOdd.Ratocalypse.DeckLib
         public void AddOne()
         {
             AddCard(new CardData(0, new CardDataValue()));
+        }
+
+        public void Execute(HandCard card)
+        {
+            UnFocus(card);
+            _cards.Remove(card);
+            _deactiveCards.Push(card);
+            card.Run(CardAction.Consume);
+            card.GetComponent<CardEvents>().RemoveAllListeners();
+            UpdatePosition();
         }
 
         public void SetFocus(HandCard card)
