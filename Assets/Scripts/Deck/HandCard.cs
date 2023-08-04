@@ -92,7 +92,7 @@ namespace TeamOdd.Ratocalypse.DeckLib
 
         private void UnFocus()
         {
-            if (AllowStates(CardState.Focused) || AllowActions(CardAction.Focus))
+            if (AllowStates(CardState.Focused,CardState.Normal) || AllowActions(CardAction.Focus))
             {
                 _currentAction = CardAction.UnFocus;
                 ResetSequence();
@@ -135,7 +135,7 @@ namespace TeamOdd.Ratocalypse.DeckLib
                     }, second);
                 }
             }
-            else if(AllowActions(CardAction.EndDrag, CardAction.UnFocus))
+            else if(AllowActions(CardAction.EndDrag, CardAction.UnFocus, CardAction.Focus))
             {
                 CardAction action = _currentAction;
                 _currentAction = CardAction.None;
