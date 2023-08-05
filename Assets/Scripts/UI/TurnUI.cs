@@ -23,11 +23,11 @@ public class TurnUI : MonoBehaviour
     private void Start()
     {
         _size = GetComponent<RectTransform>().sizeDelta;
+        SetTest();
     }
 
     private void Update()
     {
-        SetTest();
         if (Input.GetKeyDown(KeyCode.Space)) 
         {
             SetDeployment();
@@ -65,7 +65,9 @@ public class TurnUI : MonoBehaviour
         _interval = Mathf.RoundToInt((_size.x - 20) / _deploymentNumber.Count);
         foreach (IIcon a in _deployment)
         {
-            a.SetPosition((a.Order == -1) ? new Vector3((_size.x - 20) / 2, -30 - 30 * NumberOfDuplicates(a), 0) : new Vector3(-(_size.x - 20) / 2 + _interval * _deploymentNumber.FindIndex(element => element == a.Order), -30 - 30 * NumberOfDuplicates(a), 0));
+            a.SetPosition(
+                (a.Order == -1) ? new Vector3((_size.x - 20) / 2, -30 - 30 * NumberOfDuplicates(a), 0) : new Vector3(-(_size.x - 20) / 2 + _interval * _deploymentNumber.FindIndex(element => element == a.Order), -30 - 30 * NumberOfDuplicates(a), 0)
+                );
         }
     }
 

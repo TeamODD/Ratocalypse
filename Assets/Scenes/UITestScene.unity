@@ -258,8 +258,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3472ca78d17ea304e90ebbaaa5dc9ac8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  percent: 0
   <Order>k__BackingField: 5
-  <SetPosition>k__BackingField: {x: 0, y: 0, z: 0}
+  MoveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &405429694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1055,8 +1079,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3472ca78d17ea304e90ebbaaa5dc9ac8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  percent: 0
   <Order>k__BackingField: 1
-  <SetPosition>k__BackingField: {x: 0, y: 0, z: 0}
+  MoveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!224 &6594697463505193772
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1138,8 +1186,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3472ca78d17ea304e90ebbaaa5dc9ac8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  percent: 0
   <Order>k__BackingField: 4
-  <SetPosition>k__BackingField: {x: 0, y: 0, z: 0}
+  MoveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!222 &6594697463505193809
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1212,6 +1284,7 @@ MonoBehaviour:
   - {fileID: 6594697464580823536}
   - {fileID: 6594697463505193774}
   - {fileID: 405429694}
+  _deploymentNumber: 
 --- !u!114 &6594697463945468489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1331,8 +1404,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3472ca78d17ea304e90ebbaaa5dc9ac8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  percent: 0
   <Order>k__BackingField: 3
-  <SetPosition>k__BackingField: {x: 0, y: 0, z: 0}
+  MoveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!222 &6594697464580823539
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1430,8 +1527,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3472ca78d17ea304e90ebbaaa5dc9ac8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  percent: 0
   <Order>k__BackingField: 2
-  <SetPosition>k__BackingField: {x: 0, y: 0, z: 0}
+  MoveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &6594697464725981248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1494,8 +1615,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3472ca78d17ea304e90ebbaaa5dc9ac8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  percent: 0
   <Order>k__BackingField: 0
-  <SetPosition>k__BackingField: {x: 0, y: 0, z: 0}
+  MoveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!222 &6594697464725981251
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1519,7 +1664,7 @@ GameObject:
   m_Layer: 5
   m_Name: icon (0)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

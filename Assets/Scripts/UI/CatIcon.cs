@@ -1,27 +1,19 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-
+using System.Collections;
+using DG.Tweening;
 public class CatIcon : MonoBehaviour, IIcon
 {
+    private Vector3 _startpoint;
+
     [field: SerializeField]
     public int Order { get; set; }
+    public Ease IconEase;
+    public float _moveTime = 2f;
 
     public void SetPosition(Vector3 position)
     {
-        StartCoroutine(MoveMent(position));
-    }
+        _startpoint = transform.localPosition;
+        DOTween.To(() => _startpoint, x => transform.localPosition = x, position, _moveTime).SetEase(IconEase);
 
-    private IEnumerator MoveMent(Vector3 position)
-    {
-        while ((transform.localPosition - position).magnitude >= 0.001f)
-        {
-            GetComponent<Image>().transform.localPosition = Vector3.MoveTowards(transform.localPosition, position, (transform.localPosition - position).magnitude * Time.fixedDeltaTime);
-            yield return null;
-        }
-
-        transform.localPosition = position;
     }
 }
