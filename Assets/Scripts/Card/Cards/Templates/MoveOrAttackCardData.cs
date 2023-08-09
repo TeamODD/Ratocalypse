@@ -5,14 +5,23 @@ using UnityEngine;
 
 namespace TeamOdd.Ratocalypse.CardLib.Cards.Templates
 {
+    
     public class MoveOrAttackCardData : CardData
     {
-        public MoveOrAttackCardData(int cardDataId, CardDataValue originDataValue, MoveOrAttackRangeType rangeType) : base(cardDataId, originDataValue)
+        public MoveOrAttackCardData(Texture2D texture, int cardDataId, CardDataValue originDataValue, int cardType) 
+        : base(cardDataId, originDataValue, texture, cardType)
         {
             DeckDataValue = new DataValue();
         }
 
         public MoveOrAttackRangeType RangeType { get; protected set; }
+
+
+        public override CardData CloneOriginCard()
+        {
+            CardData cloned = new MoveOrAttackCardData(Texture, _cardDataId, OriginDataValue, CardType);
+            return cloned;
+        }
 
         public override CardCommand CreateCardCommand()
         {
@@ -20,17 +29,20 @@ namespace TeamOdd.Ratocalypse.CardLib.Cards.Templates
             CardCommand cardCommand = new CardCommand((CardCastData data) =>
             {
                 caster = data.Caster;
-                return new Select(MoveOrAttackRangeType.King, data.Caster);
+                var temp = new SelectMap(MoveOrAttackRangeType.King, data.Caster);
+                return temp;
             });
 
             cardCommand.AddCommand((result) =>
             {
-                Select.Result selectResult = (Select.Result)result;
+                SelectMap.Result selectResult = (SelectMap.Result)result;
                 return new Move(caster, selectResult.SelectedCoord);
             });
 
             return cardCommand;
         }
+
+        
         public class DataValue : CardDataValue
         {
             public MoveOrAttackRangeType RangeType;

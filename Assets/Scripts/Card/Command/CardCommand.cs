@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TeamOdd.Ratocalypse.MapLib.GameLib;
+using UnityEngine;
 
 namespace TeamOdd.Ratocalypse.CardLib.Command
 {
@@ -9,8 +10,8 @@ namespace TeamOdd.Ratocalypse.CardLib.Command
         private Func<CardCastData, MapLib.GameLib.Command> _firstCommand;
         private List<Func<ICommandResult, MapLib.GameLib.Command>> _cardCommands;
 
-        private int _current = 0;
-        
+        public int Current { get; private set; } = 0;
+
         public CardCommand(Func<CardCastData, MapLib.GameLib.Command> command)
         {
             _cardCommands = new List<Func<ICommandResult, MapLib.GameLib.Command>>();
@@ -25,19 +26,20 @@ namespace TeamOdd.Ratocalypse.CardLib.Command
         public MapLib.GameLib.Command Next(ICommandResult parm)
         {
             MapLib.GameLib.Command next;
-            if (_current == 0)
+            if (Current == 0)
             {
+
                 next = _firstCommand((CardCastData)parm);
             }
-            else if (_current <= _cardCommands.Count)
+            else if (Current <= _cardCommands.Count)
             {
-                next = _cardCommands[_current-1](parm);
+                next = _cardCommands[Current - 1](parm);
             }
             else
             {
-                next = null;   
+                next = null;
             }
-            _current++;
+            Current++;
 
             return next;
         }

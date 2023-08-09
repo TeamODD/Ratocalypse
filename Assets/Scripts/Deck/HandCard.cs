@@ -5,6 +5,9 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TeamOdd.Ratocalypse.MapLib.GameLib;
+using TeamOdd.Ratocalypse.MapLib.GameLib.SelectionLib;
+
 namespace TeamOdd.Ratocalypse.DeckLib
 {
     public class HandCard : MonoBehaviour
@@ -335,6 +338,11 @@ namespace TeamOdd.Ratocalypse.DeckLib
             _sequence.Kill();
             _sequence.Kill(true);
             _sequence = DOTween.Sequence();
+        }
+
+        public void Select(Selection<HandData> selection, Action cancel)
+        {
+            throw new NotImplementedException();
         }
 
         [System.Serializable]
