@@ -1,28 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TeamOdd.Ratocalypse.CardLib;
 
-namespace TeamOdd.Ratocalypse.Card
+namespace TeamOdd.Ratocalypse.DeckLib
 {
     public class CardDataCollection : IEnumerable<CardData>
     {
-        protected readonly List<CardData> _cardDataList;
+        protected List<CardData> _cardDatas = new List<CardData>();
 
         public CardDataCollection(params CardData[] cardDataItems)
         {
-            _cardDataList = cardDataItems.ToList();
+            _cardDatas = cardDataItems.ToList();
         }
 
-        public int Count { get => _cardDataList.Count; }
+        public int Count { get => _cardDatas.Count; }
 
         public CardData GetCard(int index)
         {
-            return _cardDataList[index];
+            return _cardDatas[index];
         }
 
         public void AddCard(CardData cardData)
         {
-            _cardDataList.Add(cardData);
+            _cardDatas.Add(cardData);
         }
 
         public void AddCards(params CardData[] cardDataItems)
@@ -34,7 +35,7 @@ namespace TeamOdd.Ratocalypse.Card
         }
         public void RemoveCard(int index)
         {
-            _cardDataList.RemoveAt(index);
+            _cardDatas.RemoveAt(index);
         }
 
         public void RemoveCards(ISet<int> indices)
@@ -42,18 +43,18 @@ namespace TeamOdd.Ratocalypse.Card
             SortedSet<int> sortedIndices = new SortedSet<int>(indices);
             foreach (int i in sortedIndices.Reverse())
             {
-                _cardDataList.RemoveAt(i);
+                _cardDatas.RemoveAt(i);
             }
         }
 
         public void Clear()
         {
-            _cardDataList.Clear();
+            _cardDatas.Clear();
         }
 
         public IEnumerator<CardData> GetEnumerator()
         {
-            return _cardDataList.GetEnumerator();
+            return _cardDatas.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

@@ -5,9 +5,9 @@ using TeamOdd.Ratocalypse.MapLib.GameLib.SelectionLib;
 using UnityEngine;
 using static TeamOdd.Ratocalypse.MapLib.MapData;
 using System.Linq;
-using TeamOdd.Ratocalypse.Card;
+using TeamOdd.Ratocalypse.CardLib;
 using TeamOdd.Ratocalypse.CreatureLib;
-using TeamOdd.Ratocalypse.Card.Command;
+using TeamOdd.Ratocalypse.CardLib.Command;
 using UnityEngine.Events;
 using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
 

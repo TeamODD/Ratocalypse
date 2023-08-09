@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using TeamOdd.Ratocalypse.Card;
+using TeamOdd.Ratocalypse.CardLib.Cards.Templates;
 using TeamOdd.Ratocalypse.CreatureLib;
-using TeamOdd.Ratocalypse.CreatureLib.Rat;
 using TeamOdd.Ratocalypse.MapLib.GameLib.Commands;
 using UnityEngine;
-using static TeamOdd.Ratocalypse.MapLib.MapData;
+using static TeamOdd.Ratocalypse.CardLib.Cards.Templates.MoveOrAttackCardData;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib
 {
@@ -32,7 +31,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
         {
             _commands = new List<Command>();
             var testCreature = (CreatureData)_mapData.GetPlacement(new Vector2Int(0, 0));
-            MoveOrAttackCardData testCard = new MoveOrAttackCardData(0, MoveOrAttackRangeType.Rook);
+            MoveOrAttackCardData testCard = new MoveOrAttackCardData(0, new DataValue(), MoveOrAttackRangeType.Rook);
             var cardCast = new CardCast(testCreature, 0, testCard.CreateCardCommand());
 
             _commandExecutor.PushCommand(cardCast);

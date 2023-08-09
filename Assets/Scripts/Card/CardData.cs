@@ -1,53 +1,75 @@
-using TeamOdd.Ratocalypse.Card.Command;
+using TeamOdd.Ratocalypse.CardLib.Command;
 using TeamOdd.Ratocalypse.MapLib.GameLib.Commands;
 
-namespace TeamOdd.Ratocalypse.Card
+namespace TeamOdd.Ratocalypse.CardLib
 {
     public class CardData
     {
-        public long CardDataId { get; }
-        public CardDataValue DataValue { get; }
+        public int Id { get; }
 
-        public CardData(long cardDataId)
+        public CardDataValue OriginDataValue;
+        public CardDataValue DeckDataValue = new CardDataValue();
+        public CardDataValue GameDataValue = new CardDataValue();
+
+        public CardData(int id, CardDataValue originDataValue)
         {
-            CardDataId = cardDataId;
-            DataValue = new CardDataValue();
+            Id = id;
+            OriginDataValue = originDataValue;
         }
 
-        public CardData(long cardDataId, CardDataValue dataValue) : this(cardDataId)
+        public virtual CardData CloneOriginCard()
         {
-            DataValue = dataValue;
+            CardData cloned = new CardData(Id, OriginDataValue);
+            return cloned;
         }
 
-        public virtual CardData Clone()
+        public virtual CardData CloneDeckCard()
         {
-            return new CardData(CardDataId, DataValue.Clone());
+            CardData cloned = CloneOriginCard();
+            cloned.DeckDataValue = DeckDataValue.Clone();
+            return cloned;
+        }
+
+        public virtual CardData CloneGameCard()
+        {
+            CardData cloned = CloneDeckCard();
+            cloned.GameDataValue = GameDataValue.Clone();
+            return cloned;
         }
 
         public virtual CardCommand CreateCardCommand()
         {
-            return null; 
-        } 
+            return new CardCommand((CardCastData data) => { return null; });
+        }
+
+        public virtual string GetTitle()
+        {
+            return "Card";
+        }
+
+        public virtual string GetDescription()
+        {
+            return "Description";
+        }
+
+        public virtual int GetCost()
+        {
+            return OriginDataValue.Cost + DeckDataValue.Cost + GameDataValue.Cost;
+        }
     }
 
     public class CardDataValue
     {
         public int Cost { get; private set; }
-        public string Title { get; private set; }
-        public string Description { get; private set; }
 
         public CardDataValue()
         {
             Cost = 0;
-            Title = "";
-            Description = "";
         }
 
-        public CardDataValue(int cost, string title, string description)
+        public CardDataValue(int cost)
         {
             Cost = cost;
-            Title = title;
-            Description = description;
         }
 
         public void SetCost(int cost)
@@ -55,19 +77,9 @@ namespace TeamOdd.Ratocalypse.Card
             Cost = cost;
         }
 
-        public void SetTitle(string title)
-        {
-            Title = title;
-        }
-
-        public void SetDescription(string description)
-        {
-            Description = description;
-        }
-
         public virtual CardDataValue Clone()
         {
-            return new CardDataValue(Cost, Title, Description);
+            return new CardDataValue(Cost);
         }
     }
 }

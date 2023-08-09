@@ -17,6 +17,5 @@ namespace TeamOdd.Ratocalypse.UI
             _startPosition = transform.localPosition;
             DOTween.To(() => _startPosition, x => transform.localPosition = x, position, _moveTime).SetEase(IconEase);
         }
-
     }
 }
