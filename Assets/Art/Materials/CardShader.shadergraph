@@ -230,9 +230,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 213.99998474121095,
-            "y": -74.66669464111328,
-            "width": 209.33326721191407,
+            "x": 199.33334350585938,
+            "y": -91.99996948242188,
+            "width": 209.33334350585938,
             "height": 438.66668701171877
         }
     },
@@ -651,10 +651,10 @@
     "m_Guid": {
         "m_GuidSerialized": "2a1cff14-01e6-4d56-93db-144edddfd9c5"
     },
-    "m_Name": "CardTexture",
+    "m_Name": "_Texture",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "CardTexture",
-    "m_DefaultReferenceName": "_CardTexture",
+    "m_RefNameGeneratedByDisplayName": "_Texture",
+    "m_DefaultReferenceName": "_Texture",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -696,7 +696,7 @@
         "m_Id": "4fd8130a3adc41daa8fbd98ef2c4119d"
     },
     "m_AllowMaterialOverride": false,
-    "m_SurfaceType": 1,
+    "m_SurfaceType": 0,
     "m_ZTestMode": 4,
     "m_ZWriteControl": 1,
     "m_AlphaMode": 0,
@@ -771,7 +771,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Texture2DMaterialSlot",
     "m_ObjectId": "fc51785ee72140b3860acc65cc89a3ca",
     "m_Id": 0,
-    "m_DisplayName": "CardTexture",
+    "m_DisplayName": "_Texture",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
