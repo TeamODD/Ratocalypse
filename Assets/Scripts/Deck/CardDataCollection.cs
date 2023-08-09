@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using TeamOdd.Ratocalypse.CardLib;
+using UnityEngine;
 
 namespace TeamOdd.Ratocalypse.DeckLib
 {
+    [System.Serializable]
     public class CardDataCollection : IEnumerable<CardData>
     {
+        [SerializeField]
         protected List<CardData> _cardDatas = new List<CardData>();
 
         public CardDataCollection(params CardData[] cardDataItems)

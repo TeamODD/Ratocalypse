@@ -11,6 +11,7 @@ using TeamOdd.Ratocalypse.ObstacleLib;
 using TeamOdd.Ratocalypse.CreatureLib;
 using TeamOdd.Ratocalypse.Obstacle;
 using System.Linq;
+using TeamOdd.Ratocalypse.CardLib;
 
 namespace TeamOdd.Ratocalypse.TestScripts
 {
@@ -44,6 +45,14 @@ namespace TeamOdd.Ratocalypse.TestScripts
         [SerializeField]
         private int _maxStamina = 100;
 
+        private List<(int,CardDataValue)> _testDeck = new List<(int,CardDataValue)>(){
+            (33,new CardDataValue()),
+            (34,new CardDataValue()),
+            (35,new CardDataValue()),
+            (36,new CardDataValue()),
+            (1,new CardDataValue())
+        };
+
         [SerializeField]
         private bool _createOnStart = false;
 
@@ -55,8 +64,8 @@ namespace TeamOdd.Ratocalypse.TestScripts
         {
             return _objectType switch
             {
-                ObjectType.Rat => new RatData(_maxHp, _maxStamina, _map.MapData, coord),
-                ObjectType.Cat => new CatData(_maxHp, _maxStamina, _map.MapData, coord),
+                ObjectType.Rat => new RatData(_maxHp, _maxStamina, _map.MapData, coord,_testDeck),
+                ObjectType.Cat => new CatData(_maxHp, _maxStamina, _map.MapData, coord,_testDeck),
                 ObjectType.Obstacle => new ObstacleData(_maxHp, _map.MapData, coord, new Shape(_shapeList)),
                 _ => null,
             };

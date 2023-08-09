@@ -4,12 +4,13 @@ using UnityEngine;
 
 namespace TeamOdd.Ratocalypse.DeckLib
 {
-
+    [System.Serializable]
     public class DeckData
     {
         private readonly List<(int, CardDataValue)> _originDeckCards;
         
-        private HandData _deckData = new HandData();
+        [field: SerializeField]
+        public HandData HandData{get; private set;} = new HandData();
         private TombData _tombData = new TombData();
         private UndrawnCards _undrawnCards = new UndrawnCards();
 
@@ -22,6 +23,15 @@ namespace TeamOdd.Ratocalypse.DeckLib
                 CardData newCardData = CardOriginData.Instance.CreateOriginCard(id);
                 newCardData.DeckDataValue = dataValue;
                 _undrawnCards.AddCard(newCardData);
+                _undrawnCards.Shuffle();
+            }
+        }
+
+        public void DrawCards(int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                HandData.AddCard(_undrawnCards.Draw());
             }
         }
     }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TeamOdd.Ratocalypse.CardLib;
 using TeamOdd.Ratocalypse.MapLib;
 using UnityEngine;
 using static TeamOdd.Ratocalypse.MapLib.MapData;
@@ -10,10 +11,12 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Rat
     {
         static private Shape _shape = new Shape(1, 1);
 
-        public RatData(float maxHp, int maxStamina, MapData mapData, Vector2Int coord)
-        : base(maxHp, maxStamina, mapData, coord, _shape)
+        public RatData(float maxHp, int maxStamina,
+                       MapData mapData, Vector2Int coord,
+                       List<(int,CardDataValue)> deck)
+        : base(maxHp, maxStamina, mapData, coord, _shape, deck)
         {
-
+            
         }
 
     }
