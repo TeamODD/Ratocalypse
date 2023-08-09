@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using TeamOdd.Ratocalypse.Card;
+using TeamOdd.Ratocalypse.CardLib;
 
 namespace TeamOdd.Ratocalypse.UI
 {

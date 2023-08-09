@@ -24,10 +24,10 @@ namespace TeamOdd.Ratocalypse.UI
         private void Start()
         {
             _size = GetComponent<RectTransform>().sizeDelta;
-            SetTest();
+            SetTestIcon();
         }
 
-        public void SetTest()
+        public void SetTestIcon()
         {
             foreach (Image a in TestIconList)
             {
