@@ -1,8 +1,10 @@
 using TeamOdd.Ratocalypse.CardLib.Command;
 using TeamOdd.Ratocalypse.MapLib.GameLib.Commands;
+using UnityEngine;
 
 namespace TeamOdd.Ratocalypse.CardLib
 {
+    [System.Serializable]
     public class CardData
     {
         public int Id { get; }
@@ -10,16 +12,28 @@ namespace TeamOdd.Ratocalypse.CardLib
         public CardDataValue OriginDataValue;
         public CardDataValue DeckDataValue = new CardDataValue();
         public CardDataValue GameDataValue = new CardDataValue();
+        protected int _cardDataId;
 
-        public CardData(int id, CardDataValue originDataValue)
+        public Texture2D Texture{ get; private set; }
+        public int CardType { get; private set; } = 0;
+
+        public CardData(int id, CardDataValue originDataValue,Texture2D texture, int cardType)
         {
             Id = id;
+            CardType = cardType;
+            Texture = texture;
+            OriginDataValue = originDataValue;
+        }
+
+        public CardData(int cardDataId, CardDataValue originDataValue)
+        {
+            _cardDataId = cardDataId;
             OriginDataValue = originDataValue;
         }
 
         public virtual CardData CloneOriginCard()
         {
-            CardData cloned = new CardData(Id, OriginDataValue);
+            CardData cloned = new CardData(Id, OriginDataValue, Texture, CardType);
             return cloned;
         }
 
@@ -57,10 +71,10 @@ namespace TeamOdd.Ratocalypse.CardLib
             return OriginDataValue.Cost + DeckDataValue.Cost + GameDataValue.Cost;
         }
     }
-
+    [System.Serializable]
     public class CardDataValue
     {
-        public int Cost { get; private set; }
+        public int Cost;
 
         public CardDataValue()
         {
