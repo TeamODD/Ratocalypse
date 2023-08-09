@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TeamOdd.Ratocalypse.DeckLib;
 using UnityEngine;
 using UnityEngine.Events;
 using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
@@ -13,17 +14,26 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
         private MapData _mapData;
         private GameStatistics _gameStatistics;
 
-        private ISelector _catSelector;
-        private ISelector _ratSelector;
+        private IMapSelector _catMapSelector;
+        private IMapSelector _ratMapSelector;
+
+        private ISelector<HandData> _catHandSelector;
+        private ISelector<HandData> _ratHandSelector;
 
         private Stack<Command> _commands = new Stack<Command>();
 
-        public CommandExecutor(MapData mapData, GameStatistics gameStatistics, ISelector catSelector, ISelector ratSelector)
+        public CommandExecutor(MapData mapData, GameStatistics gameStatistics,
+         IMapSelector catMapSelector, IMapSelector ratMapSelecetor,
+         ISelector<HandData> catHandSelector, ISelector<HandData> ratHandSelector)
         {
             _mapData = mapData;
             _gameStatistics = gameStatistics;
-            _catSelector = catSelector;
-            _ratSelector = ratSelector;
+
+            _catMapSelector = catMapSelector;
+            _ratMapSelector = ratMapSelecetor;
+
+            _catHandSelector = catHandSelector;
+            _ratHandSelector = ratHandSelector;
         }
 
         private void RunSubCommand(Command command)
@@ -41,6 +51,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
 
         private void Execute(Command command)
         {
+            Debug.Log("Command Start: " + command.GetType().Name);
             SetRequires(command);
             ExecuteResult result = command.Execute();
             ProcessResult(result);
@@ -52,11 +63,15 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
             switch(result)
             {
                 case NextCommand(Command next):
+                    _commands.Pop();
                     PushCommand(next);
+                    Run();
                     break;
 
                 case NextCommands(List<Command> nexts):
+                    _commands.Pop();
                     PushCommands(nexts);
+                    Run();
                     break;
 
                 case Wait(UnityEvent callback):
@@ -81,9 +96,10 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
 
         private void SetRequires(Command command)
         {
-            (command as IRequireSelectors)?.SetRequire((_ratSelector, _catSelector));
+            (command as IRequireMapSelectors)?.SetRequire((_ratMapSelector, _catMapSelector));
             (command as ICommandRequire<MapData>)?.SetRequire(_mapData);
             (command as ICommandRequire<GameStatistics>)?.SetRequire(_gameStatistics);
+            (command as IRequireHandSelectors)?.SetRequire((_ratHandSelector, _catHandSelector));
         }
 
         public void PushCommand(Command command)

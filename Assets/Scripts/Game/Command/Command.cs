@@ -37,12 +37,30 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
             return (endWait,new Wait(callback));
         }
 
-        protected End EndCommand(ICommandResult result)
+        protected void End(ICommandResult result)
         {
             _onEnd?.Invoke(result);
             _onEnd.RemoveAllListeners();
+        }
+
+        protected End EndCommand(ICommandResult result)
+        {
+            End(result);
             return new End(result);
         }
+
+        protected NextCommand NextCommand(Command next, ICommandResult result = null)
+        {
+            End(result);
+            return new NextCommand(next);
+        }
+
+        protected NextCommands NextCommands(List<Command> nexts, ICommandResult result = null)
+        {
+            End(result);
+            return new NextCommands(nexts);
+        }
+
 
     }
 }

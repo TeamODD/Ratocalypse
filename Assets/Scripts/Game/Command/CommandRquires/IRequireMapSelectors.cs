@@ -8,5 +8,5 @@ using static TeamOdd.Ratocalypse.MapLib.MapData;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib
 {
-    public interface IRequireSelectors : ICommandRequire<(ISelector rat,ISelector cat)>{}
+    public interface IRequireMapSelectors : ICommandRequire<(IMapSelector rat,IMapSelector cat)>{}
 }
