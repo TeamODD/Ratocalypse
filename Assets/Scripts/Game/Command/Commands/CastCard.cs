@@ -13,22 +13,21 @@ using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 {
-    public class CardCast : Command
+    public class CastCard : Command
     {
         private CreatureData _caster;
         private int _index = 0;
         private ICommandResult _parm;
 
         private CardCommand _cardCommand;
+        private CardData _cardData;
 
-        public UnityEvent<ICommandResult> OnEnd { get; } = new UnityEvent<ICommandResult>();
-
-        public CardCast(CreatureData caster, int index, CardCommand cardCommand)
+        public CastCard(CardCastData cardCastData)
         {
-            _cardCommand = cardCommand;
-            _caster = caster;
-            _index = index;
-            _parm = new CardCastData(caster, index);
+            _index = cardCastData.CardIndex;
+            _caster = cardCastData.Caster;
+            _cardData = _caster.DeckData.HandData.GetCard(_index);
+            _parm = cardCastData;
         }
 
         private void SetParm(ICommandResult parm)
@@ -38,7 +37,16 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 
         public override ExecuteResult Execute()
         {
+            if(_cardCommand == null)
+            {
+                _cardCommand = _cardData.CreateCardCommand();
+                _caster.DeckData.HandData.RemoveCard(_index);
+                _caster.UseStamina(_cardData.GetCost());
+                //TODO: creaturedata에서 stamina처리 -> 이어서 DeckData에서 cast, cancel 처리, 
+            }
+
             Command next = _cardCommand.Next(_parm);
+
             if (next == null)
             {
                 return EndCommand(null);

@@ -14,6 +14,10 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib
         private Placement _target;
         private Pattern _pattern;
 
+        private ShapedCoordList _coordCandidates;
+        private List<Placement> _placementCanditates;
+
+
         public DirectionalMovement(Placement target, MapData mapData, Pattern pattern)
         {
             _mapData = mapData;
@@ -22,46 +26,45 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib
             _analyzer = new MapAnalyzer(mapData);
         }
 
-        public Selection CreateSelection(Action<ShapedCoordList,int> tileSelectionCallback, Action<Placement> placementSelectionCallback = null)
+        public void Calculate()
         {
-            ShapedCoordList candidates = new ShapedCoordList(_target.Shape);
-            Dictionary<Vector2Int, int> selectionMap = new Dictionary<Vector2Int, int>();
-            HashSet<Placement> placements = new HashSet<Placement>();
-            var calculations = _pattern.Calculate(_mapData.Size, _target.Coord, _target.Shape);
+            _coordCandidates = new ShapedCoordList(_target.Shape);
 
-            foreach (var calculation in calculations)
+            HashSet<Placement> placements = new HashSet<Placement>();
+            var patternCalculations = _pattern.Calculate(_mapData.Size, _target.Coord, _target.Shape);
+
+            foreach (var calculation in patternCalculations)
             {
                 while (calculation.MoveNext())
                 {
-
                     var coords = calculation.Current;
                     if (!_analyzer.CheckAllIn(coords, (_, placement) => placement == null || placement == _target))
                     {
-                        if (placementSelectionCallback!=null)
-                        {
-                            _analyzer.WhereIn(coords, (placement) => placement != _target)
-                                     .ForEach((placement) => placements.Add(placement));
-                        }
+                        _analyzer.WhereIn(coords, (placement) => placement != _target)
+                                 .ForEach((placement) => placements.Add(placement));
                         break;
                     }
-
-                    candidates.Add(coords[0]);
-
-                    foreach (Vector2Int coord in coords)
-                    {
-                        if (!selectionMap.ContainsKey(coord))
-                        {
-                            int candidateIndex = candidates.Count - 1;
-                            selectionMap.Add(coord, candidateIndex);
-                        }
-                    }
+                    _coordCandidates.Add(coords[0]);
                 }
             }
-            Selection selection = new Selection(candidates, selectionMap, tileSelectionCallback);
-            if(placementSelectionCallback!=null)
-            {
-                selection.SetPlacementSelection(placements.ToList(), placementSelectionCallback);
-            }
+            _placementCanditates = placements.ToList();
+        }
+
+        public Selection<ShapedCoordList> CreateCoordSelection(Action<Vector2Int> onSelect, Action onCancel = null)
+        {
+            var selection = new Selection<ShapedCoordList>(_coordCandidates,
+            (index)=>{
+                onSelect(_coordCandidates.GetCoord(index));
+            }, onCancel);
+            return selection;
+        }
+
+        public Selection<List<Placement>> CreatePlacementSelection(Action<Placement> onSelect, Action onCancel = null)
+        {
+            var selection = new Selection<List<Placement>>(_placementCanditates,
+            (index)=>{
+                onSelect(_placementCanditates[index]);
+            }, onCancel);
             return selection;
         }
 

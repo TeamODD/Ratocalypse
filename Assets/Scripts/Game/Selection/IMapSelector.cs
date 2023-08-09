@@ -8,8 +8,8 @@ using static TeamOdd.Ratocalypse.MapLib.MapData;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib
 {
-    public interface ISelector<T> where T : IEnumerable
+    public interface IMapSelector : ISelector<ShapedCoordList>, ISelector<List<Placement>>
     {
-        void Select(Selection<T> selection);
+
     }
 }

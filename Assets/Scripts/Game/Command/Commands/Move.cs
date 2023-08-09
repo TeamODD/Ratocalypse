@@ -9,8 +9,6 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
     {
         private MoveOrAttackRangeType _rangeType;
 
-        public UnityEvent<ICommandResult> OnEnd { get; } = new UnityEvent<ICommandResult>();
-
         private CreatureData _creature;
         private Vector2Int _targetCoord;
 
@@ -25,7 +23,5 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
             _creature.SetCoord(_targetCoord);
             return EndCommand(null);
         }
-
-
     }
 }

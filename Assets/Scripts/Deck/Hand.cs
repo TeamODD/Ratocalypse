@@ -3,10 +3,13 @@ using TeamOdd.Ratocalypse.CardLib;
 using UnityEngine;
 using DG.Tweening;
 using static TeamOdd.Ratocalypse.DeckLib.HandCard;
+using TeamOdd.Ratocalypse.MapLib.GameLib;
+using TeamOdd.Ratocalypse.MapLib.GameLib.SelectionLib;
+using System;
 
 namespace TeamOdd.Ratocalypse.DeckLib
 {
-    public class Hand : MonoBehaviour
+    public class Hand : MonoBehaviour, ISelector<HandData>
     {
         [SerializeField]
         private CardFactory _cardFactory;
@@ -44,6 +47,11 @@ namespace TeamOdd.Ratocalypse.DeckLib
         [SerializeField]
         private MovementValues _movementValues = new MovementValues();
 
+        [ReadOnly, SerializeField]
+        private bool _isSelecting = false;
+
+        private Selection<HandData> _selection;
+
         public void PreCreateCards()
         {
             for (int i = 0; i < _handData.MaxCount; i++)
@@ -59,6 +67,13 @@ namespace TeamOdd.Ratocalypse.DeckLib
         public void AddCard(CardData cardData)
         {
             HandCard card = _deactiveCards.Pop();
+            ResetCard(card, cardData);
+            _cards.Add(card);
+            UpdatePosition();
+        }
+
+        private void ResetCard(HandCard card, CardData cardData)
+        {
             card.Initialize(_movementValues);
             card.gameObject.SetActive(true);
             card.OnExecute.AddListener(Execute);
@@ -66,14 +81,22 @@ namespace TeamOdd.Ratocalypse.DeckLib
             cardEvents.MouseOverEvents.AddListener(() => SetFocus(card));
             cardEvents.MouseOutEvents.AddListener(() => UnFocus(card));
 
-            cardEvents.MouseDownEvents.AddListener(() => card.Run(CardAction.StartDrag));
+            cardEvents.MouseDownEvents.AddListener(() => Drag(card));
             cardEvents.MouseUpEvents.AddListener(() => card.Run(CardAction.EndDrag));
 
-            var index = _cards.Count;
-            _cards.Add(card);
-
-            UpdatePosition();
+            CardView cardView = card.GetComponent<CardView>();
+            cardView.View(cardData);
         }
+
+        private void Drag(HandCard card)
+        {
+            if(!_isSelecting)
+            {
+                return;
+            }
+            card.Run(CardAction.StartDrag);
+        }
+
 
         [ContextMenu("AddOne")]
         public void AddOne()
@@ -83,11 +106,16 @@ namespace TeamOdd.Ratocalypse.DeckLib
 
         public void Execute(HandCard card)
         {
+            int index = _cards.IndexOf(card);
+            _selection.Select(index);
+            _selection = null;
+            _isSelecting = false;
             UnFocus(card);
             _cards.Remove(card);
             _deactiveCards.Push(card);
             card.Run(CardAction.Consume);
             card.GetComponent<CardEvents>().RemoveAllListeners();
+            card.gameObject.SetActive(false);
             UpdatePosition();
         }
 
@@ -120,11 +148,11 @@ namespace TeamOdd.Ratocalypse.DeckLib
         }
 
         [ContextMenu("Remove")]
-        public void Remove()
+        public bool Remove()
         {
             if(_cards.Count == 0)
             {
-                return;
+                return false;
             }
 
             UnFocus(_cards[0]);
@@ -133,7 +161,7 @@ namespace TeamOdd.Ratocalypse.DeckLib
             _deactiveCards.Push(_cards[0]);
             _cards[0].gameObject.SetActive(false);
             _cards.RemoveAt(0);
-            UpdatePosition();
+            return true;
         }
 
         public void Awake()
@@ -143,7 +171,6 @@ namespace TeamOdd.Ratocalypse.DeckLib
 
         public void Update()
         {
-
             UpdateFocus();
             if(Input.GetKeyDown(KeyCode.Space))
             {
@@ -199,6 +226,29 @@ namespace TeamOdd.Ratocalypse.DeckLib
             }
         }
 
+        public void UpdateHandData(HandData handData)
+        {
+            _handData = handData;
+            UpdateCards();
+        }
 
+        public void UpdateCards()
+        {
+            _isSelecting = false;
+            while(Remove()){};
+            for (int i = 0; i < _handData.Count; i++)
+            {
+                AddCard(_handData.GetCard(i));
+            }
+            UpdatePosition();
+        }
+
+        public void Select(Selection<HandData> selection)
+        {
+            UpdateHandData(selection.GetCandidates());
+            _selection = selection;
+            _isSelecting = true;
+        }
+        
     }
 }

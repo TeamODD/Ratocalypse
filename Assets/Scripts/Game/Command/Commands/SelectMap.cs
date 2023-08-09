@@ -6,22 +6,23 @@ using TeamOdd.Ratocalypse.CreatureLib.Rat;
 using TeamOdd.Ratocalypse.CreatureLib.Cat;
 using TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib;
 using static TeamOdd.Ratocalypse.CardLib.Cards.Templates.MoveOrAttackCardData;
+using static TeamOdd.Ratocalypse.MapLib.MapData;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 {
-    public class Select : Command, IRequireSelectors, ICommandRequire<MapData>
+    public class SelectMap : Command, IRequireMapSelectors, ICommandRequire<MapData>
     {
         static private Pattern _rook = new Pattern(new List<Vector2Int> { new Vector2Int(0, 1) 
         ,new Vector2Int(0, -1),new Vector2Int(1,0),new Vector2Int(-1, 0)});
-        private ISelector _ratSelector;
-        private ISelector _catSelector;
+        private IMapSelector _ratSelector;
+        private IMapSelector _catSelector;
 
         private MapData _mapData;
 
         private MoveOrAttackRangeType _rangeType;
         private CreatureData _target;
 
-        public void SetRequire((ISelector rat, ISelector cat) value)
+        public void SetRequire((IMapSelector rat, IMapSelector cat) value)
         {
             _catSelector = value.cat;
             _ratSelector = value.rat;
@@ -32,7 +33,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
             _mapData = require;
         }
 
-        public Select(MoveOrAttackRangeType rangeType, CreatureData target)
+        public SelectMap(MoveOrAttackRangeType rangeType, CreatureData target)
         {
             _rangeType = rangeType;
             _target = target;
@@ -40,7 +41,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 
         public override ExecuteResult Execute()
         {
-            ISelector selector = null;
+            IMapSelector selector = null;
             if(_target is RatData)
             {
                 selector = _ratSelector;
@@ -53,10 +54,18 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
             var (endWait, result) = CreateWait();
 
             DirectionalMovement movement = new DirectionalMovement(_target, _mapData, _rook);
-            Selection selection = movement.CreateSelection((coords,i)=>{
-                endWait(new Result { SelectedCoord = coords.GetCoord(i) });
+            movement.Calculate();
+
+            var coordSelection = movement.CreateCoordSelection((coord)=>{
+                endWait(new Result { SelectedCoord = coord });
             });
-            selector.Select(selection, null);
+            
+            var placementSelection = movement.CreatePlacementSelection((coord)=>{
+                endWait(new Result { SelectedPlacement = coord });
+            });
+
+            selector.Select(coordSelection);
+            //selector.Select(placementSelection);
 
             return result;
         }
@@ -64,6 +73,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
         public class Result : ICommandResult
         {
             public Vector2Int SelectedCoord;
+            public Placement SelectedPlacement;
         }
     }
 }
