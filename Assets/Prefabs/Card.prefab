@@ -83,8 +83,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _activeGlowMaterial: {fileID: 2100000, guid: 909dd49f3f9963f43a558b0919ec169c, type: 2}
-  _inactiveGlowMaterial: {fileID: 2100000, guid: f900cfa2d50fc174ca649588a59f818f,
-    type: 2}
+  _inactiveGlowMaterial: {fileID: 0}
   _highlightGlowMaterial: {fileID: 2100000, guid: 910e4b49a71c9cd44bf901cac5d37120,
     type: 2}
   _renderer: {fileID: 3225214326872056721}
