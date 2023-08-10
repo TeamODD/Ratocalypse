@@ -75,7 +75,6 @@ namespace TeamOdd.Ratocalypse.CardLib
             {
                 throw new KeyNotFoundException("No card data with id " + id + " found");
             }
-            Debug.Log(id+"를만듬");
             return _data[id].CloneOriginCard();
         }
     }

@@ -34,9 +34,10 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
             _mapData.GetPlacements().ForEach((placement)=>{
                 if(placement is CreatureData creatureData)
                 {
-                    creatureData.DeckData.DrawCards(1);
+                    creatureData.DeckData.DrawCards(5);
                 }
             });
+            
             _round = 1;
             _commandExecutor.PushCommand(new CalculateTurn());
             _commandExecutor.Run();

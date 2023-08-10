@@ -9,5 +9,9 @@ using static TeamOdd.Ratocalypse.MapLib.MapData;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib
 {
-    public interface IRequireHandSelectors : ICommandRequire<(ICardSelector rat,ICardSelector cat)>{}
+    public interface ICardSelector : ISelector<List<int>>
+    {
+        public void SetTarget(DeckData deckData);
+        public DeckData GetTarget();
+    }
 }
