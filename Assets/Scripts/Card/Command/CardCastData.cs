@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TeamOdd.Ratocalypse.CreatureLib;
 using TeamOdd.Ratocalypse.MapLib.GameLib;
 
-namespace TeamOdd.Ratocalypse.CardLib.Command
+namespace TeamOdd.Ratocalypse.CardLib.CommandLib
 {
     public struct CardCastData : ICommandResult
     {

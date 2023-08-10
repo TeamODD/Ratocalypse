@@ -1,4 +1,4 @@
-using TeamOdd.Ratocalypse.CardLib.Command;
+using TeamOdd.Ratocalypse.CardLib.CommandLib;
 using TeamOdd.Ratocalypse.CreatureLib;
 using TeamOdd.Ratocalypse.MapLib.GameLib.Commands;
 using UnityEngine;
@@ -33,7 +33,7 @@ namespace TeamOdd.Ratocalypse.CardLib.Cards.Templates
                 return temp;
             });
 
-            cardCommand.AddCommand((result) =>
+            cardCommand.AddTriggerCommand((result) =>
             {
                 SelectMap.Result selectResult = (SelectMap.Result)result;
                 return new Move(caster, selectResult.SelectedCoord);

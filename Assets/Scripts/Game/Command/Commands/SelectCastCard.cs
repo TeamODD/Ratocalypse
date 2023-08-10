@@ -7,7 +7,7 @@ using static TeamOdd.Ratocalypse.MapLib.MapData;
 using System.Linq;
 using TeamOdd.Ratocalypse.CardLib;
 using TeamOdd.Ratocalypse.CreatureLib;
-using TeamOdd.Ratocalypse.CardLib.Command;
+using TeamOdd.Ratocalypse.CardLib.CommandLib;
 using UnityEngine.Events;
 using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
 using TeamOdd.Ratocalypse.DeckLib;
@@ -17,12 +17,12 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 {
     public class SelectCastCard : Command, IRequireHandSelectors
     {
-        private ISelector<HandData> _ratSelector;
-        private ISelector<HandData> _catSelector;
+        private ICardSelector _ratSelector;
+        private ICardSelector _catSelector;
 
         private CreatureData _creatureData;
 
-        public void SetRequire((ISelector<HandData> rat, ISelector<HandData> cat) require)
+        public void SetRequire((ICardSelector rat, ICardSelector cat) require)
         {
             _ratSelector = require.rat;
             _catSelector = require.cat;
@@ -35,7 +35,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 
         public override ExecuteResult Execute()
         {
-            ISelector<HandData> selector;
+            ICardSelector selector;
             if(_creatureData is RatData)
             {
                 selector = _ratSelector;
@@ -46,11 +46,13 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
             }
 
             var (endWait, result) = CreateWait();
-            var selection = new Selection<HandData>(_creatureData.DeckData.HandData,
+            var indicies = _creatureData.GetCastableCards().Select((card)=>card.index).ToList();
+            var selection = new Selection<List<int>>(indicies,
             (int index)=>{
                 var cardCastData = new CardCastData(_creatureData,index);
                 endWait(cardCastData);
             });
+            selector.SetTarget(_creatureData.DeckData);
             selector.Select(selection);
             return result;
         }

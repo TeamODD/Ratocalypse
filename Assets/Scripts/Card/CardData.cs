@@ -1,4 +1,4 @@
-using TeamOdd.Ratocalypse.CardLib.Command;
+using TeamOdd.Ratocalypse.CardLib.CommandLib;
 using TeamOdd.Ratocalypse.MapLib.GameLib.Commands;
 using UnityEngine;
 

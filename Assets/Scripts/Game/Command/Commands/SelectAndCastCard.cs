@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using TeamOdd.Ratocalypse.CreatureLib;
 using static TeamOdd.Ratocalypse.CardLib.Cards.Templates.MoveOrAttackCardData;
-using TeamOdd.Ratocalypse.CardLib.Command;
+using TeamOdd.Ratocalypse.CardLib.CommandLib;
 using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands

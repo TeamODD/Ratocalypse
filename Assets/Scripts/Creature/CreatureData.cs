@@ -32,7 +32,6 @@ namespace TeamOdd.Ratocalypse.CreatureLib
         [field: ReadOnly, SerializeField]
         public DeckData DeckData { get; private set; }
 
-
         public CreatureData(float maxHp, int maxStamina, MapData mapData, Vector2Int coord, Shape shape, List<(int,CardDataValue)> deck) : base(mapData, coord, shape)
         {
             MaxHp = maxHp;
@@ -69,6 +68,11 @@ namespace TeamOdd.Ratocalypse.CreatureLib
             OnHpRestored.Invoke(Hp);
         }
 
+        public void ReduceStamina(int amount)
+        {
+            Stamina -= amount;
+        }
+
         public void Attack(IDamageable target, float damage)
         {
             target.ReduceHp(damage);
@@ -78,16 +82,30 @@ namespace TeamOdd.Ratocalypse.CreatureLib
 
         public bool CheckCastable()
         {
-            if(DeckData.HandData.Count==0)
-            {
-                return false;
-            }
-            return Stamina >= DeckData.HandData.GetMinCost();
+            return DeckData.HasCastableCard(Stamina);
         }
 
-        public void UseStamina(int amount)
+        public List<(int index, CardData cardData)> GetCastableCards()
         {
-            Stamina -= amount;
+            return DeckData.GetCastableCards(Stamina);
         }
+
+        public CardData CastCard(int index)
+        {
+            return DeckData.CastCard(index);
+        }
+
+        public void CancelCast()
+        {
+            DeckData.CancelCast();
+        }
+
+        public void TriggerCard()
+        {
+            int cost = DeckData.TriggerCard();
+            ReduceStamina(cost);
+        }
+
+
     }
 }

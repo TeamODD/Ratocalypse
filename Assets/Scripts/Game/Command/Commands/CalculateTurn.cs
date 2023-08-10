@@ -7,7 +7,7 @@ using static TeamOdd.Ratocalypse.MapLib.MapData;
 using System.Linq;
 using TeamOdd.Ratocalypse.CardLib;
 using TeamOdd.Ratocalypse.CreatureLib;
-using TeamOdd.Ratocalypse.CardLib.Command;
+using TeamOdd.Ratocalypse.CardLib.CommandLib;
 using UnityEngine.Events;
 using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
 

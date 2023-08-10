@@ -3,47 +3,85 @@ using System.Collections.Generic;
 using TeamOdd.Ratocalypse.MapLib.GameLib;
 using UnityEngine;
 
-namespace TeamOdd.Ratocalypse.CardLib.Command
+namespace TeamOdd.Ratocalypse.CardLib.CommandLib
 {
     public class CardCommand
     {
-        private Func<CardCastData, MapLib.GameLib.Command> _firstCommand;
-        private List<Func<ICommandResult, MapLib.GameLib.Command>> _cardCommands;
-
-        public int Current { get; private set; } = 0;
-
-        public CardCommand(Func<CardCastData, MapLib.GameLib.Command> command)
+        public enum CardCommandType
         {
-            _cardCommands = new List<Func<ICommandResult, MapLib.GameLib.Command>>();
+            Start,
+            Cast,
+            EndCast,
+            Trigger,
+            EndTrigger,
+        }
+
+        private Func<CardCastData, Command> _firstCommand;
+        private List<Func<ICommandResult, Command>> _castCommands;
+        private List<Func<ICommandResult, Command>> _triggerCommands;
+
+        private CardCommandType _currentType = CardCommandType.Start;
+
+        private int _current  = 0;
+
+        public CardCommand(Func<CardCastData, Command> command)
+        {
+            _castCommands = new List<Func<ICommandResult, Command>>();
+            _triggerCommands = new List<Func<ICommandResult, Command>>();
             _firstCommand = command;
         }
 
-        public void AddCommand(Func<object, MapLib.GameLib.Command> command)
+        public void AddCastCommand(Func<object, Command> command)
         {
-            _cardCommands.Add(command);
+            _castCommands.Add(command);
         }
 
-        public MapLib.GameLib.Command Next(ICommandResult parm)
+        public void AddTriggerCommand(Func<object, Command> command)
         {
-            MapLib.GameLib.Command next;
-            if (Current == 0)
-            {
+            _triggerCommands.Add(command);
+        }
 
-                next = _firstCommand((CardCastData)parm);
-            }
-            else if (Current <= _cardCommands.Count)
+        public (CardCommandType commandType, Command command) Next(ICommandResult parm)
+        {
+            (CardCommandType,Command) next;
+            
+            if(_currentType == CardCommandType.Start)
             {
-                next = _cardCommands[Current - 1](parm);
+                _currentType = CardCommandType.Cast;
+                next = (CardCommandType.Cast, _firstCommand((CardCastData)parm));
+            }
+            else if (_currentType == CardCommandType.Cast)
+            {
+                if(_current<_castCommands.Count)
+                {
+                    Command nextCommand = _triggerCommands[_current](parm);
+                    next = (CardCommandType.Cast, nextCommand);
+                    _current++;
+                }
+                else
+                {
+                    _currentType = CardCommandType.Trigger;
+                    _current = 0;
+                    next = (CardCommandType.EndCast, null);
+                }
             }
             else
             {
-                next = null;
+                if(_current<_triggerCommands.Count)
+                {
+                    Command nextCommand = _triggerCommands[_current](parm);
+                    next = (CardCommandType.Trigger, nextCommand);
+                    _current++;
+                }
+                else
+                {
+                    _currentType = CardCommandType.Trigger;
+                    next = (CardCommandType.EndTrigger, null);
+                }
             }
-            Current++;
 
             return next;
         }
-
 
     }
 }

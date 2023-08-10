@@ -14,7 +14,7 @@ using static TeamOdd.Ratocalypse.CardLib.CommandLib.CardCommand;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 {
-    public class CastCard : Command
+    public class TriggerCard : Command
     {
         private CreatureData _caster;
         private int _index = 0;
@@ -23,12 +23,10 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
         private CardCommand _cardCommand;
         private CardData _cardData;
 
-        public CastCard(CardCastData cardCastData)
+        public TriggerCard(CardCommand cardCommand,ICommandResult parm)
         {
-            _index = cardCastData.CardIndex;
-            _caster = cardCastData.Caster;
-            _cardData = _caster.DeckData.GetHandCards()[_index];
-            _parm = cardCastData;
+            _cardCommand = cardCommand;
+            _parm = parm;
         }
 
         private void SetParm(ICommandResult parm)
@@ -38,21 +36,12 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 
         public override ExecuteResult Execute()
         {
-            if(_cardCommand == null)
-            {
-                _cardCommand = _cardData.CreateCardCommand();
-                _caster.DeckData.CastCard(_index);
-            }
-
             var (cardCommandtype, command) = _cardCommand.Next(_parm);
-
-            if(cardCommandtype == CardCommandType.EndCast)
+            if (cardCommandtype == CardCommandType.EndTrigger)
             {
-                _caster.TriggerCard();
-                TriggerCard triggerCard = new TriggerCard(_cardCommand, _parm);
-                return NextCommand(triggerCard);
+                return EndCommand(null);
             }
-
+            
             command.RegisterOnEnd(SetParm);
             return new SubCommand(command);
         }

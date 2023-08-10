@@ -17,14 +17,14 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
         private IMapSelector _catMapSelector;
         private IMapSelector _ratMapSelector;
 
-        private ISelector<HandData> _catHandSelector;
-        private ISelector<HandData> _ratHandSelector;
+        private ICardSelector _catHandSelector;
+        private ICardSelector _ratHandSelector;
 
         private Stack<Command> _commands = new Stack<Command>();
 
         public CommandExecutor(MapData mapData, GameStatistics gameStatistics,
          IMapSelector catMapSelector, IMapSelector ratMapSelecetor,
-         ISelector<HandData> catHandSelector, ISelector<HandData> ratHandSelector)
+         ICardSelector catHandSelector, ICardSelector ratHandSelector)
         {
             _mapData = mapData;
             _gameStatistics = gameStatistics;
