@@ -63,12 +63,13 @@ namespace TeamOdd.Ratocalypse.DeckLib
             }
         }
 
-        public void AddCard(CardData cardData)
+        public HandCard AddCard(CardData cardData)
         {
             HandCard card = _deactiveCards.Dequeue();
             ResetCard(card, cardData);
             _handcards.Add(card);
             UpdatePosition();
+            return card;
         }
 
         private void ResetCard(HandCard card, CardData cardData)
@@ -93,7 +94,12 @@ namespace TeamOdd.Ratocalypse.DeckLib
             {
                 return;
             }
-            card.Run(CardAction.StartDrag);
+            var index = _handcards.IndexOf(card);
+
+            if(_selection.GetCandidates().Contains(index))
+            {
+                card.Run(CardAction.StartDrag);
+            }
         }
 
 
@@ -238,14 +244,19 @@ namespace TeamOdd.Ratocalypse.DeckLib
             var newCards = _deckData.GetHandCards();
             for (int i = 0; i < newCards.Count; i++)
             {
-                AddCard(newCards[i]);
+                var handCard = AddCard(newCards[i]);
+                handCard.GetComponent<CardGlow>().SetInactiveGlow();
             }
             UpdatePosition();
         }
 
-        public void Select(Selection<List<int>>  selection)
+        public void Select(Selection<List<int>> selection)
         {
             _selection = selection;
+            foreach(int index in _selection.GetCandidates())
+            {
+                _handcards[index].GetComponent<CardGlow>().SetActiveGlow();
+            }
             _isSelecting = true;
         }
 

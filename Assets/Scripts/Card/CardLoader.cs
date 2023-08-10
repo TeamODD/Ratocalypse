@@ -22,23 +22,23 @@ namespace TeamOdd.Ratocalypse.CardLib
 
         private void AddCards()
         {
-            var ratAttackData = new DataValue(2, MoveOrAttackRangeType.Rook);
+            var ratAttackData = new DataValue(10, MoveOrAttackRangeType.Rook);
             var ratAttack = new MoveOrAttackCardData(LoadTexture("RatAttack"), 33, ratAttackData, 0);
             AddCard(ratAttack);
 
-            var ratSurvivalInstictData = new DataValue(2, MoveOrAttackRangeType.Knight);
+            var ratSurvivalInstictData = new DataValue(100, MoveOrAttackRangeType.Knight);
             var ratSurvivalInstict = new MoveOrAttackCardData(LoadTexture("RatSurvivalInstict"), 34, ratSurvivalInstictData, 1);
             AddCard(ratSurvivalInstict);
 
-            var ratRapidMoveData = new DataValue(2, MoveOrAttackRangeType.King);
+            var ratRapidMoveData = new DataValue(50, MoveOrAttackRangeType.King);
             var ratRapidMove = new MoveOrAttackCardData(LoadTexture("RatRapidMove"), 35, ratRapidMoveData, 2);
             AddCard(ratRapidMove);
 
-            var ratDefenseData = new DataValue(2, MoveOrAttackRangeType.Bishop);
+            var ratDefenseData = new DataValue(5, MoveOrAttackRangeType.Bishop);
             var ratDefense = new MoveOrAttackCardData(LoadTexture("RatDefense"), 36, ratDefenseData, 3);
             AddCard(ratDefense);
 
-            var ratBasicTrainingData = new DataValue(2, MoveOrAttackRangeType.Bishop);
+            var ratBasicTrainingData = new DataValue(0, MoveOrAttackRangeType.Bishop);
             var ratBasicTraining = new MoveOrAttackCardData(LoadTexture("RatBasicTraining"), 1, ratBasicTrainingData, 4);
             AddCard(ratBasicTraining);
         }
