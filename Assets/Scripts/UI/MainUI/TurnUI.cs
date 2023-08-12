@@ -1,88 +1,87 @@
 using System;
 using System.Collections.Generic;
+using TeamOdd.Ratocalypse.CreatureLib;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
+using Unity.VisualScripting;
 
 namespace TeamOdd.Ratocalypse.UI
 {
+    [RequireComponent(typeof(RectTransform))]
     public class TurnUI : MonoBehaviour
     {
 
-        private List<IIcon> _deployment = new List<IIcon>();
-        private List<int> _deploymentNumber = new List<int>();
+        [SerializeField]
+        private List<IIcon> _icons = new List<IIcon>();
+        private List<int> _iconOrders = new List<int>();
 
-        private Vector2 _size;
-        private int _interval;
+        [SerializeField]
+        private Vector2 _uiSize;
+
+        [SerializeField]
+        private float _xMargin = 50;
+
+        [SerializeField]
+        private float _maxXGap = 150;
+
+        [SerializeField]
+        private float _yGap = 100;
+
+        [SerializeField]
+        private float _yOrigin = 2;
 
         public List<Image> TestIconList;
 
-        public List<IIcon> Deployment
-        {
-            set { _deployment = value; }
-        }
-
         private void Start()
         {
-            _size = GetComponent<RectTransform>().sizeDelta;
+            _uiSize = GetComponent<RectTransform>().sizeDelta;
             SetTestIcon();
+        }
+
+
+        public void AddIcon(IIcon icon)
+        {
+            _icons.Add(icon);
         }
 
         public void SetTestIcon()
         {
             foreach (Image a in TestIconList)
             {
-                _deployment.Add(a.GetComponent<IIcon>());
+                _icons.Add(a.GetComponent<IIcon>());
             }
         }
-        public void SetDeployment()
+
+        [ContextMenu("UpdatePositions")]
+        public void UpdatePositions()
         {
-            _deploymentNumber.Clear();
-            foreach (IIcon a in _deployment)
-            {
-                if (!_deploymentNumber.Exists(x => x == a.Order))
-                {
-                    if (a.Order != -1)
-                    {
-                        _deploymentNumber.Add(a.Order);
-                    }
-                }
-            }
-            if (_deploymentNumber.Exists(x => x == -1))
-            {
-                if (!_deploymentNumber.FindIndex(element => element == -1).Equals(_deploymentNumber.Count - 1))
-                {
-                    _deploymentNumber.Remove(_deploymentNumber.FindIndex(element => element == -1));
-                }
-            }
-            _deploymentNumber.Sort();
+            _iconOrders = _icons.Select((icon) => icon.Order).Distinct().ToList();
+            _iconOrders.Sort();
 
-            _interval = Mathf.RoundToInt((_size.x - 20) / _deploymentNumber.Count);
-            foreach (IIcon a in _deployment)
+            float xGap = (_uiSize.x - (2 * _xMargin)) / (_iconOrders.Count - 1);
+            xGap = Mathf.Min(xGap, _maxXGap);
+
+            float left = -(_uiSize.x / 2) + _xMargin;
+
+            for (int xIndex = 0; xIndex < _iconOrders.Count; xIndex++)
             {
-                a.SetPosition(
-                    (a.Order == -1) ? new Vector3((_size.x - 20) / 2, -30 - 30 * NumberOfDuplicates(a), 0) : new Vector3(-(_size.x - 20) / 2 + _interval * _deploymentNumber.FindIndex(element => element == a.Order), -30 - 30 * NumberOfDuplicates(a), 0)
-                    );
+                int order = _iconOrders[xIndex];
+                List<IIcon> iconsInOrder = _icons.Where((icon) => icon.Order == order).ToList();
+
+                for (int yIndex = 0; yIndex < iconsInOrder.Count; yIndex++)
+                {
+                    IIcon icon = iconsInOrder[yIndex];
+                    float x = left + (xGap * xIndex);
+                    float y = _yOrigin -_yGap * yIndex;
+
+                    icon.SetPosition(new Vector2(x, y));
+                }
             }
         }
 
-        public int NumberOfDuplicates(IIcon a)
-        {
-            int i = 0;
-            foreach (IIcon b in _deployment)
-            {
-                if (b.Order == a.Order && b != a)
-                {
-                    i++;
-                }
-                if (b.Order == a.Order && b == a)
-                {
-                    break;
-                }
-            }
-            return i;
-        }
 
-        public void ActivationChange()
+        public void ToggleActivation()
         {
             gameObject.SetActive(!gameObject.activeSelf);
         }
