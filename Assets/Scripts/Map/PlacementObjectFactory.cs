@@ -15,7 +15,7 @@ namespace TeamOdd.Ratocalypse.MapLib
         public PlacementObject Create(Placement placement,PlacementObject prefab)
         {
             PlacementObject created = Instantiate(prefab, _parent);
-            created.Initiate(placement, _map);
+            created.Initialize(placement, _map);
             return created;
         }
     }

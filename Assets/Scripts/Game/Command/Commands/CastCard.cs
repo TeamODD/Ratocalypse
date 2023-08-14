@@ -41,7 +41,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
             if(_cardCommand == null)
             {
                 _cardCommand = _cardData.CreateCardCommand();
-                _caster.DeckData.CastCard(_index);
+                _caster.CastCard(_index);
             }
 
             var (cardCommandtype, command) = _cardCommand.Next(_parm);
@@ -49,12 +49,17 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
             if(cardCommandtype == CardCommandType.EndCast)
             {
                 _caster.TriggerCard();
-                TriggerCard triggerCard = new TriggerCard(_cardCommand, _parm);
-                return NextCommand(triggerCard);
+                TriggerCard triggerCommand = new TriggerCard(_cardCommand, _parm);
+                return new End(new Result() { TriggerCommand = triggerCommand });
             }
 
             command.RegisterOnEnd(SetParm);
             return new SubCommand(command);
+        }
+
+        public class Result:ICommandResult
+        {
+            public TriggerCard TriggerCommand; 
         }
     }
 }

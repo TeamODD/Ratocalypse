@@ -3,6 +3,8 @@ using TeamOdd.Ratocalypse.CardLib;
 using TeamOdd.Ratocalypse.CreatureLib.Attributes;
 using TeamOdd.Ratocalypse.DeckLib;
 using TeamOdd.Ratocalypse.MapLib;
+using TeamOdd.Ratocalypse.MapLib.GameLib;
+using TeamOdd.Ratocalypse.MapLib.GameLib.SelectionLib;
 using UnityEngine;
 using UnityEngine.Events;
 using static TeamOdd.Ratocalypse.MapLib.MapData;
@@ -10,7 +12,7 @@ using static TeamOdd.Ratocalypse.MapLib.MapData;
 namespace TeamOdd.Ratocalypse.CreatureLib
 {
     [System.Serializable]
-    public class CreatureData : Placement, IDamageable, IAttackable
+    public partial class  CreatureData : Placement, IDamageable, IAttackable
     {
         [field: ReadOnly, SerializeField]
         public float MaxHp { get; private set; }
@@ -29,13 +31,21 @@ namespace TeamOdd.Ratocalypse.CreatureLib
         public UnityEvent<IDamageable, float> OnAttack { get; private set; } = new UnityEvent<IDamageable, float>();
 
         public List<string> StatusEffectList;
+        
         [field: ReadOnly, SerializeField]
-        public DeckData DeckData { get; private set; }
+        public DeckData DeckData{ get; private set; }
+        private ICardSelector _cardSelector;
+        private Selection<List<int>> _currentCardSelection;
+        private (int index,CardData cardData) ?_castCardData = null;
 
-        public CreatureData(float maxHp, int maxStamina, MapData mapData, Vector2Int coord, Shape shape, List<(int,CardDataValue)> deck) : base(mapData, coord, shape)
+        public CreatureData(float maxHp, int maxStamina, MapData mapData,
+                            Vector2Int coord, Shape shape, List<(int,CardDataValue)> deck,
+                            ICardSelector cardSelector) 
+                            :base(mapData, coord, shape)
         {
             MaxHp = maxHp;
             MaxStamina = maxStamina;
+            _cardSelector = cardSelector;
             DeckData = new DeckData(deck);
             Init();
         }
@@ -78,34 +88,5 @@ namespace TeamOdd.Ratocalypse.CreatureLib
             target.ReduceHp(damage);
             OnAttack.Invoke(target, damage);
         }
-
-
-        public bool CheckCastable()
-        {
-            return DeckData.HasCastableCard(Stamina);
-        }
-
-        public List<(int index, CardData cardData)> GetCastableCards()
-        {
-            return DeckData.GetCastableCards(Stamina);
-        }
-
-        public CardData CastCard(int index)
-        {
-            return DeckData.CastCard(index);
-        }
-
-        public void CancelCast()
-        {
-            DeckData.CancelCast();
-        }
-
-        public void TriggerCard()
-        {
-            int cost = DeckData.TriggerCard();
-            ReduceStamina(cost);
-        }
-
-
     }
 }

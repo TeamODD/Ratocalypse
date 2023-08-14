@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TeamOdd.Ratocalypse.DeckLib;
+using TeamOdd.Ratocalypse.UI;
 using UnityEngine;
 using UnityEngine.Events;
 using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
@@ -22,9 +23,12 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
 
         private Stack<Command> _commands = new Stack<Command>();
 
+        private TurnUI _turnUI;
+
         public CommandExecutor(MapData mapData, GameStatistics gameStatistics,
          IMapSelector catMapSelector, IMapSelector ratMapSelecetor,
-         ICardSelector catHandSelector, ICardSelector ratHandSelector)
+         ICardSelector catHandSelector, ICardSelector ratHandSelector,
+         TurnUI turnUI)
         {
             _mapData = mapData;
             _gameStatistics = gameStatistics;
@@ -34,19 +38,14 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
 
             _catHandSelector = catHandSelector;
             _ratHandSelector = ratHandSelector;
+
+            _turnUI = turnUI;
         }
 
         private void RunSubCommand(Command command)
         {
             _commands.Push(command);
             Execute(command);
-        }
-
-        private void OnEndCommand(Command command)
-        {
-            _commands.Pop();
-            Debug.Log("Command End: " + command.GetType().Name);
-            Run();
         }
 
         private void Execute(Command command)
@@ -60,38 +59,54 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
 
         private void ProcessResult(ExecuteResult result)
         {
-            switch(result)
+            switch (result)
             {
-                case NextCommand(Command next):
-                    _commands.Pop();
+                case NextCommand:
+                {
+                    (Command next, ICommandResult commandResult) = result as NextCommand;
+                    PopAndEnd(commandResult);
                     PushCommand(next);
                     Run();
                     break;
-
-                case NextCommands(List<Command> nexts):
-                    _commands.Pop();
+                }
+                case NextCommands:
+                {
+                    (List<Command> nexts, ICommandResult commandResult) = result as NextCommands;
+                    PopAndEnd(commandResult);
                     PushCommands(nexts);
                     Run();
                     break;
-
-                case Wait(UnityEvent callback):
-                    _commands.Pop();
-                    callback.AddListener(Run);
+                }
+                case Wait(UnityEvent<ExecuteResult> callback):
+                {
+                    callback.AddListener((result) => ProcessResult(result));
                     break;
-
+                }
                 case End:
-                    _commands.Pop();
+                {
+                    ICommandResult commandResult = (result as End).Result;
+                    PopAndEnd(commandResult);
                     Run();
                     break;
-
+                }
                 case SubCommand(Command subCommand):
+                {
                     RunSubCommand(subCommand);
                     break;
-
+                }
                 default:
-                    Debug.LogError("Unknown ExecuteResult"+result.GetType().Name);
+                {
+                    Debug.LogError("Unknown ExecuteResult" + result.GetType().Name);
                     break;
+                }
             };
+        }
+
+        private void PopAndEnd(ICommandResult result)
+        {
+            var command = _commands.Pop();
+            command.End(result);
+            Debug.Log("Command End: " + command.GetType().Name);
         }
 
         private void SetRequires(Command command)
@@ -99,7 +114,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
             (command as IRequireMapSelectors)?.SetRequire((_ratMapSelector, _catMapSelector));
             (command as ICommandRequire<MapData>)?.SetRequire(_mapData);
             (command as ICommandRequire<GameStatistics>)?.SetRequire(_gameStatistics);
-            (command as IRequireHandSelectors)?.SetRequire((_ratHandSelector, _catHandSelector));
+            (command as ICommandRequire<TurnUI>)?.SetRequire(_turnUI);
         }
 
         public void PushCommand(Command command)

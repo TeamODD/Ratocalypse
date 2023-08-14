@@ -25,8 +25,6 @@ namespace TeamOdd.Ratocalypse.DeckLib
         private TombData _tombData = new TombData();
         private UndrawnCards _undrawnCards = new UndrawnCards();
 
-        private (int index,CardData cardData) ?_castCardData = null;
-
         public DeckData(List<(int, CardDataValue)> originDeckCards, int maxHandCount = 10)
         {
             _originDeckCards = originDeckCards;
@@ -41,14 +39,15 @@ namespace TeamOdd.Ratocalypse.DeckLib
             _undrawnCards.Shuffle();
         }
 
-        public DrawResult DrawCard()
+
+        private DrawResult DrawCardFrom(CardDataCollection pool)
         {
-            if (_undrawnCards.Count == 0)
+            if (pool.Count == 0)
             {
                 return DrawResult.Lack;
             }
 
-            CardData cardData = _undrawnCards.Draw();
+            CardData cardData = pool.Draw();
 
             if (_handData.Count >= MaxHandCount)
             {
@@ -60,11 +59,23 @@ namespace TeamOdd.Ratocalypse.DeckLib
             return DrawResult.Drawn;
         }
 
-        public (DrawResult result, int drawnCount) DrawCards(int count)
+        public DrawResult InsertHandAt(int index, CardData card)
+        {
+            if (_handData.Count >= MaxHandCount)
+            {
+                _tombData.AddCard(card);
+                return DrawResult.Exceed;
+            }
+
+            _handData.InsertCard(index, card);
+            return DrawResult.Drawn;
+        }
+
+        private (DrawResult result, int drawnCount) DrawsCardFrom(CardDataCollection pool, int count)
         {
             for (int i = 0; i < count; i++)
             {
-                DrawResult result = DrawCard();
+                DrawResult result = DrawCardFrom(pool);
                 if (result != DrawResult.Drawn)
                 {
                     return (result, i);
@@ -73,73 +84,65 @@ namespace TeamOdd.Ratocalypse.DeckLib
             return (DrawResult.Drawn, count);
         }
 
-        // public int DrawFromTomb(int count)
-        // {
-        //     for (int i = 0; i < count; i++)
-        //     {
-        //         _handData.AddCard(_tombData.Draw());
-        //     }
-        // }
-
-        public CardData CastCard(int index)
+        public (DrawResult result, int drawnCount) DrawCards(int count)
         {
-            CardData castCardData = _handData.RemoveCard(index);
-            _castCardData = (index, castCardData);
-            return castCardData;
+            return DrawsCardFrom(_undrawnCards, count);
         }
 
-        public int TriggerCard()
+        public (DrawResult result, int drawnCount) DrawCardsFromTomb(int count)
         {
-            if (_castCardData == null)
-            {
-                throw new System.InvalidOperationException("No card is casting");
-            }
-            var (index, cardData) = _castCardData.Value;
+            return DrawsCardFrom(_tombData, count);
+        }
+
+        public void AddCardToTomb(CardData cardData)
+        {
             _tombData.AddCard(cardData);
-            var cost = cardData.GetCost();
-            _castCardData = null;
-            return cost;
+            _tombData.Shuffle();
         }
 
-        public void CancelCast()
+        public void AddCardToUndrawn(CardData cardData)
         {
-            var (index, cardData) = _castCardData.Value;
-            _handData.InsertCard(index,cardData);
-            _castCardData = null;
+            _undrawnCards.AddCard(cardData);
+            _undrawnCards.Shuffle();
         }
 
-        public List<(int index, CardData card)> GetCastableCards(int stamina)
+
+
+        public void RemoveCardFromHand(CardData cardData)
         {
-            var castableCards = new List<(int, CardData)>();
-            for (int i = 0; i < _handData.Count; i++)
-            {
-                CardData cardData = _handData.GetCard(i);
-                if (cardData.GetCost() <= stamina)
-                {
-                    castableCards.Add((i, cardData));
-                }
-            }
-            return castableCards;
+            _handData.RemoveCard(cardData);
         }
 
-        public bool HasCastableCard(int stamina)
+        public CardData RemoveCardAtFromHand(int index)
         {
-            foreach (CardData cardData in _handData)
-            {
-                if (cardData.GetCost() <= stamina)
-                {
-                    return true;
-                }
-            }
-            return false;
+            return _handData.RemoveCard(index);
         }
+
+        public void RemoveCardFromTomb(CardData cardData)
+        {
+            _tombData.RemoveCard(cardData);
+        }
+
+        public CardData RemoveCardAtFromTomb(int index)
+        {
+            return _tombData.RemoveCard(index);
+        }
+
+        public void RemoveCardFromUndrawn(CardData cardData)
+        {
+            _undrawnCards.RemoveCard(cardData);
+        }
+
+        public CardData RemoveCardAtFromUndrawn(int index)
+        {
+            return _undrawnCards.RemoveCard(index);
+        }
+
 
         public List<CardData> GetHandCards()
         {
             return _handData.ToList();
         }
-
-
 
     }
 }

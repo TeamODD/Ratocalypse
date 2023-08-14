@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TeamOdd.Ratocalypse.CardLib;
 using TeamOdd.Ratocalypse.MapLib;
+using TeamOdd.Ratocalypse.MapLib.GameLib;
 using UnityEngine;
 using static TeamOdd.Ratocalypse.MapLib.MapData;
 
@@ -13,8 +14,9 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Cat
 
         public CatData(float maxHp, int maxStamina,
                        MapData mapData, Vector2Int coord,
-                       List<(int,CardDataValue)> deck)
-        : base(maxHp, maxStamina, mapData, coord, _shape, deck)
+                       List<(int,CardDataValue)> deck,
+                       ICardSelector cardSelector)
+        : base(maxHp, maxStamina, mapData, coord, _shape, deck, cardSelector)
         {
 
         }

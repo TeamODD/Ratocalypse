@@ -15,18 +15,12 @@ using TeamOdd.Ratocalypse.CreatureLib.Rat;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 {
-    public class SelectCastCard : Command, IRequireHandSelectors
+    public class SelectCastCard : Command
     {
         private ICardSelector _ratSelector;
         private ICardSelector _catSelector;
 
         private CreatureData _creatureData;
-
-        public void SetRequire((ICardSelector rat, ICardSelector cat) require)
-        {
-            _ratSelector = require.rat;
-            _catSelector = require.cat;
-        }
 
         public SelectCastCard(CreatureData creatureData)
         {
@@ -35,27 +29,18 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 
         public override ExecuteResult Execute()
         {
-            ICardSelector selector;
-            if(_creatureData is RatData)
-            {
-                selector = _ratSelector;
-            }
-            else
-            {
-                selector = _catSelector;
-            }
-
             var (endWait, result) = CreateWait();
-            var indicies = _creatureData.GetCastableCards().Select((card)=>card.index).ToList();
+            var indicies = _creatureData.GetCastableCardIndices();
             var selection = new Selection<List<int>>(indicies,
             (int index)=>{
                 var cardCastData = new CardCastData(_creatureData,index);
-                endWait(cardCastData);
+                endWait(new End(cardCastData));
             });
-            selector.SetTarget(_creatureData.DeckData);
-            selector.Select(selection);
+            _creatureData.SetCardSlection(selection);
+            _creatureData.SelectCard();
             return result;
         }
+
 
     }
 }

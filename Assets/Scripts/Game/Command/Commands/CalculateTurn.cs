@@ -10,16 +10,23 @@ using TeamOdd.Ratocalypse.CreatureLib;
 using TeamOdd.Ratocalypse.CardLib.CommandLib;
 using UnityEngine.Events;
 using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
+using TeamOdd.Ratocalypse.UI;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 {
-    public class CalculateTurn : Command, ICommandRequire<MapData>
+    public class CalculateTurn : Command, ICommandRequire<MapData>, ICommandRequire<TurnUI>
     {
         private MapData _mapData;
+        private TurnUI _turnUI;
 
         public void SetRequire(MapData require)
         {
             _mapData = require;
+        }
+
+        public void SetRequire(TurnUI require)
+        {
+            _turnUI = require;
         }
 
         public CalculateTurn()
@@ -29,31 +36,66 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 
         public override ExecuteResult Execute()
         {
-            var creatureData = Calcuate();
-            if(creatureData == null)
+            var orderedDatas = Calcuate();
+
+            if (orderedDatas.Count == 0)
             {
-                return EndCommand(null);
+                return new End();//게임 끝 draw
             }
-            var next = new SelectAndCastCard(creatureData);
-            return new SubCommand(next);
+
+            List<CreatureData> next = null;
+            foreach(var creatureDatas in orderedDatas)
+            {
+                if(creatureDatas.Any(creatureData => creatureData.HasCastableCard()))
+                {
+                    next = creatureDatas;
+                    continue;
+                }
+            }
+
+            if(next==null)
+            {
+                return new End();//턴끝
+            }
+
+            if(next.Count == 1)
+            {
+                return new SubCommand(new SelectAndTriggerCard(next.First()));
+            }
+            else
+            {
+                return new SubCommand(new ProcessMultipleTurns(next));
+            }
         }
 
-        public CreatureData Calcuate()
+        public List<List<CreatureData>> Calcuate()
         {
             var placements = _mapData.GetPlacements();
-            var creatureDatas = placements.Where(placement => {
-                if(placement is CreatureData creatureData)
-                {
-                    return creatureData.CheckCastable();
-                }
-                return false;
-            }).Cast<CreatureData>().ToList();
-            if(creatureDatas.Count == 0)
+            var creatureDatas = placements.Where(placement =>
             {
-                return null;
+                return placement is CreatureData;
+            }).Cast<CreatureData>().ToList();
+
+
+            creatureDatas.Sort((a, b) =>
+            {
+                return a.Stamina - b.Stamina;
+            });
+            var orders = new List<List<CreatureData>>();
+            var prevStamina = -1;
+            foreach (var creatureData in creatureDatas)
+            {
+                if (creatureData.Stamina != prevStamina)
+                {
+                    orders.Add(new List<CreatureData>());
+                    prevStamina = creatureData.Stamina;
+                }
+                orders.Last().Add(creatureData);
             }
-            creatureDatas.Sort((a, b) => b.Stamina.CompareTo(a.Stamina));
-            return creatureDatas[0];
+            _turnUI.UpdatePositions();
+            return orders;
         }
+
+
     }
 }

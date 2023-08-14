@@ -5,12 +5,12 @@ using TeamOdd.Ratocalypse.MapLib.GameLib;
 
 namespace TeamOdd.Ratocalypse.CardLib.CommandLib
 {
-    public struct CardCastData : ICommandResult
+    public class CardCastData : ICommandResult
     {
         public int CardIndex;
         public CreatureData Caster;
 
-        public CardCastData(CreatureData caster, int index) : this()
+        public CardCastData(CreatureData caster, int index)
         {
             Caster = caster;
             CardIndex = index;
