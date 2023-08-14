@@ -39,7 +39,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
             var (cardCommandtype, command) = _cardCommand.Next(_parm);
             if (cardCommandtype == CardCommandType.EndTrigger)
             {
-                return EndCommand(null);
+                return new End(null);
             }
             
             command.RegisterOnEnd(SetParm);

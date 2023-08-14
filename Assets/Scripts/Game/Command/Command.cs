@@ -23,44 +23,21 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
             _onEnd.AddListener(action);
         }
 
-        protected (Action<ICommandResult> end, Wait result) CreateWait()
+        protected (Action<ExecuteResult> end, Wait result) CreateWait()
         {
-            UnityEvent callback = new UnityEvent();
-            void endWait(ICommandResult result)
-            {
-                _onEnd?.Invoke(result);
-                _onEnd.RemoveAllListeners();
-                
-                callback?.Invoke();
+            UnityEvent<ExecuteResult> callback = new UnityEvent<ExecuteResult>();
+            void endWait(ExecuteResult result)
+            {   
+                callback?.Invoke(result);
                 callback.RemoveAllListeners();
             }
             return (endWait,new Wait(callback));
         }
 
-        protected void End(ICommandResult result)
+        public void End(ICommandResult result)
         {
             _onEnd?.Invoke(result);
             _onEnd.RemoveAllListeners();
         }
-
-        protected End EndCommand(ICommandResult result)
-        {
-            End(result);
-            return new End(result);
-        }
-
-        protected NextCommand NextCommand(Command next, ICommandResult result = null)
-        {
-            End(result);
-            return new NextCommand(next);
-        }
-
-        protected NextCommands NextCommands(List<Command> nexts, ICommandResult result = null)
-        {
-            End(result);
-            return new NextCommands(nexts);
-        }
-
-
     }
 }

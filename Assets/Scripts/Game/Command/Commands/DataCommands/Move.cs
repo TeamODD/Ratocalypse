@@ -2,8 +2,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using TeamOdd.Ratocalypse.CreatureLib;
 using static TeamOdd.Ratocalypse.CardLib.Cards.Templates.MoveOrAttackCardData;
+using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
 
-namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
+namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.DataCommands
 {
     public class Move : Command
     {
@@ -21,7 +22,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
         public override ExecuteResult Execute()
         {
             _creature.SetCoord(_targetCoord);
-            return EndCommand(null);
+            return new End();
         }
     }
 }

@@ -41,6 +41,6 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.SelectionLib
         {
             return _candidates;
         }
-
     }
+
 }

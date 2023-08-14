@@ -7,6 +7,7 @@ using TeamOdd.Ratocalypse.CreatureLib.Cat;
 using TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib;
 using static TeamOdd.Ratocalypse.CardLib.Cards.Templates.MoveOrAttackCardData;
 using static TeamOdd.Ratocalypse.MapLib.MapData;
+using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 {
@@ -57,15 +58,14 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
             movement.Calculate();
 
             var coordSelection = movement.CreateCoordSelection((coord)=>{
-                endWait(new Result { SelectedCoord = coord });
+                endWait(new End(new Result { SelectedCoord = coord }));
             });
             
             var placementSelection = movement.CreatePlacementSelection((coord)=>{
-                endWait(new Result { SelectedPlacement = coord });
+                endWait(new End(new Result { SelectedPlacement = coord }));
             });
-
+            
             selector.Select(coordSelection);
-            //selector.Select(placementSelection);
 
             return result;
         }
