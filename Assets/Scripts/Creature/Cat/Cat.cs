@@ -11,10 +11,10 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Cat
         [SerializeField]
         protected CatData _catData;
 
-        public override void Initiate(Placement placement, IMapCoord mapCoord)
+        public override void Initialize(Placement placement, IMapCoord mapCoord)
         {
             _catData = (CatData)placement; 
-            base.Initiate(placement, mapCoord);
+            base.Initialize(placement, mapCoord);
         }
         
         protected override void RegisterCallbacks()
