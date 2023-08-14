@@ -21,10 +21,10 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Rat
             _ratAnimation = GetComponent<RatAnimation>();
         }
 
-        public override void Initiate(Placement placement, IMapCoord mapCoord)
+        public override void Initialize(Placement placement, IMapCoord mapCoord)
         {
             _ratData = (RatData)placement; 
-            base.Initiate(placement, mapCoord);
+            base.Initialize(placement, mapCoord);
         }
 
         protected override void RegisterCallbacks()
