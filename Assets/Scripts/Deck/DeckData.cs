@@ -106,6 +106,18 @@ namespace TeamOdd.Ratocalypse.DeckLib
             _undrawnCards.Shuffle();
         }
 
+        public void ReviveCardToUndrawn()
+        {
+            if (_tombData.Count == 0)
+            {
+                return;
+            }
+
+            _undrawnCards.AddCards(_tombData.ToArray());
+            _tombData.Clear();
+            _undrawnCards.Shuffle();
+        }
+
 
 
         public void RemoveCardFromHand(CardData cardData)

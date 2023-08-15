@@ -72,6 +72,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
                 case NextCommands:
                 {
                     (List<Command> nexts, ICommandResult commandResult) = result as NextCommands;
+                    nexts.Reverse();
                     PopAndEnd(commandResult);
                     PushCommands(nexts);
                     Run();
