@@ -1,15 +1,15 @@
-using UnityEngine;
-using UnityEngine.Events;
 using TeamOdd.Ratocalypse.CreatureLib;
-using static TeamOdd.Ratocalypse.CardLib.Cards.Templates.MoveOrAttackCardData;
 using TeamOdd.Ratocalypse.CardLib.CommandLib;
 using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
 using System.Collections.Generic;
 using System.Linq;
 using TeamOdd.Ratocalypse.MapLib.GameLib.SelectionLib;
 using System;
+using TeamOdd.Ratocalypse.MapLib.GameLib;
+using TeamOdd.Ratocalypse.MapLib.GameLib.Commands;
+using TeamOdd.Ratocalypse.MapLib.GameLib.Commands.CardCommands;
 
-namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
+namespace TeamOdd.Ratocalypse.GameLib.Commands.GameSequenceCommands
 {
     public class CastJointAttack : Command
     {
@@ -17,9 +17,11 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
         private CreatureData _next;
 
         private List<TriggerCard> _triggerCards = new List<TriggerCard>();
+        private bool _runTrigger;
 
-        public CastJointAttack(List<CreatureData> creatureDatas)
+        public CastJointAttack(List<CreatureData> creatureDatas, bool runTrigger)
         {
+            _runTrigger = runTrigger;
             _creaturesLeft = creatureDatas;
         }
 
@@ -33,9 +35,25 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 
             if (_creaturesLeft.Count == 0)
             {
+                int count = _triggerCards.Count;
+                float multiplier = count == 1? 1 : 1.2f + (count * 0.2f);
+                int totalDamage = 0;
+                foreach (var trigger in _triggerCards)
+                {
+                    trigger.DamageMultiplier = multiplier;
+                    totalDamage += trigger.CalculateFinalDamage();
+                }
+
+                if(_runTrigger)
+                {
+                    var commands = _triggerCards.Cast<Command>().ToList();
+                    return new NextCommands(commands);
+                }
+
                 var executeResult = new Result
                 {
-                    TriggerCards = _triggerCards
+                    TriggerCards = _triggerCards,
+                    Damage = totalDamage
                 };
                 return new End(executeResult);
             }
@@ -59,11 +77,10 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
                 var currentIndex = i;
                 var selection = new Selection<List<int>>(indices, (int selectedInex) =>
                 {
-                    var cardCastData = new CardCastData(creatureData, selectedInex);
-                    var castCard = new CastCard(cardCastData);
-                    castCard.RegisterOnEnd((commandResult)=>{
-                        var castCardResult = commandResult as CastCard.Result;
-                        CastCallback(currentIndex, castCardResult.TriggerCommand);
+                    var castCard = creatureData.CastCard(selectedInex, false);
+                    castCard.RegisterOnEnd((result)=>{
+                        var triggerCommand = result as TriggerCard;
+                        CastCallback(currentIndex, triggerCommand);
                     });
                     _endWait(new SubCommand(castCard));
                 });
@@ -84,7 +101,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
         public class Result : ICommandResult
         {
             public List<TriggerCard> TriggerCards;
-            public int Damage = 0;
+            public int Damage;
         }
     }
 }

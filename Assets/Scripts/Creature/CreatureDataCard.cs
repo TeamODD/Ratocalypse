@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using TeamOdd.Ratocalypse.CardLib;
+using TeamOdd.Ratocalypse.CardLib.CommandLib;
 using TeamOdd.Ratocalypse.CreatureLib.Attributes;
 using TeamOdd.Ratocalypse.DeckLib;
 using TeamOdd.Ratocalypse.MapLib;
 using TeamOdd.Ratocalypse.MapLib.GameLib;
+using TeamOdd.Ratocalypse.MapLib.GameLib.Commands.CardCommands;
 using TeamOdd.Ratocalypse.MapLib.GameLib.SelectionLib;
 using UnityEngine;
 using UnityEngine.Events;
@@ -41,11 +43,12 @@ namespace TeamOdd.Ratocalypse.CreatureLib
             return false;
         }
 
-        public CardData CastCard(int index)
+        public CastCard CastCard(int index,bool runTrigger)
         {
             CardData castCardData = DeckData.RemoveCardAtFromHand(index);
             _castCardData = (index, castCardData);
-            return castCardData;
+            CardCastData cardCastData =  new CardCastData(this, index);
+            return castCardData.CreateCastCardCommand(cardCastData, runTrigger);
         }
 
         public void TriggerCard()

@@ -61,19 +61,19 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
                 endWait(new End(new Result { SelectedCoord = coord }));
             });
             
-            var placementSelection = movement.CreatePlacementSelection((coord)=>{
-                endWait(new End(new Result { SelectedPlacement = coord }));
+            var placementSelection = movement.CreatePlacementSelection((placement)=>{
+                endWait(new End(new Result {SelectedPlacement = placement }));
             });
             
             selector.Select(coordSelection);
-
+            selector.Select(placementSelection);            
             return result;
         }
 
         public class Result : ICommandResult
         {
             public Vector2Int SelectedCoord;
-            public Placement SelectedPlacement;
+            public Placement SelectedPlacement = null;
         }
     }
 }

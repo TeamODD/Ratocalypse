@@ -9,19 +9,20 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.DataCommands
 {
     public class Attack : Command
     {
-        public int Damage = 0;
+        private int _damage = 0;
         private IAttackable _attacker;
         private IDamageable _target;
 
-        public Attack(IAttackable attacker, IDamageable target)
+        public Attack(IAttackable attacker, IDamageable target,int damage)
         {
+            _damage = damage;
             _attacker = attacker;
             _target = target;
         }
 
         public override ExecuteResult Execute()
         {
-            _target.ReduceHp(Damage);
+            _target.ReduceHp(_damage);
             return new End();
         }
     }
