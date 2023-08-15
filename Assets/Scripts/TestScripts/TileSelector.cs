@@ -48,22 +48,22 @@ namespace TeamOdd.Ratocalypse.TestScripts
 
         public void ResetHandlers()
         {
-            foreach (List<Vector2Int> coords in _coords)
+            for(int y = 0; y < _map.Size.y; y++)
             {
-                foreach (Vector2Int coord in coords)
+                for(int x = 0; x < _map.Size.x; x++)
                 {
-                    _map.GetTile(coord).GetComponent<TileCallback>().RemoveAll();
+                    _map.GetTile(new Vector2Int(x, y)).GetComponent<TileCallback>().RemoveAll();
                 }
             }
         }
 
         public void ResetHighlight()
         {
-            foreach (List<Vector2Int> coords in _coords)
+            for(int y = 0; y < _map.Size.y; y++)
             {
-                foreach (Vector2Int coord in coords)
+                for(int x = 0; x < _map.Size.x; x++)
                 {
-                    _map.GetTile(coord).GetComponent<TileColorSetter>().Default();
+                    _map.GetTile(new Vector2Int(x, y)).GetComponent<TileColorSetter>().Default();
                 }
             }
         }

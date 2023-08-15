@@ -1,18 +1,13 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using TeamOdd.Ratocalypse.MapLib.GameLib.SelectionLib;
-using UnityEngine;
-using static TeamOdd.Ratocalypse.MapLib.MapData;
 using System.Linq;
-using TeamOdd.Ratocalypse.CardLib;
 using TeamOdd.Ratocalypse.CreatureLib;
-using TeamOdd.Ratocalypse.CardLib.CommandLib;
-using UnityEngine.Events;
-using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
+using TeamOdd.Ratocalypse.MapLib;
+using TeamOdd.Ratocalypse.MapLib.GameLib;
+using TeamOdd.Ratocalypse.MapLib.GameLib.Commands.CardCommands;
 using TeamOdd.Ratocalypse.UI;
+using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
 
-namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
+namespace TeamOdd.Ratocalypse.GameLib.Commands.GameSequenceCommands
 {
     public class CalculateTurn : Command, ICommandRequire<MapData>, ICommandRequire<TurnUI>
     {
@@ -40,7 +35,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 
             if (orderedDatas.Count == 0)
             {
-                return new End();//게임 끝 draw
+                return new End();
             }
 
             List<CreatureData> next = null;
@@ -55,12 +50,12 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 
             if(next==null)
             {
-                return new End();//턴끝
+                return new End();
             }
 
             if(next.Count == 1)
             {
-                return new SubCommand(new SelectAndTriggerCard(next.First()));
+                return new SubCommand(new SelectAndCastCard(next.First(), true));
             }
             else
             {

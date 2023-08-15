@@ -1,28 +1,19 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using TeamOdd.Ratocalypse.MapLib.GameLib.SelectionLib;
-using UnityEngine;
-using static TeamOdd.Ratocalypse.MapLib.MapData;
-using System.Linq;
-using TeamOdd.Ratocalypse.CardLib;
 using TeamOdd.Ratocalypse.CreatureLib;
 using TeamOdd.Ratocalypse.CardLib.CommandLib;
-using UnityEngine.Events;
 using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
-using TeamOdd.Ratocalypse.DeckLib;
-using TeamOdd.Ratocalypse.CreatureLib.Rat;
 
-namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
+namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.CardCommands
 {
-    public class SelectCastCard : Command
+    public class SelectHand : Command
     {
         private ICardSelector _ratSelector;
         private ICardSelector _catSelector;
 
         private CreatureData _creatureData;
 
-        public SelectCastCard(CreatureData creatureData)
+        public SelectHand(CreatureData creatureData)
         {
             _creatureData = creatureData;
         }

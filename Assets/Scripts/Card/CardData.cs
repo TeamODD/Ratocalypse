@@ -1,5 +1,6 @@
 using TeamOdd.Ratocalypse.CardLib.CommandLib;
 using TeamOdd.Ratocalypse.MapLib.GameLib.Commands;
+using TeamOdd.Ratocalypse.MapLib.GameLib.Commands.CardCommands;
 using UnityEngine;
 
 namespace TeamOdd.Ratocalypse.CardLib
@@ -51,9 +52,9 @@ namespace TeamOdd.Ratocalypse.CardLib
             return cloned;
         }
 
-        public virtual CardCommand CreateCardCommand()
+        public virtual CastCard CreateCastCardCommand(CardCastData cardCastData, bool runTrigger)
         {
-            return new CardCommand((CardCastData data) => { return null; });
+            return new CastCard(cardCastData, runTrigger);
         }
 
         public virtual string GetTitle()
