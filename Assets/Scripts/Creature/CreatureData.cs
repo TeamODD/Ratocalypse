@@ -78,6 +78,11 @@ namespace TeamOdd.Ratocalypse.CreatureLib
             OnHpRestored.Invoke(Hp);
         }
 
+        public void RestoreAllStamina()
+        {
+            Stamina = MaxStamina;
+        }
+
         public void ReduceStamina(int amount)
         {
             Stamina -= amount;

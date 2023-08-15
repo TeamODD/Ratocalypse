@@ -15,7 +15,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
         private GameSequence _gameSequence;
         private CommandExecutor _commandExecutor;
 
-        private GameStatistics _gameStatistics;
+        private GameStatistics _gameStatistics = new GameStatistics();
 
         [SerializeField]
         private TileSelector _tileSelector;

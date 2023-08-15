@@ -31,6 +31,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
             });
             
             _round = 1;
+            _commandExecutor.PushCommand(new ProcessRound());
             _commandExecutor.PushCommand(new CalculateTurn());
             _commandExecutor.Run();
         }
