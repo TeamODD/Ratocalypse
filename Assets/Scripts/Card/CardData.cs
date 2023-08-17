@@ -72,7 +72,7 @@ namespace TeamOdd.Ratocalypse.CardLib
             return OriginDataValue.Cost + DeckDataValue.Cost + GameDataValue.Cost;
         }
     }
-    [System.Serializable]
+
     public class CardDataValue
     {
         public int Cost;

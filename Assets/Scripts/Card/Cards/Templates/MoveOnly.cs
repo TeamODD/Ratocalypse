@@ -6,14 +6,14 @@ using TeamOdd.Ratocalypse.MapLib.GameLib.Commands;
 using TeamOdd.Ratocalypse.MapLib.GameLib.Commands.CardCommands;
 using TeamOdd.Ratocalypse.MapLib.GameLib.Commands.DataCommands;
 using UnityEngine;
-
+using static TeamOdd.Ratocalypse.CardLib.Cards.Templates.MoveOrAttackCardData;
 
 namespace TeamOdd.Ratocalypse.CardLib.Cards.Templates
 {
     [CardRegister(typeof(DataValue))]
-    public class MoveOrAttackCardData : CardData
+    public class MoveOnly : CardData
     {
-        public MoveOrAttackCardData(Texture2D texture, int cardDataId, CardDataValue originDataValue, int cardType)
+        public MoveOnly(Texture2D texture, int cardDataId, CardDataValue originDataValue, int cardType)
         : base(cardDataId, originDataValue, texture, cardType)
         {
             DeckDataValue = new DataValue();
@@ -22,7 +22,7 @@ namespace TeamOdd.Ratocalypse.CardLib.Cards.Templates
 
         public override CardData CloneOriginCard()
         {
-            CardData cloned = new MoveOrAttackCardData(Texture, _cardDataId, OriginDataValue, CardType);
+            CardData cloned = new MoveOnly(Texture, _cardDataId, OriginDataValue, CardType);
             return cloned;
         }
 
@@ -35,7 +35,7 @@ namespace TeamOdd.Ratocalypse.CardLib.Cards.Templates
             {
                 CardCastData data = result as CardCastData;
                 caster = data.Caster;
-                var temp = new SelectMap((OriginDataValue as DataValue).RangeType, data.Caster);
+                var temp = new SelectMap((OriginDataValue as DataValue).a, data.Caster);
                 return temp;
             });
 
@@ -66,35 +66,25 @@ namespace TeamOdd.Ratocalypse.CardLib.Cards.Templates
             return castCard;
         }
 
+        [SerializeField]
         public class DataValue : CardDataValue
         {
-            public MoveOrAttackRangeType RangeType;
-
+            public MoveOrAttackRangeType a;
+            public int Test;
             public DataValue() : base(0)
             {
-                RangeType = MoveOrAttackRangeType.None;
+                a = MoveOrAttackRangeType.None;
             }
 
             public DataValue(int cost, MoveOrAttackRangeType rangeType) : base(cost)
             {
-                RangeType = rangeType;
+                a = rangeType;
             }
 
             public override CardDataValue Clone()
             {
-                return new DataValue(Cost, RangeType);
+                return new DataValue(Cost, a);
             }
-        }
-
-        public enum MoveOrAttackRangeType
-        {
-            King,
-            Queen,
-            Rook,
-            Bishop,
-            Knight,
-            Pawn,
-            None,
         }
     }
 }
