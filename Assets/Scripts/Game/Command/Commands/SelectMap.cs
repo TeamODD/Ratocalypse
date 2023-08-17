@@ -11,8 +11,6 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 {
     public class SelectMap : Command, IRequireMapSelectors, ICommandRequire<MapData>
     {
-        static private Pattern _rook = new Pattern(new List<Vector2Int> { new Vector2Int(0, 1) 
-        ,new Vector2Int(0, -1),new Vector2Int(1,0),new Vector2Int(-1, 0)});
         private IMapSelector _ratSelector;
         private IMapSelector _catSelector;
 
@@ -20,6 +18,9 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 
         private ChessRangeType _rangeType;
         private CreatureData _target;
+
+        private bool _selectTarget;
+        private bool _selectMap;
 
         public void SetRequire((IMapSelector rat, IMapSelector cat) value)
         {
@@ -32,45 +33,55 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
             _mapData = require;
         }
 
-        public SelectMap(ChessRangeType rangeType, CreatureData target)
+        public SelectMap(ChessRangeType rangeType, CreatureData target, bool selectTarget, bool selectMap)
         {
             _rangeType = rangeType;
             _target = target;
+            _selectTarget = selectTarget;
+            _selectMap = selectMap;
         }
 
         public override ExecuteResult Execute()
         {
             IMapSelector selector = null;
-            if(_target is RatData)
+            if (_target is RatData)
             {
                 selector = _ratSelector;
             }
-            else if(_target is CatData)
+            else if (_target is CatData)
             {
                 selector = _catSelector;
             }
 
             var (endWait, result) = CreateWait();
-
-            DirectionalMovement movement = new DirectionalMovement(_target, _mapData, _rook);
+            Pattern pattern = Pattern.GetChessPattern(_rangeType);
+            DirectionalMovement movement = new DirectionalMovement(_target, _mapData, pattern);
             movement.Calculate();
 
-            var coordSelection = movement.CreateCoordSelection((coord)=>{
-                endWait(new End(new Result { SelectedCoord = coord }));
-            });
-            
-            var placementSelection = movement.CreatePlacementSelection((placement)=>{
-                endWait(new End(new Result {SelectedPlacement = placement }));
-            });
-            
-            selector.Select(coordSelection);
-            selector.Select(placementSelection);            
+            if (_selectMap)
+            {
+                var coordSelection = movement.CreateCoordSelection((coord) =>
+                {
+                    endWait(new End(new Result { SelectedCoord = coord }));
+                });
+                selector.Select(coordSelection);
+            }
+
+            if (_selectTarget)
+            {
+                var placementSelection = movement.CreatePlacementSelection((placement) =>
+                {
+                    endWait(new End(new Result { SelectedPlacement = placement }));
+                });
+                selector.Select(placementSelection);
+            }
+
             return result;
         }
 
         public class Result : ICommandResult
         {
-            public Vector2Int SelectedCoord;
+            public Vector2Int? SelectedCoord = null;
             public Placement SelectedPlacement = null;
         }
     }

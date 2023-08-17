@@ -11,7 +11,7 @@ namespace TeamOdd.Ratocalypse.CardLib
     {
         public int Id;
         public CardValueData OriginValueData;
-        public CardValueData GameValueData = new CardValueData();
+        public CardValueData GameValueData;
 
         public Texture2D Texture{ get; private set; }
 
@@ -27,7 +27,7 @@ namespace TeamOdd.Ratocalypse.CardLib
             cardData.Id = id;
             cardData.Texture = texture;
             cardData.OriginValueData = originValueData;
-
+            cardData.GameValueData = cardData.CreateDefaultValueData();
             return cardData;
         }
 

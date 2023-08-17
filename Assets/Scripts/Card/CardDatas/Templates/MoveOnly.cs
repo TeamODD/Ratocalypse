@@ -23,30 +23,22 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
             {
                 CardCastData data = result as CardCastData;
                 caster = data.Caster;
-                var temp = new SelectMap((OriginValueData as ValueData).moveType, data.Caster);
+                var temp = new SelectMap((OriginValueData as ValueData).MoveType, data.Caster, false, true);
                 return temp;
             });
 
             castCard.SetTrigger((result) =>
             {
                 SelectMap.Result selectResult = result as SelectMap.Result;
-                int damage = 0;
-                if (selectResult.SelectedPlacement != null)
-                {
-                    damage = 10;
-                }
 
-                TriggerCard triggerCard = new TriggerCard(null, damage, selectResult.SelectedCoord);
+                TriggerCard triggerCard = new TriggerCard(null, 0, selectResult.SelectedCoord);
                 triggerCard.AddCommand((_) =>
                 {
-                    if (selectResult.SelectedPlacement == null)
+                    if (selectResult.SelectedCoord != null)
                     {
-                        return new Move(caster, selectResult.SelectedCoord);
+                        return new Move(caster, selectResult.SelectedCoord.Value);
                     }
-                    else
-                    {
-                        return new Attack(caster, selectResult.SelectedPlacement as IDamageable,triggerCard.CalculateFinalDamage());
-                    }
+                    return null;
                 });
                 return triggerCard;
             });
@@ -56,7 +48,7 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
 
         public class ValueData : CardValueData
         {
-            public ChessRangeType moveType;
+            public ChessRangeType MoveType;
         }
     }
 }

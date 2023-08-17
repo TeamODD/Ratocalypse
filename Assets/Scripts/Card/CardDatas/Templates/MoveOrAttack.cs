@@ -14,6 +14,13 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
     [CardRegister(typeof(ValueData))]
     public class MoveOrAttack : CardData
     {
+        private int GetDamage()
+        {
+            var originValueData = OriginValueData as ValueData;
+            var gameValueData = GameValueData as ValueData;
+            return originValueData.Damage + gameValueData.Damage; 
+        }
+
         public override CastCard CreateCastCardCommand(CardCastData cardCastData, bool runTrigger)
         {
             CreatureData caster = null;
@@ -23,31 +30,32 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
             {
                 CardCastData data = result as CardCastData;
                 caster = data.Caster;
-                var temp = new SelectMap((OriginValueData as ValueData).RangeType, data.Caster);
+                var temp = new SelectMap((OriginValueData as ValueData).RangeType, data.Caster, true, true);
                 return temp;
             });
+
+
+            int damage = GetDamage();
 
             castCard.SetTrigger((result) =>
             {
                 SelectMap.Result selectResult = result as SelectMap.Result;
-                int damage = 0;
-                if (selectResult.SelectedPlacement != null)
-                {
-                    damage = 10;
-                }
 
                 TriggerCard triggerCard = new TriggerCard(null, damage, selectResult.SelectedCoord);
+
                 triggerCard.AddCommand((_) =>
                 {
-                    if (selectResult.SelectedPlacement == null)
+                    if (selectResult.SelectedCoord != null)
                     {
-                        return new Move(caster, selectResult.SelectedCoord);
+                        return new Move(caster, selectResult.SelectedCoord.Value);
                     }
-                    else
+                    if (selectResult.SelectedPlacement != null)
                     {
-                        return new Attack(caster, selectResult.SelectedPlacement as IDamageable,triggerCard.CalculateFinalDamage());
+                        return new Attack(caster, selectResult.SelectedPlacement as IDamageable, triggerCard.CalculateFinalDamage());
                     }
+                    return null;
                 });
+
                 return triggerCard;
             });
 
@@ -57,6 +65,7 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
         public class ValueData : CardValueData
         {
             public ChessRangeType RangeType;
+            public int Damage;
         }
     }
 }
