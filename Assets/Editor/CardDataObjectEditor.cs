@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEditor;
-using TeamOdd.Ratocalypse.CardLib.Cards.Templates;
 using System;
 using TeamOdd.Ratocalypse.CardLib;
 using System.Reflection;
@@ -61,7 +60,7 @@ public class CardDataObjectEditor : Editor
         {   
             var oldValue = field.GetValue(target);
             var newValue = CreateField(field.Name, oldValue);
-            if(oldValue is CardDataValue)
+            if(oldValue is CardValueData)
             {
                 CreateEditorField(oldValue);
                 continue;

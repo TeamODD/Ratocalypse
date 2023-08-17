@@ -1,3 +1,4 @@
+using System;
 using TeamOdd.Ratocalypse.CardLib.CommandLib;
 using TeamOdd.Ratocalypse.MapLib.GameLib.Commands;
 using TeamOdd.Ratocalypse.MapLib.GameLib.Commands.CardCommands;
@@ -5,50 +6,48 @@ using UnityEngine;
 
 namespace TeamOdd.Ratocalypse.CardLib
 {
-    [System.Serializable]
+    [Serializable]
     public class CardData
     {
-        public int Id { get; }
-
-        public CardDataValue OriginDataValue;
-        public CardDataValue DeckDataValue = new CardDataValue();
-        public CardDataValue GameDataValue = new CardDataValue();
-        protected int _cardDataId;
+        public int Id;
+        public CardValueData OriginValueData;
+        public CardValueData GameValueData = new CardValueData();
 
         public Texture2D Texture{ get; private set; }
-        public int CardType { get; private set; } = 0;
 
-        public CardData(int id, CardDataValue originDataValue,Texture2D texture, int cardType)
+        public CardData()
         {
-            Id = id;
-            CardType = cardType;
-            Texture = texture;
-            OriginDataValue = originDataValue;
+
         }
 
-        public CardData(int cardDataId, CardDataValue originDataValue)
+        public static CardData CreateCardData(Type cardDataType, int id, Texture2D texture, CardValueData originValueData)
         {
-            _cardDataId = cardDataId;
-            OriginDataValue = originDataValue;
+            CardData cardData = Activator.CreateInstance(cardDataType) as CardData;
+
+            cardData.Id = id;
+            cardData.Texture = texture;
+            cardData.OriginValueData = originValueData;
+
+            return cardData;
+        }
+
+        public CardValueData CreateDefaultValueData()
+        {
+            var type = OriginValueData.GetType();
+            return Activator.CreateInstance(type) as CardValueData;
         }
 
         public virtual CardData CloneOriginCard()
         {
-            CardData cloned = new CardData(Id, OriginDataValue, Texture, CardType);
-            return cloned;
-        }
-
-        public virtual CardData CloneDeckCard()
-        {
-            CardData cloned = CloneOriginCard();
-            cloned.DeckDataValue = DeckDataValue.Clone();
+            CardData cloned = MemberwiseClone() as  CardData;
+            cloned.GameValueData = CreateDefaultValueData();
             return cloned;
         }
 
         public virtual CardData CloneGameCard()
         {
-            CardData cloned = CloneDeckCard();
-            cloned.GameDataValue = GameDataValue.Clone();
+            CardData cloned = CloneOriginCard();
+            cloned.GameValueData = GameValueData.Clone();
             return cloned;
         }
 
@@ -69,32 +68,17 @@ namespace TeamOdd.Ratocalypse.CardLib
 
         public virtual int GetCost()
         {
-            return OriginDataValue.Cost + DeckDataValue.Cost + GameDataValue.Cost;
+            return OriginValueData.Cost + GameValueData.Cost;
         }
     }
 
-    public class CardDataValue
+    public class CardValueData
     {
-        public int Cost;
+        public int Cost = 0;
 
-        public CardDataValue()
+        public CardValueData Clone()
         {
-            Cost = 0;
-        }
-
-        public CardDataValue(int cost)
-        {
-            Cost = cost;
-        }
-
-        public void SetCost(int cost)
-        {
-            Cost = cost;
-        }
-
-        public virtual CardDataValue Clone()
-        {
-            return new CardDataValue(Cost);
+            return MemberwiseClone() as CardValueData;
         }
     }
 }

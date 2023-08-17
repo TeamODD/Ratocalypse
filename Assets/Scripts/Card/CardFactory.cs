@@ -1,4 +1,5 @@
 
+using TeamOdd.Ratocalypse.DeckLib;
 using UnityEngine;
 
 namespace TeamOdd.Ratocalypse.CardLib
@@ -10,10 +11,10 @@ namespace TeamOdd.Ratocalypse.CardLib
         [SerializeField]
         private Transform _createPosition;
 
-        public CardView Create(CardData cardData, Transform parent)
+        public CardView Create(CardData cardData, Transform parent, CardColor cardColor)
         {
             CardView card = CreateDummy(parent);
-            card.View(cardData);
+            card.View(cardData, cardColor);
             return card;
         }
 

@@ -49,14 +49,8 @@ namespace TeamOdd.Ratocalypse.TestScripts
         [SerializeField]
         private Hand _hand;
 
-        private List<(int,CardDataValue)> _testDeck = new List<(int,CardDataValue)>(){
-            (33,new CardDataValue()),
-            (34,new CardDataValue()),
-            (35,new CardDataValue()),
-            (36,new CardDataValue()),
-            (1,new CardDataValue())
-        };
-
+        [SerializeField]
+        private List<int> _testDeck = new List<int>();
         [SerializeField]
         private bool _createOnStart = false;
 

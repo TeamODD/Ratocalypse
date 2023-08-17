@@ -11,14 +11,14 @@ namespace TeamOdd.Ratocalypse.CardLib
         public int Id;
         public string TextureName;
         public Type CardDataType;
-        public CardDataValue OriginDataValue;
+        public CardValueData OriginValueData;
         
-        public CardCreateData(int id, string textureName, Type cardDataType, CardDataValue originDataValue)
+        public CardCreateData(int id, string textureName, Type cardDataType, CardValueData originValueData)
         {
             Id = id;
             TextureName = textureName;
             CardDataType = cardDataType;
-            OriginDataValue = originDataValue;
+            OriginValueData = originValueData;
         }
 
     }

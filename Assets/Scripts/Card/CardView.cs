@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using DG.Tweening;
 using System.Collections.Generic;
+using TeamOdd.Ratocalypse.DeckLib;
 
 namespace TeamOdd.Ratocalypse.CardLib
 {
@@ -17,10 +18,10 @@ namespace TeamOdd.Ratocalypse.CardLib
         private List<Texture2D> _cardBackgrounds;
 
         
-        public void View(CardData cardData)
+        public void View(CardData cardData,CardColor cardType)
         {
             _cardImage.material.SetTexture("_Texture", cardData.Texture);
-            SetBackground(cardData.CardType);
+            SetBackground((int)cardType);
         }
 
         public void SetBackground(int index)

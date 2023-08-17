@@ -44,8 +44,8 @@ public class CardDataObject : ScriptableObject
 
     public void AddCard(Type cardType)
     {
-        var cardDataValueType = CardValueTypes[cardType];
-        var cardValue = Activator.CreateInstance(cardDataValueType) as CardDataValue;
+        var cardValueDataType = CardValueTypes[cardType];
+        var cardValue = Activator.CreateInstance(cardValueDataType) as CardValueData;
         cardCreateDatas.Add(new CardCreateData(0, "texture", cardType, cardValue));
     }
 

@@ -14,7 +14,7 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Rat
 
         public RatData(float maxHp, int maxStamina,
                        MapData mapData, Vector2Int coord,
-                       List<(int,CardDataValue)> deck,
+                       List<int> deck,
                        ICardSelector cardSelector)
         : base(maxHp, maxStamina, mapData, coord, _shape, deck, cardSelector)
         {

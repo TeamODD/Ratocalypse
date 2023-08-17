@@ -1,6 +1,6 @@
-using TeamOdd.Ratocalypse.CardLib.Cards.Templates;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
-using static TeamOdd.Ratocalypse.CardLib.Cards.Templates.MoveOrAttackCardData;
 
 namespace TeamOdd.Ratocalypse.CardLib
 {
@@ -9,10 +9,17 @@ namespace TeamOdd.Ratocalypse.CardLib
         private CardOriginData _cardOriginData;
         [SerializeField]
         private string _path;
+
+        [SerializeField]
+        private List<CardDataObject> _cardDataObjects = new List<CardDataObject>();
+
         private void Awake()
         {
             _cardOriginData = CardOriginData.Instance;
-            AddCards();
+            foreach (var cardDataObject in _cardDataObjects)
+            {
+                LoadCards(cardDataObject.cardCreateDatas);
+            }
         }
 
         private void AddCard(CardData data)
@@ -20,27 +27,17 @@ namespace TeamOdd.Ratocalypse.CardLib
             _cardOriginData.AddData(data);
         }
 
-        private void AddCards()
+        private void LoadCards(List<CardCreateData> cardCreateDatas)
         {
-            var ratAttackData = new DataValue(10, MoveOrAttackRangeType.Rook);
-            var ratAttack = new MoveOrAttackCardData(LoadTexture("RatAttack"), 33, ratAttackData, 0);
-            AddCard(ratAttack);
-
-            var ratSurvivalInstictData = new DataValue(100, MoveOrAttackRangeType.Knight);
-            var ratSurvivalInstict = new MoveOrAttackCardData(LoadTexture("RatSurvivalInstict"), 34, ratSurvivalInstictData, 1);
-            AddCard(ratSurvivalInstict);
-
-            var ratRapidMoveData = new DataValue(50, MoveOrAttackRangeType.King);
-            var ratRapidMove = new MoveOrAttackCardData(LoadTexture("RatRapidMove"), 35, ratRapidMoveData, 2);
-            AddCard(ratRapidMove);
-
-            var ratDefenseData = new DataValue(5, MoveOrAttackRangeType.Bishop);
-            var ratDefense = new MoveOrAttackCardData(LoadTexture("RatDefense"), 36, ratDefenseData, 3);
-            AddCard(ratDefense);
-
-            var ratBasicTrainingData = new DataValue(0, MoveOrAttackRangeType.Bishop);
-            var ratBasicTraining = new MoveOrAttackCardData(LoadTexture("RatBasicTraining"), 1, ratBasicTrainingData, 4);
-            AddCard(ratBasicTraining);
+            foreach (var cardCreateData in cardCreateDatas)
+            {
+                var cardDataType = cardCreateData.CardDataType;
+                var texture = LoadTexture(cardCreateData.TextureName);
+                var id = cardCreateData.Id;
+                var valueData = cardCreateData.OriginValueData; 
+                var cardData = CardData.CreateCardData(cardDataType, id, texture, valueData);
+                AddCard(cardData);
+            }
         }
 
         private Texture2D LoadTexture(string name)
