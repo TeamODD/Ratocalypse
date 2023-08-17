@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace TeamOdd.Ratocalypse.DeckLib
 {
-
     [System.Serializable]
     public class DeckData
     {
@@ -16,7 +15,7 @@ namespace TeamOdd.Ratocalypse.DeckLib
             Lack
         }
 
-        private readonly List<(int, CardDataValue)> _originDeckCards;
+        private readonly List<int> _originDeckCards;
 
         public int MaxHandCount { get; private set; } = 10;
 
@@ -24,16 +23,17 @@ namespace TeamOdd.Ratocalypse.DeckLib
         private HandData _handData = new HandData();
         private TombData _tombData = new TombData();
         private UndrawnCards _undrawnCards = new UndrawnCards();
+        public CardColor CardColor { get; private set; } = CardColor.Blue;
 
-        public DeckData(List<(int, CardDataValue)> originDeckCards, int maxHandCount = 10)
+        public DeckData(List<int> originDeckCards, CardColor cardColor, int maxHandCount = 10)
         {
             _originDeckCards = originDeckCards;
             MaxHandCount = maxHandCount;
+            CardColor = cardColor;
 
-            foreach (var (id, dataValue) in _originDeckCards)
+            foreach (var id in _originDeckCards)
             {
                 CardData newCardData = CardOriginData.Instance.CreateOriginCard(id);
-                newCardData.DeckDataValue = dataValue;
                 _undrawnCards.AddCard(newCardData);
             }
             _undrawnCards.Shuffle();

@@ -51,11 +51,12 @@ namespace TeamOdd.Ratocalypse.DeckLib
 
         private Selection<List<int>> _selection;
 
+
         public void PreCreateCards()
         {
-            for (int i = 0; i <= 10; i++)
+            for (int i = 0; i <= 20; i++)
             {
-                CardView card = _cardFactory.Create(new CardData(0, new CardDataValue()), transform);
+                CardView card = _cardFactory.Create(new CardData(), transform, CardColor.Blue);
                 HandCard handCard = card.gameObject.AddComponent<HandCard>();
                 card.gameObject.AddComponent<CardEvents>();
                 card.gameObject.SetActive(false);
@@ -85,7 +86,7 @@ namespace TeamOdd.Ratocalypse.DeckLib
             cardEvents.MouseUpEvents.AddListener(() => card.Run(CardAction.EndDrag));
 
             CardView cardView = card.GetComponent<CardView>();
-            cardView.View(cardData);
+            cardView.View(cardData,_deckData.CardColor);
         }
 
         private void Drag(HandCard card)
@@ -100,13 +101,6 @@ namespace TeamOdd.Ratocalypse.DeckLib
             {
                 card.Run(CardAction.StartDrag);
             }
-        }
-
-
-        [ContextMenu("AddOne")]
-        public void AddOne()
-        {
-            AddCard(new CardData(0, new CardDataValue()));
         }
 
         public void Execute(HandCard card)
@@ -174,18 +168,6 @@ namespace TeamOdd.Ratocalypse.DeckLib
             PreCreateCards();
         }
 
-        public void Update()
-        {
-            UpdateFocus();
-            if(Input.GetKeyDown(KeyCode.Space))
-            {
-                AddOne();
-            }
-            if(Input.GetKeyDown(KeyCode.A))
-            {
-                Remove();
-            }
-        }
 
         private float CalcInCircleRatio(float ratio)
         {

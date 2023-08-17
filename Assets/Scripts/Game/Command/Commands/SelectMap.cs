@@ -1,11 +1,9 @@
 using System.Collections.Generic;
-using TeamOdd.Ratocalypse.MapLib.GameLib.SelectionLib;
 using UnityEngine;
 using TeamOdd.Ratocalypse.CreatureLib;
 using TeamOdd.Ratocalypse.CreatureLib.Rat;
 using TeamOdd.Ratocalypse.CreatureLib.Cat;
 using TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib;
-using static TeamOdd.Ratocalypse.CardLib.Cards.Templates.MoveOrAttackCardData;
 using static TeamOdd.Ratocalypse.MapLib.MapData;
 using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
 
@@ -20,7 +18,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 
         private MapData _mapData;
 
-        private MoveOrAttackRangeType _rangeType;
+        private ChessRangeType _rangeType;
         private CreatureData _target;
 
         public void SetRequire((IMapSelector rat, IMapSelector cat) value)
@@ -34,7 +32,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
             _mapData = require;
         }
 
-        public SelectMap(MoveOrAttackRangeType rangeType, CreatureData target)
+        public SelectMap(ChessRangeType rangeType, CreatureData target)
         {
             _rangeType = rangeType;
             _target = target;

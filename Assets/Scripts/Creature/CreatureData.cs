@@ -39,14 +39,14 @@ namespace TeamOdd.Ratocalypse.CreatureLib
         private (int index,CardData cardData) ?_castCardData = null;
 
         public CreatureData(float maxHp, int maxStamina, MapData mapData,
-                            Vector2Int coord, Shape shape, List<(int,CardDataValue)> deck,
-                            ICardSelector cardSelector) 
+                            Vector2Int coord, Shape shape, List<int> deck,
+                            ICardSelector cardSelector, CardColor cardColor = CardColor.Blue) 
                             :base(mapData, coord, shape)
         {
             MaxHp = maxHp;
             MaxStamina = maxStamina;
             _cardSelector = cardSelector;
-            DeckData = new DeckData(deck);
+            DeckData = new DeckData(deck, cardColor);
             Init();
         }
 
