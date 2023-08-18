@@ -34,6 +34,7 @@ namespace TeamOdd.Ratocalypse.UI
                 _deployment.Add(a.GetComponent<IIcon>());
             }
         }
+        [ContextMenu("SetDeployment")]
         public void SetDeployment()
         {
             _deploymentNumber.Clear();
@@ -47,6 +48,7 @@ namespace TeamOdd.Ratocalypse.UI
                     }
                 }
             }
+
             if (_deploymentNumber.Exists(x => x == -1))
             {
                 if (!_deploymentNumber.FindIndex(element => element == -1).Equals(_deploymentNumber.Count - 1))
@@ -55,8 +57,8 @@ namespace TeamOdd.Ratocalypse.UI
                 }
             }
             _deploymentNumber.Sort();
-
             _interval = Mathf.RoundToInt((_size.x - 20) / _deploymentNumber.Count);
+
             foreach (IIcon a in _deployment)
             {
                 a.SetPosition(
