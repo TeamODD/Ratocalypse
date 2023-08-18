@@ -11,9 +11,7 @@ namespace TeamOdd.Ratocalypse.UI
         [SerializeField]
         private Vector2 _uiSize;
         [SerializeField]
-        private float _xGap = 405;
-        [SerializeField]
-        private float _yGap = 108;
+        private float _yGap = 20;
         private List<MemberIcon> _memberIconlist = new List<MemberIcon>();
 
         public List<MemberIcon> MemberIconlist = new List<MemberIcon>();
@@ -43,13 +41,13 @@ namespace TeamOdd.Ratocalypse.UI
             {
                 if (MemberIconlist[i - 1].Activation)
                 {
-                    VectorY = _yGap * (((float)(_memberIconlist.Count+1) / 2) - _memberIconlist.FindIndex(x => x== MemberIconlist[i - 1])-1);
+                    VectorY = (108+_yGap) * (((float)(_memberIconlist.Count+1) / 2) - _memberIconlist.FindIndex(x => x== MemberIconlist[i - 1])-1);
                     position = new Vector3(0, VectorY, 0);
                     MemberIconlist[i - 1].SetMember(position);
                 }
                 else 
                 {
-                    VectorX = -1 * _xGap;
+                    VectorX = -405;
                     position = new Vector3(VectorX, 0 , 0);
                     MemberIconlist[i - 1].SetMember(position);
                 }
