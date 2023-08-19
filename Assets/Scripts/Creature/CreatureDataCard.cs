@@ -13,7 +13,7 @@ using static TeamOdd.Ratocalypse.MapLib.MapData;
 
 namespace TeamOdd.Ratocalypse.CreatureLib
 {
-    public partial class CreatureData : Placement, IDamageable, IAttackable
+    public partial class CreatureData
     {
 
         public List<int> GetCastableCardIndices()

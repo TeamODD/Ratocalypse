@@ -26,11 +26,6 @@ namespace TeamOdd.Ratocalypse.CardLib.CommandLib
             _commands.Add(command);
         }
 
-        protected void EndCommand(ICommandResult result)
-        {
-            _endResult = result;
-        }
-
         public Command Next(ICommandResult parm)
         {
             Command nextCommand = null;
@@ -49,6 +44,18 @@ namespace TeamOdd.Ratocalypse.CardLib.CommandLib
         protected void SetParm(ICommandResult parm)
         {
             _parm = parm;
+        }
+
+        private Command Jump(int step, ICommandResult parm = null)
+        {
+            _current += step;
+            return null;
+        }
+
+        protected Command EndCommand(ICommandResult result)
+        {
+            _endResult = result;
+            return null;
         }
 
         public override ExecuteResult Execute()

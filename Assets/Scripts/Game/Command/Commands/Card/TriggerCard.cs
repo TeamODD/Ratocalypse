@@ -9,14 +9,16 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.CardCommands
     public class TriggerCard : ChainCommand, ICommandResult
     {
         public float DamageMultiplier = 1f;
-        private int _damage = 0;
-        public int Damage { get; private set;} = 0;
+        public int Damage { get; private set; } = 0;
         public Vector2Int? Destenation { get; private set; } = null;
+        public CreatureData Caster { get; private set; }
 
-        public TriggerCard(ICommandResult parm, int damage = 0, Vector2Int ?destenation = null) : base(parm)
+
+        public TriggerCard(ICommandResult parm, CreatureData caster, int damage = 0, Vector2Int? destenation = null) : base(parm)
         {
             Damage = damage;
             Destenation = destenation;
+            Caster = caster;
         }
 
         public int CalculateFinalDamage()
@@ -26,8 +28,13 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.CardCommands
 
         public override ExecuteResult Execute()
         {
+            if (!Caster.IsAlive())
+            {
+                return new End();
+            }
+
             Command nextCommand = Next(_parm);
-            if(nextCommand != null)
+            if (nextCommand != null)
             {
                 nextCommand.RegisterOnEnd(SetParm);
                 return new SubCommand(nextCommand);
