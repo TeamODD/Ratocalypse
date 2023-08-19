@@ -2,7 +2,7 @@ using UnityEngine;
 using TeamOdd.Ratocalypse.CreatureLib;
 using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
 
-namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.DataCommands
+namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
 {
     public class Move : Command
     {

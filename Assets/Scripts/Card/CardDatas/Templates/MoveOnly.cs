@@ -5,7 +5,7 @@ using TeamOdd.Ratocalypse.DeckLib;
 using TeamOdd.Ratocalypse.MapLib;
 using TeamOdd.Ratocalypse.MapLib.GameLib.Commands;
 using TeamOdd.Ratocalypse.MapLib.GameLib.Commands.CardCommands;
-using TeamOdd.Ratocalypse.MapLib.GameLib.Commands.DataCommands;
+using TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands;
 using UnityEngine;
 
 
@@ -27,11 +27,11 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
                 return temp;
             });
 
-            castCard.SetTrigger((result) =>
+            castCard.SetTrigger((result, _) =>
             {
                 SelectMap.Result selectResult = result as SelectMap.Result;
 
-                TriggerCard triggerCard = new TriggerCard(null, 0, selectResult.SelectedCoord);
+                TriggerCard triggerCard = new TriggerCard(null, caster, 0, selectResult.SelectedCoord);
                 triggerCard.AddCommand((_) =>
                 {
                     if (selectResult.SelectedCoord != null)

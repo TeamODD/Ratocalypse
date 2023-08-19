@@ -50,5 +50,10 @@ namespace TeamOdd.Ratocalypse.Obstacle
             Hp = Mathf.Min(MaxHp, Hp + amount);
             OnHpRestored.Invoke(Hp);
         }
+
+        public bool IsAlive()
+        {
+            return Hp > 0;
+        }
     }
 }

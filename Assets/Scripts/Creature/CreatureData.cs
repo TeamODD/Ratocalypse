@@ -93,5 +93,10 @@ namespace TeamOdd.Ratocalypse.CreatureLib
             target.ReduceHp(damage);
             OnAttack.Invoke(target, damage);
         }
+
+        public bool IsAlive()
+        {
+            return Hp > 0;
+        }
     }
 }
