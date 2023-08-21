@@ -18,6 +18,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 
         private ChessRangeType _rangeType;
         private CreatureData _target;
+        private MapSelecting _mapSelecting;
 
         private bool _selectTarget;
         private bool _selectMap;
@@ -33,9 +34,9 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
             _mapData = require;
         }
 
-        public SelectMap(ChessRangeType rangeType, CreatureData target, bool selectTarget, bool selectMap)
+        public SelectMap(MapSelecting mapSelecting, CreatureData target, bool selectTarget, bool selectMap)
         {
-            _rangeType = rangeType;
+            _mapSelecting = mapSelecting;
             _target = target;
             _selectTarget = selectTarget;
             _selectMap = selectMap;
@@ -54,13 +55,10 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
             }
 
             var (endWait, result) = CreateWait();
-            Pattern pattern = Pattern.GetChessPattern(_rangeType);
-            DirectionalMovement movement = new DirectionalMovement(_target, _mapData, pattern);
-            movement.Calculate();
-
+            _mapSelecting.Calculate(_mapData);
             if (_selectMap)
             {
-                var coordSelection = movement.CreateCoordSelection((coord) =>
+                var coordSelection = _mapSelecting.CreateCoordSelection((coord) =>
                 {
                     endWait(new End(new Result { SelectedCoord = coord }));
                 });
@@ -69,7 +67,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 
             if (_selectTarget)
             {
-                var placementSelection = movement.CreatePlacementSelection((placement) =>
+                var placementSelection = _mapSelecting.CreatePlacementSelection((placement) =>
                 {
                     endWait(new End(new Result { SelectedPlacement = placement }));
                 });
