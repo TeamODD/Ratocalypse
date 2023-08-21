@@ -4,7 +4,7 @@ using TeamOdd.Ratocalypse.MapLib.GameLib.Commands;
 using TeamOdd.Ratocalypse.MapLib.GameLib.Commands.CardCommands;
 using UnityEngine;
 
-namespace TeamOdd.Ratocalypse.CardLib
+namespace TeamOdd.Ratocalypse.CardLib   
 {
     [Serializable]
     public class CardData

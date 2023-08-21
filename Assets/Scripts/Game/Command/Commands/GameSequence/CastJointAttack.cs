@@ -64,6 +64,9 @@ namespace TeamOdd.Ratocalypse.GameLib.Commands.GameSequenceCommands
         public void SetNext()
         {
             int last = _creaturesLeft.Count - 1;
+
+            _triggerCards = _triggerCards.Where((trigger) => trigger.Caster.IsAlive()).ToList();
+
             for (int i = last; i >= 0; i--)
             {
                 var creatureData = _creaturesLeft[i];
@@ -73,6 +76,7 @@ namespace TeamOdd.Ratocalypse.GameLib.Commands.GameSequenceCommands
                     _creaturesLeft.RemoveAt(i);
                     continue;
                 }
+
                 var indices = creatureData.GetCastableCardIndices();
                 var currentIndex = i;
                 var selection = new Selection<List<int>>(indices, (int selectedInex) =>

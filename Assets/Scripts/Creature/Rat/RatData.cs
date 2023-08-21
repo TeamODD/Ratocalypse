@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TeamOdd.Ratocalypse.CardLib;
 using TeamOdd.Ratocalypse.MapLib;
@@ -20,6 +21,7 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Rat
         {
             
         }
+
 
     }
 }

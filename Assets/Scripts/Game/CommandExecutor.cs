@@ -12,6 +12,8 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
 {
     public class CommandExecutor
     {
+        public UnityEvent OnEmpty = new UnityEvent();
+
         private MapData _mapData;
         private GameStatistics _gameStatistics;
 
@@ -40,6 +42,18 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
             _ratHandSelector = ratHandSelector;
 
             _turnUI = turnUI;
+        }
+
+        public void Clear()
+        {
+            _commands = new Stack<Command>();
+        }
+
+        public CommandExecutor Clone()
+        {
+            var cloned = MemberwiseClone() as CommandExecutor;
+            cloned.Clear();
+            return cloned;
         }
 
         private void RunSubCommand(Command command)
@@ -116,6 +130,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
             (command as ICommandRequire<MapData>)?.SetRequire(_mapData);
             (command as ICommandRequire<GameStatistics>)?.SetRequire(_gameStatistics);
             (command as ICommandRequire<TurnUI>)?.SetRequire(_turnUI);
+            (command as IRequireExtraExcutor)?.SetRequire(Clone);
         }
 
         public void PushCommand(Command command)
@@ -136,6 +151,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
             }
             else
             {
+                OnEmpty.Invoke();
                 Debug.Log("No commands to run");
             }
         }

@@ -28,6 +28,7 @@ namespace TeamOdd.Ratocalypse.CreatureLib
             _creatrueData.OnHpRestored.AddListener(OnHpRestored);
             _creatrueData.OnDie.AddListener(OnDie);
             _creatrueData.OnAttack.AddListener(OnAttack);
+            _creatrueData.AnimationEvent.AddListener(OnAnimationEvent);
         }
 
         protected override void OnCoordChanged(Vector2Int coord)
@@ -51,6 +52,11 @@ namespace TeamOdd.Ratocalypse.CreatureLib
         }
 
         protected virtual void OnAttack(IDamageable target, float damage)
+        {
+            
+        }
+
+        protected virtual void OnAnimationEvent(object parm, string name, Action[] callbacks)
         {
             
         }
