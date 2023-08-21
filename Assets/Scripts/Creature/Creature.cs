@@ -27,7 +27,6 @@ namespace TeamOdd.Ratocalypse.CreatureLib
             _creatrueData.OnHpReduced.AddListener(OnHpReduced);
             _creatrueData.OnHpRestored.AddListener(OnHpRestored);
             _creatrueData.OnDie.AddListener(OnDie);
-            _creatrueData.OnAttack.AddListener(OnAttack);
             _creatrueData.AnimationEvent.AddListener(OnAnimationEvent);
         }
 
@@ -36,22 +35,17 @@ namespace TeamOdd.Ratocalypse.CreatureLib
             
         }
 
-        protected virtual void OnHpReduced(float hp)
+        protected virtual void OnHpReduced(int hp)
         {
             
         }
 
-        protected virtual void OnHpRestored(float hp)
+        protected virtual void OnHpRestored(int hp)
         {
             
         }
 
         protected virtual void OnDie()
-        {
-            
-        }
-
-        protected virtual void OnAttack(IDamageable target, float damage)
         {
             
         }

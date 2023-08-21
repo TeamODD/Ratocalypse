@@ -41,7 +41,7 @@ namespace TeamOdd.Ratocalypse.TestScripts
         private Map _map;
 
         [SerializeField]
-        private float _maxHp = 100;
+        private int _maxHp = 100;
 
         [SerializeField]
         private int _maxStamina = 100;

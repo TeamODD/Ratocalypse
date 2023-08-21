@@ -16,9 +16,12 @@ namespace TeamOdd.Ratocalypse.CreatureLib
     public partial class  CreatureData : Placement, IDamageable, IAttackable, IAnimatable
     {
         [field: ReadOnly, SerializeField]
-        public float MaxHp { get; private set; }
+        public int MaxHp { get; private set; }
         [field: ReadOnly, SerializeField]
-        public float Hp { get; private set; }
+        public int Hp { get; private set; }
+
+        [field: ReadOnly, SerializeField]
+        public int Armor { get; private set; }
 
         [field: ReadOnly, SerializeField]
         public int MaxStamina { get; private set; }
@@ -26,10 +29,12 @@ namespace TeamOdd.Ratocalypse.CreatureLib
         [field: ReadOnly, SerializeField]
         public int Stamina { get; private set; }
 
-        public UnityEvent<float> OnHpReduced { get; private set; } = new UnityEvent<float>();
-        public UnityEvent<float> OnHpRestored { get; private set; } = new UnityEvent<float>();
+        public UnityEvent<int> OnHpReduced { get; private set; } = new UnityEvent<int>();
+        public UnityEvent<int> OnHpRestored { get; private set; } = new UnityEvent<int>();
+        public UnityEvent<int> OnArmorReduced { get; private set; } = new UnityEvent<int>();
+        public UnityEvent<int> OnArmorIncreased { get; private set; } = new UnityEvent<int>();
         public UnityEvent OnDie { get; private set; } = new UnityEvent();
-        public UnityEvent<IDamageable, float> OnAttack { get; private set; } = new UnityEvent<IDamageable, float>();
+        public UnityEvent<IDamageable, int> OnAttack { get; private set; } = new UnityEvent<IDamageable, int>();
 
         public UnityEvent<object, string, Action[]> AnimationEvent{get; private set;} = new UnityEvent<object, string, Action[]>();
         
@@ -41,7 +46,7 @@ namespace TeamOdd.Ratocalypse.CreatureLib
         private Selection<List<int>> _currentCardSelection;
         private (int index,CardData cardData) ?_castCardData = null;
 
-        public CreatureData(float maxHp, int maxStamina, MapData mapData,
+        public CreatureData(int maxHp, int maxStamina, MapData mapData,
                             Vector2Int coord, Shape shape, List<int> deck,
                             ICardSelector cardSelector, CardColor cardColor = CardColor.Blue) 
                             :base(mapData, coord, shape)
@@ -64,8 +69,22 @@ namespace TeamOdd.Ratocalypse.CreatureLib
             OnDie.Invoke();
         }
 
-        public void ReduceHp(float amount)
+        public void ReduceHp(int amount)
         {
+            if(Armor > 0)
+            {
+                var armorAfter = Mathf.Max(0, Armor - amount);
+                var defensedAmount = Armor - armorAfter;
+                amount -= defensedAmount;
+
+                Armor = armorAfter;
+            }
+
+            if(amount <= 0)
+            {
+                return;
+            }
+
             Hp = Mathf.Max(0, Hp - amount);
             OnHpReduced.Invoke(Hp);
 
@@ -75,10 +94,20 @@ namespace TeamOdd.Ratocalypse.CreatureLib
             }
         }
 
-        public void RestoreHp(float amount)
+        public void RestoreHp(int amount)
         {
             Hp = Mathf.Min(MaxHp, Hp + amount);
             OnHpRestored.Invoke(Hp);
+        }
+
+        public void IncreaseArmor(int amount)
+        {
+            Armor += amount;
+        }
+
+        public void ReduceArmor(int amount)
+        {
+            Armor =  Mathf.Max(0,Armor - amount);
         }
 
         public void RestoreAllStamina()
@@ -91,7 +120,7 @@ namespace TeamOdd.Ratocalypse.CreatureLib
             Stamina -= amount;
         }
 
-        public void Attack(IDamageable target, float damage)
+        public void Attack(IDamageable target, int damage)
         {
             target.ReduceHp(damage);
             OnAttack.Invoke(target, damage);

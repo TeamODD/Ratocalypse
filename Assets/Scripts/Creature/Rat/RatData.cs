@@ -13,7 +13,7 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Rat
     {
         static private Shape _shape = new Shape(1, 1);
 
-        public RatData(float maxHp, int maxStamina,
+        public RatData(int maxHp, int maxStamina,
                        MapData mapData, Vector2Int coord,
                        List<int> deck,
                        ICardSelector cardSelector)

@@ -38,14 +38,9 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Rat
             transform.DOMove(_mapCoord.GetTileWorldPosition(coord), 0.2f);
         }
 
-        protected override void OnHpReduced(float hp)
+        protected override void OnHpReduced(int hp)
         {
             
-        }
-
-        protected override void OnAttack(IDamageable target, float damage)
-        {
-            _ratAnimation.AttackMotion();
         }
 
         protected override void OnAnimationEvent(object parm, string name, Action[] callbacks)
