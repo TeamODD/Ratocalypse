@@ -10,8 +10,8 @@ public class CreatureUI : MonoBehaviour
 {
     // 테스트용 임시 변수
     public Transform target;
-    public RectTransform rectTransform;
-
+    
+    private RectTransform rectTransform;
     private Vector3 InterfacePoint;  
     public void Start()
     {
