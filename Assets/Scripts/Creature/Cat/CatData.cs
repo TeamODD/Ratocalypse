@@ -12,7 +12,7 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Cat
     {
         static private Shape _shape = new Shape(2, 2);
 
-        public CatData(float maxHp, int maxStamina,
+        public CatData(int maxHp, int maxStamina,
                        MapData mapData, Vector2Int coord,
                        List<int> deck,
                        ICardSelector cardSelector)
