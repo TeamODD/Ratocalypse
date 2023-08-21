@@ -22,6 +22,7 @@ namespace TeamOdd.Ratocalypse.UI
             Debug.Log("카드 데이터 숫자, 이미지 적용");
             DOTween.To(() => _offPosition, x => transform.localPosition = x, _onPosition, MoveTime).SetEase(_ease);
         }
+        [ContextMenu("CancelButton")]
         public void CancelButton()
         {
             DOTween.To(() => _onPosition, x => transform.localPosition = x, _offPosition, MoveTime).SetEase(_ease);

@@ -7,14 +7,13 @@ namespace TeamOdd.Ratocalypse.UI
 {
     public class TurnUI : MonoBehaviour
     {
-
         private List<IIcon> _deployment = new List<IIcon>();
         private List<int> _deploymentNumber = new List<int>();
 
         private Vector2 _size;
         private int _interval;
 
-        public List<Image> TestIconList;
+        public List<Image> TestIconList; 
 
         public List<IIcon> Deployment
         {
