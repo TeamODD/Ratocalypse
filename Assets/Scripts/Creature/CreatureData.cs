@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TeamOdd.Ratocalypse.CardLib;
 using TeamOdd.Ratocalypse.CreatureLib.Attributes;
@@ -11,8 +12,8 @@ using static TeamOdd.Ratocalypse.MapLib.MapData;
 
 namespace TeamOdd.Ratocalypse.CreatureLib
 {
-    [System.Serializable]
-    public partial class  CreatureData : Placement, IDamageable, IAttackable
+    [Serializable]
+    public partial class  CreatureData : Placement, IDamageable, IAttackable, IAnimatable
     {
         [field: ReadOnly, SerializeField]
         public float MaxHp { get; private set; }
@@ -30,6 +31,8 @@ namespace TeamOdd.Ratocalypse.CreatureLib
         public UnityEvent OnDie { get; private set; } = new UnityEvent();
         public UnityEvent<IDamageable, float> OnAttack { get; private set; } = new UnityEvent<IDamageable, float>();
 
+        public UnityEvent<object, string, Action[]> AnimationEvent{get; private set;} = new UnityEvent<object, string, Action[]>();
+        
         public List<string> StatusEffectList;
         
         [field: ReadOnly, SerializeField]

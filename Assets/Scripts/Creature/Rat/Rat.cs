@@ -4,6 +4,7 @@ using UnityEngine;
 using static TeamOdd.Ratocalypse.MapLib.MapData;
 using DG.Tweening;
 using TeamOdd.Ratocalypse.CreatureLib.Attributes;
+using System;
 
 namespace TeamOdd.Ratocalypse.CreatureLib.Rat
 {
@@ -45,6 +46,23 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Rat
         protected override void OnAttack(IDamageable target, float damage)
         {
             _ratAnimation.AttackMotion();
+        }
+
+        protected override void OnAnimationEvent(object parm, string name, Action[] callbacks)
+        {
+            if(name == "Attack")
+            {
+                _ratAnimation.AttackMotion(callbacks);
+            }
+            else if(name == "Hit")
+            {
+                transform.DORotate(new Vector3(0, 0, 10), 0.2f).SetLoops(2, LoopType.Yoyo).OnComplete(() => {
+                    if(callbacks!=null&&callbacks.Length > 0)
+                    {
+                        callbacks[0]?.Invoke();
+                    }
+                });
+            }
         }
     }
 }

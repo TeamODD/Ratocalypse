@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TeamOdd.Ratocalypse.CreatureLib.Attributes;
 using TeamOdd.Ratocalypse.MapLib;
@@ -8,7 +9,7 @@ using static TeamOdd.Ratocalypse.MapLib.MapData;
 namespace TeamOdd.Ratocalypse.Obstacle
 {
     [System.Serializable]
-    public class ObstacleData : Placement, IDamageable
+    public class ObstacleData : Placement, IDamageable, IAnimatable
     {
         [SerializeField]
         public float MaxHp { get; private set; }
@@ -18,6 +19,8 @@ namespace TeamOdd.Ratocalypse.Obstacle
         public UnityEvent OnDie{get; private set;}
         public UnityEvent<float> OnHpReduced{ get; private set; }
         public UnityEvent<float> OnHpRestored{ get; private set; }
+
+        public UnityEvent<object, string, Action[]> AnimationEvent{get; private set;} = new UnityEvent<object, string, Action[]>();
 
         public ObstacleData(float maxHp, MapData mapData, Vector2Int coord, Shape shape):base(mapData, coord, shape)
         {

@@ -17,12 +17,12 @@ namespace TeamOdd.Ratocalypse.CardLib.CommandLib
             _target = target;
         }
 
-        protected ExecuteResult RunSuccess()
+        protected virtual ExecuteResult RunSuccess()
         {
             return new End(WrapResult(true));
         }
 
-        protected ExecuteResult RunFail()
+        protected virtual ExecuteResult RunFail()
         {
             return new End(WrapResult(false));
         }
