@@ -23,7 +23,7 @@ namespace TeamOdd.Ratocalypse.UI
         public void OnEffect()
         {
             _fireEffect.Play();
-
+                    
         }
     }
 }

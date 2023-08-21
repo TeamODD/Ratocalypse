@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Art/TestTextures/Old/BackPack_texture.png.meta
-guid: 5a75fe00e022d0742a19d2bdfe9845f5
-========
-guid: 0891b8c112ec1be4c8d332a69a30a171
->>>>>>>> origin/feature/59-Creature_Stamina_HP:Assets/Art/TestTextures/Old/100.png.meta
+guid: 801bea0961a4c154993c435bdd080c8e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
