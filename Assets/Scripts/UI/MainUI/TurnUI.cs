@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,62 +9,77 @@ namespace TeamOdd.Ratocalypse.UI
 {
     public class TurnUI : MonoBehaviour
     {
+        [field: SerializeField]
         private List<IIcon> _deployment = new List<IIcon>();
+
+        [SerializeField]
         private List<int> _deploymentNumber = new List<int>();
 
-        private Vector2 _size;
-        private int _interval;
+        private Vector2 _uiSize;
 
-        public List<Image> TestIconList; 
+        [SerializeField]
+        private float _xMargin = 50;
+        [SerializeField]
+        private float _maxXGap = 150;
 
-        public List<IIcon> Deployment
-        {
-            set { _deployment = value; }
-        }
+        [SerializeField]
+        private float _yGap = 100;
+
+        [SerializeField]
+        private float _yOrigin = 2;
+
+        public List<GameObject> TestIconList; 
+
 
         private void Start()
         {
-            _size = GetComponent<RectTransform>().sizeDelta;
+            _uiSize = GetComponent<RectTransform>().sizeDelta;
             SetTestIcon();
         }
-
+        public void AddIcon(IIcon icon)
+        {
+            _deployment.Add(icon);
+        }
         public void SetTestIcon()
         {
-            foreach (Image a in TestIconList)
+            foreach (GameObject a in TestIconList)
             {
                 _deployment.Add(a.GetComponent<IIcon>());
             }
         }
+
         [ContextMenu("SetDeployment")]
         public void SetDeployment()
         {
             _deploymentNumber.Clear();
-            foreach (IIcon a in _deployment)
-            {
-                if (!_deploymentNumber.Exists(x => x == a.Order))
-                {
-                    if (a.Order != -1)
-                    {
-                        _deploymentNumber.Add(a.Order);
-                    }
-                }
-            }
-
-            if (_deploymentNumber.Exists(x => x == -1))
-            {
-                if (!_deploymentNumber.FindIndex(element => element == -1).Equals(_deploymentNumber.Count - 1))
-                {
-                    _deploymentNumber.Remove(_deploymentNumber.FindIndex(element => element == -1));
-                }
-            }
+            _deploymentNumber = _deployment.Select((icon) => icon.Order).Distinct().ToList();
+            _deploymentNumber = _deploymentNumber.FindAll((oreder) => oreder != -1).Distinct().ToList();
             _deploymentNumber.Sort();
-            _interval = Mathf.RoundToInt((_size.x - 20) / _deploymentNumber.Count);
+
+            float interval = (_uiSize.x - (2 * _xMargin)) / (_deploymentNumber.Count - 1);
+            interval = Mathf.Min(interval, _maxXGap);
+
+            float left = -(_uiSize.x / 2) + _xMargin;
 
             foreach (IIcon a in _deployment)
             {
-                a.SetPosition(
-                    (a.Order == -1) ? new Vector3((_size.x - 20) / 2, -30 - 30 * NumberOfDuplicates(a), 0) : new Vector3(-(_size.x - 20) / 2 + _interval * _deploymentNumber.FindIndex(element => element == a.Order), -30 - 30 * NumberOfDuplicates(a), 0)
-                    );
+                List<IIcon> iconsInOrder = _deployment.Where((icon) => icon.Order == a.Order).ToList();
+
+             
+                if (a.Order == -1)
+                {
+                    float x = (_uiSize.x - 20) / 2;
+                    float y = -30 - 30 * NumberOfDuplicates(a);
+
+                    a.SetPosition(new Vector2(x,y));
+                }
+                else
+                {
+                    float x = left + (interval * _deploymentNumber.FindIndex(element => element == a.Order));
+                    float y = -30 - 30 * NumberOfDuplicates(a);
+
+                    a.SetPosition(new Vector2(x, y));
+                }
             }
         }
 

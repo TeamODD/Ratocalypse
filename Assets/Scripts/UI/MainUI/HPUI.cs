@@ -1,37 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Net;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
 
-public class HPUI : MonoBehaviour
+namespace TeamOdd.Ratocalypse.UI
 {
-    private Image _hpImage;
-    private TextMeshProUGUI _hpText;
-
-    private void SetHpText(string hpText)
+    public class HPUI : MonoBehaviour
     {
-        _hpText.text = hpText;
-    }
+        private Image _hpImage;
+        private TextMeshProUGUI _hpText;
 
-    private void UpdateHpBar(float hpRatio)
-    {
-        _hpImage.fillAmount = hpRatio;
-    }
+        private void SetHpText(string hpText)
+        {
+            _hpText.text = hpText;
+        }
+
+        private void UpdateHpBar(float hpRatio)
+        {
+            _hpImage.fillAmount = hpRatio;
+        }
 
 
-    void Awake()
-    {
-        _hpImage = transform.Find("HP/HpImage").GetComponent<Image>();
-        _hpText = transform.Find("HP/HpText").GetComponent<TextMeshProUGUI>();
-    }
+        void Awake()
+        {
+            _hpImage = transform.Find("HP/HpImage").GetComponent<Image>();
+            _hpText = transform.Find("HP/HpText").GetComponent<TextMeshProUGUI>();
+        }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        SetHpText("50 / 100");
-        UpdateHpBar(0.5f);
+        // Start is called before the first frame update
+        void Start()
+        {
+            SetHpText("50 / 100");
+            UpdateHpBar(0.5f);
+        }
     }
 }

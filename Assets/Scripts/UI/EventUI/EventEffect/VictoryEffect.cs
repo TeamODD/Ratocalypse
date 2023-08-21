@@ -15,14 +15,13 @@ namespace TeamOdd.Ratocalypse.UI
         [SerializeField]
         private GameObject _panel;
 
-        [ContextMenu("FadeOut")]
         public void FadeOut()
         {
             _panel.GetComponent<Image>().DOColor(new Color(0.1f, 0.1f, 0.1f, 0), MoveTime).SetEase(Ease.InOutCubic);
             transform.GetComponent<Image>().DOColor(_fadeOut, MoveTime).SetEase(Ease.InOutCubic);
             
         }
-        [ContextMenu("FadeIn")]
+
         public void FadeIn()
         {
             _panel.GetComponent<Image>().DOColor(new Color(0.1f, 0.1f, 0.1f, 0.8f), MoveTime).SetEase(Ease.InOutCubic);
