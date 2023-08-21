@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -116,5 +117,11 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
             }
             return  new Pattern(deltas, 1, maxStep);
         }
+
+        internal static Pattern GetChessPattern(object knight)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

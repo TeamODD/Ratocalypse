@@ -1,8 +1,14 @@
 using System;
+using System.Collections.Generic;
 using TeamOdd.Ratocalypse.CardLib.CommandLib;
+using TeamOdd.Ratocalypse.CreatureLib;
+using TeamOdd.Ratocalypse.MapLib;
 using TeamOdd.Ratocalypse.MapLib.GameLib.Commands;
 using TeamOdd.Ratocalypse.MapLib.GameLib.Commands.CardCommands;
+using TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib;
+using UnityEditor;
 using UnityEngine;
+using static TeamOdd.Ratocalypse.MapLib.MapData;
 
 namespace TeamOdd.Ratocalypse.CardLib   
 {
@@ -70,12 +76,17 @@ namespace TeamOdd.Ratocalypse.CardLib
         {
             return OriginValueData.Cost + GameValueData.Cost;
         }
+
+        public virtual MapSelecting GetPreview(CreatureData caster)
+        {
+            return null;
+        }
     }
 
     public class CardValueData
     {
         public int Cost = 0;
-
+        public ChessRangeType rangeType = ChessRangeType.None;
         public CardValueData Clone()
         {
             return MemberwiseClone() as CardValueData;

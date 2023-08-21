@@ -7,66 +7,46 @@ using static TeamOdd.Ratocalypse.MapLib.MapData;
 using System.Linq;
 namespace TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib
 {
-    public class DirectionalMovement
+    public class DirectionalMovement : MapSelecting
     {
-        private MapData _mapData;
-        private MapAnalyzer _analyzer;
         private Placement _target;
         private Pattern _pattern;
+        
+        private Func<Placement, bool> _filter;
 
-        private ShapedCoordList _coordCandidates;
-        private List<Placement> _placementCanditates;
-
-
-        public DirectionalMovement(Placement target, MapData mapData, Pattern pattern)
+        public DirectionalMovement(Placement target, Pattern pattern, Func<Placement, bool> filter = null)
         {
-            _mapData = mapData;
             _pattern = pattern;
             _target = target;
-            _analyzer = new MapAnalyzer(mapData);
         }
 
-        public void Calculate()
+        public override void Calculate(MapData mapData)
         {
-            _coordCandidates = new ShapedCoordList(_target.Shape);
+            var analyzer = new MapAnalyzer(mapData);
+            CoordCandidates = new ShapedCoordList(_target.Shape);
 
             HashSet<Placement> placements = new HashSet<Placement>();
-            var patternCalculations = _pattern.Calculate(_mapData.Size, _target.Coord, _target.Shape);
+            var patternCalculations = _pattern.Calculate(mapData.Size, _target.Coord, _target.Shape);
 
             foreach (var calculation in patternCalculations)
             {
                 while (calculation.MoveNext())
                 {
                     var coords = calculation.Current;
-                    if (!_analyzer.CheckAllIn(coords, (_, placement) => placement == null || placement == _target))
+                    if (!analyzer.CheckAllIn(coords, (_, placement) => placement == null || placement == _target))
                     {
-                        _analyzer.WhereIn(coords, (placement) => placement != _target)
+                        analyzer.WhereIn(coords, (placement) => placement != _target)
                                  .ForEach((placement) => placements.Add(placement));
                         break;
                     }
-                    _coordCandidates.Add(coords[0]);
+                    CoordCandidates.Add(coords[0]);
                 }
             }
-            _placementCanditates = placements.ToList();
+            PlacementCanditates = placements.ToList();
+            if (_filter != null)
+            {
+                PlacementCanditates.Where(_filter).ToList();
+            }
         }
-
-        public Selection<ShapedCoordList> CreateCoordSelection(Action<Vector2Int> onSelect, Action onCancel = null)
-        {
-            var selection = new Selection<ShapedCoordList>(_coordCandidates,
-            (index)=>{
-                onSelect(_coordCandidates.GetCoord(index));
-            }, onCancel);
-            return selection;
-        }
-
-        public Selection<List<Placement>> CreatePlacementSelection(Action<Placement> onSelect, Action onCancel = null)
-        {
-            var selection = new Selection<List<Placement>>(_placementCanditates,
-            (index)=>{
-                onSelect(_placementCanditates[index]);
-            }, onCancel);
-            return selection;
-        }
-
     }
 }

@@ -14,9 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _serializedJson: '{"$type":"System.Collections.Generic.List`1[[TeamOdd.Ratocalypse.CardLib.CardCreateData,
     Assembly-CSharp]], mscorlib","$values":[{"$type":"TeamOdd.Ratocalypse.CardLib.CardCreateData,
-    Assembly-CSharp","Id":36,"TextureName":"RatRapidMove","CardDataType":"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.MoveOnly,
-    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","OriginValueData":{"$type":"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.MoveOnly+ValueData,
-    Assembly-CSharp","MoveType":3,"Cost":1}},{"$type":"TeamOdd.Ratocalypse.CardLib.CardCreateData,
-    Assembly-CSharp","Id":33,"TextureName":"RatAttack","CardDataType":"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.MoveOrAttack,
-    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","OriginValueData":{"$type":"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.MoveOrAttack+ValueData,
-    Assembly-CSharp","RangeType":2,"Damage":6,"Cost":2}}]}'
+    Assembly-CSharp","Id":0,"TextureName":"RatAttack","CardDataType":"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.EmergencyTreatment,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","OriginValueData":{"$type":"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.EmergencyTreatment+ValueData,
+    Assembly-CSharp","RecoveryAmount":2,"Cost":0,"rangeType":0}}]}'
