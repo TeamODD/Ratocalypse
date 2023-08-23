@@ -16,7 +16,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
         protected override ExecuteResult RunSuccess()
         {
             var animation = new Animation(_target, "Die", true, null, ()=>{});
-            return new NextCommand(animation);
+            return new NextCommand(animation,WrapResult(true));
         }
     }
 }

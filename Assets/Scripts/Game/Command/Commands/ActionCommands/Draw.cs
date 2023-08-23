@@ -36,7 +36,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
                     _target.DeckData.DrawCards(count);
                 }
             }
-            return new End();
+            return new End(WrapResult(true));
         }
     }
 }

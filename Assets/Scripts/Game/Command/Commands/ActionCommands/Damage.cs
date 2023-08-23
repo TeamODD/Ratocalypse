@@ -29,7 +29,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
                 commands.Add(new Die(_target));
             }
 
-            return new NextCommands(commands);
+            return new NextCommands(commands,WrapResult(true));
         }
     }
 }
