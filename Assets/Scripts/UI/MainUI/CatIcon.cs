@@ -10,11 +10,13 @@ namespace TeamOdd.Ratocalypse.UI
 
         private ParticleSystem _fireEffect;
 
+        [SerializeField]
+        private Ease _iconEase = Ease.InOutCubic;
+
         [field: SerializeField]
         public int Order { get; set; }
 
-        public Ease IconEase;
-        public float _moveTime = 2f;
+        public float _moveTime = 1f;
 
         public void Awake()
         {
@@ -25,7 +27,7 @@ namespace TeamOdd.Ratocalypse.UI
         {
             if (_fireEffect != null) {_fireEffect.transform.SetAsLastSibling(); }
             _startPosition = transform.localPosition;
-            DOTween.To(() => _startPosition, x => transform.localPosition = x, position, _moveTime).SetEase(IconEase);
+            DOTween.To(() => _startPosition, x => transform.localPosition = x, position, _moveTime).SetEase(_iconEase);
         }
 
         [ContextMenu("SetEffect")]

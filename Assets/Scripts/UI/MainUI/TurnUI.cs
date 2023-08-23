@@ -9,7 +9,7 @@ namespace TeamOdd.Ratocalypse.UI
 {
     public class TurnUI : MonoBehaviour
     {
-        [field: SerializeField]
+       
         private List<IIcon> _deployment = new List<IIcon>();
 
         [SerializeField]
@@ -23,10 +23,10 @@ namespace TeamOdd.Ratocalypse.UI
         private float _maxXGap = 150;
 
         [SerializeField]
-        private float _yGap = 100;
+        private float _yGap = 30;
 
         [SerializeField]
-        private float _yOrigin = 2;
+        private float _yOrigin = 30;
 
         public List<GameObject> TestIconList; 
 
@@ -51,12 +51,11 @@ namespace TeamOdd.Ratocalypse.UI
         [ContextMenu("SetDeployment")]
         public void SetDeployment()
         {
-            _deploymentNumber.Clear();
             _deploymentNumber = _deployment.Select((icon) => icon.Order).Distinct().ToList();
             _deploymentNumber = _deploymentNumber.FindAll((oreder) => oreder != -1).Distinct().ToList();
             _deploymentNumber.Sort();
 
-            float interval = (_uiSize.x - (2 * _xMargin)) / (_deploymentNumber.Count - 1);
+            float interval = Mathf.RoundToInt((_uiSize.x - 20) / _deploymentNumber.Count);
             interval = Mathf.Min(interval, _maxXGap);
 
             float left = -(_uiSize.x / 2) + _xMargin;
@@ -69,35 +68,18 @@ namespace TeamOdd.Ratocalypse.UI
                 if (a.Order == -1)
                 {
                     float x = (_uiSize.x - 20) / 2;
-                    float y = -30 - 30 * NumberOfDuplicates(a);
+                    float y = -_yOrigin -_yGap * iconsInOrder.FindIndex((icon) => icon == a);
 
                     a.SetPosition(new Vector2(x,y));
                 }
                 else
                 {
                     float x = left + (interval * _deploymentNumber.FindIndex(element => element == a.Order));
-                    float y = -30 - 30 * NumberOfDuplicates(a);
+                    float y = -_yOrigin - _yGap * iconsInOrder.FindIndex((icon) => icon == a);
 
                     a.SetPosition(new Vector2(x, y));
                 }
             }
-        }
-
-        public int NumberOfDuplicates(IIcon a)
-        {
-            int i = 0;
-            foreach (IIcon b in _deployment)
-            {
-                if (b.Order == a.Order && b != a)
-                {
-                    i++;
-                }
-                if (b.Order == a.Order && b == a)
-                {
-                    break;
-                }
-            }
-            return i;
         }
 
         public void ActivationChange()

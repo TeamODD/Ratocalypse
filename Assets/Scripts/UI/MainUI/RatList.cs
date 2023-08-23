@@ -10,8 +10,16 @@ namespace TeamOdd.Ratocalypse.UI
     {
         [SerializeField]
         private Vector2 _uiSize;
+
+        [SerializeField]
+        private float _yOrigin = 108;
+
         [SerializeField]
         private float _yGap = 20;
+
+        [SerializeField]
+        private float _xGap = 405;
+
         private List<MemberIcon> _memberIconlist = new List<MemberIcon>();
 
         public List<MemberIcon> MemberIconlist = new List<MemberIcon>();
@@ -34,21 +42,21 @@ namespace TeamOdd.Ratocalypse.UI
             _memberIconlist.Clear();
             _memberIconlist = MemberIconlist.FindAll((member) => member.Activation == true);
 
-            float VectorX;
-            float VectorY;
+            float vectorX;
+            float vectorY;
             Vector3 position;
             for (int i=1; i<= MemberIconlist.Count;i++) 
             {
                 if (MemberIconlist[i - 1].Activation)
                 {
-                    VectorY = (108+_yGap) * (((float)(_memberIconlist.Count+1) / 2) - _memberIconlist.FindIndex(x => x== MemberIconlist[i - 1])-1);
-                    position = new Vector3(0, VectorY, 0);
+                    vectorY = (_yOrigin + _yGap) * (((float)(_memberIconlist.Count+1) / 2) - _memberIconlist.FindIndex(x => x== MemberIconlist[i - 1])-1);
+                    position = new Vector3(0, vectorY, 0);
                     MemberIconlist[i - 1].SetMember(position);
                 }
                 else 
                 {
-                    VectorX = -405;
-                    position = new Vector3(VectorX, 0 , 0);
+                    vectorX = -_xGap;
+                    position = new Vector3(vectorX, 0 , 0);
                     MemberIconlist[i - 1].SetMember(position);
                 }
 

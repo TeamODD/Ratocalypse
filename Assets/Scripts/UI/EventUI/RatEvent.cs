@@ -4,36 +4,50 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TeamOdd.Ratocalypse.CardLib;
+using TMPro;
 
 namespace TeamOdd.Ratocalypse.UI
 {
     public class RatEvent : MonoBehaviour
     {
+        [SerializeField]
         private Vector3 _offPosition = new Vector3(248, 0, 0);
+        [SerializeField]
         private Vector3 _onPosition = new Vector3(-248, 0, 0);
 
-        public CardData CardData { get; set; }
+        [SerializeField]
         private Ease _ease = Ease.InOutCubic;
+
+        [SerializeField]
+        private TextMeshProUGUI _cardTitle;
+        [SerializeField]
+        private Image _cardCardillustration;
+        [SerializeField]
+        private Image _mold;
+        [SerializeField]
+        private TextMeshProUGUI _cardExplanation;
+        [SerializeField]
+        private Image _chessPiecesIcon;
+        [SerializeField]
+        private Image _backGround;
+
         public float MoveTime;
 
-        [ContextMenu("EventExcute")]
-        public void EventExcute()
+        private bool _isEventAtivation = false;
+
+        [ContextMenu("ExcuteEvent")]
+        public void ExcuteEvent()
         {
-            Debug.Log("카드 데이터 숫자, 이미지 적용");
-            DOTween.To(() => _offPosition, x => transform.localPosition = x, _onPosition, MoveTime).SetEase(_ease);
+            if (!_isEventAtivation)
+            { 
+                DOTween.To(() => _offPosition, x => transform.localPosition = x, _onPosition, MoveTime).SetEase(_ease); _isEventAtivation = true;
+            }
+            else 
+            {
+                DOTween.To(() => _onPosition, x => transform.localPosition = x, _offPosition, MoveTime).SetEase(_ease); _isEventAtivation = false; 
+            }   
         }
 
-        [ContextMenu("CancelButton")]
-        public void CancelButton()
-        {
-            DOTween.To(() => _onPosition, x => transform.localPosition = x, _offPosition, MoveTime).SetEase(_ease);
-            Debug.Log("카드 반환");
-        }
-
-        public void CardAction() 
-        {
-        
-        }
         public void ActivationChange()
         {
             gameObject.SetActive(!gameObject.activeSelf);
