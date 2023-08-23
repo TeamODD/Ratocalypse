@@ -26,7 +26,7 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
 
         public override string GetDescription()
         {
-            return $"무덤에서 카드를 {GetCount()}장 손패로 가져옵니다.";
+            return $"이동 후: 무덤에서 카드를 {GetCount()}장 뽑습니다.";
         }
 
         private int GetCount()
@@ -67,10 +67,6 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
                 SelectMap.Result selectResult = result as SelectMap.Result;
 
                 TriggerCard triggerCard = new TriggerCard(null, caster, 0, selectResult.SelectedCoord);
-                triggerCard.AddCommand((_) =>
-                {
-                    return new Draw(caster, count, true);
-                });
                 if (selectResult.SelectedCoord != null)
                 {
                     triggerCard.AddCommand((_) =>
@@ -78,6 +74,10 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
                         return new Move(caster, selectResult.SelectedCoord.Value);
                     });
                 }
+                triggerCard.AddCommand((_) =>
+                {
+                    return new Draw(caster, count, true);
+                });
 
                 return triggerCard;
             });

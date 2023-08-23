@@ -27,7 +27,7 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
 
         public override string GetDescription()
         {
-            return $"장애물을 파괴합니다.";
+            return $"장애물을 공격해 파괴합니다.";
         }
 
         private DirectionalMovement CreateMovement(CreatureData caster)

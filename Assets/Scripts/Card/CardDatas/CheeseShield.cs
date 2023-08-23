@@ -26,14 +26,14 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
 
         public override string GetDescription()
         {
-            return $"방어도를 {GetAmount()} 얻습니다.";
+            return $"이동 전: 방어도를 {GetAmount()} 얻습니다.";
         }
 
         private int GetAmount()
         {
             var originValueData = OriginValueData as ValueData;
             var gameValueData = GameValueData as ValueData;
-            return originValueData.Amount + gameValueData.Amount; 
+            return originValueData.Amount + gameValueData.Amount;
         }
 
         private DirectionalMovement CreateMovement(CreatureData caster)
@@ -60,18 +60,16 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
                 var temp = new SelectMap(CreateMovement(caster), data.Caster, false, true);
                 return temp;
             });
-
+            castCard.AddCommand((_) =>
+            {
+                return new GainArmor(caster, GetAmount());
+            });
 
             castCard.SetTrigger((result, _) =>
             {
-                int amount = GetAmount();
                 SelectMap.Result selectResult = result as SelectMap.Result;
 
                 TriggerCard triggerCard = new TriggerCard(null, caster, 0, selectResult.SelectedCoord);
-                triggerCard.AddCommand((_) =>
-                {
-                    return new GainArmor(caster, amount);
-                });
                 if (selectResult.SelectedCoord != null)
                 {
                     triggerCard.AddCommand((_) =>

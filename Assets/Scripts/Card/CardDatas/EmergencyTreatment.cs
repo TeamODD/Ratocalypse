@@ -25,7 +25,7 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
 
         public override string GetDescription()
         {
-            return $"자신의 체력을 {GetRecoveryAmount()} 회복합니다.";
+            return $"이동 후: 자신의 체력을 {GetRecoveryAmount()}만큼 회복합니다.";
         }
 
         private int GetRecoveryAmount()
@@ -69,15 +69,15 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
                 TriggerCard triggerCard = new TriggerCard(null, caster, 0, selectResult.SelectedCoord);
                 triggerCard.AddCommand((_) =>
                 {
-                    return new Heal(caster, recoveryAmount);
-                });
-                triggerCard.AddCommand((_) =>
-                {
                     if (selectResult.SelectedCoord != null)
                     {
                         return new Move(caster, selectResult.SelectedCoord.Value);
                     }
                     return null;
+                });
+                triggerCard.AddCommand((_) =>
+                {
+                    return new Heal(caster, recoveryAmount);
                 });
 
                 return triggerCard;

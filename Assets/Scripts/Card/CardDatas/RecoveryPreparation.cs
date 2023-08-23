@@ -21,12 +21,12 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
 
         public override string GetTitle()
         {
-            return "수복준비";
+            return "수복 준비";
         }
 
         public override string GetDescription()
         {
-            return $"최대 체력에서 잃은 체력 만큼을 방어도로 채웁니다.";
+            return $"이동 후: 잃은 체력을 전부 방어도로 채웁니다.";
         }
 
         private int GetAmount()
@@ -67,11 +67,6 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
                 SelectMap.Result selectResult = result as SelectMap.Result;
 
                 TriggerCard triggerCard = new TriggerCard(null, caster, 0, selectResult.SelectedCoord);
-                triggerCard.AddCommand((_) =>
-                {
-                    int amount = caster.MaxHp - caster.Hp;
-                    return new GainArmor(caster, amount);
-                });
                 if (selectResult.SelectedCoord != null)
                 {
                     triggerCard.AddCommand((_) =>
@@ -79,6 +74,13 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
                         return new Move(caster, selectResult.SelectedCoord.Value);
                     });
                 }
+                triggerCard.AddCommand((_) =>
+                {
+                    int amount = caster.MaxHp - caster.Hp;
+                    amount = amount - caster.Armor;
+                    amount = Mathf.Max(0, amount);
+                    return new GainArmor(caster, amount);
+                });
 
                 return triggerCard;
             });

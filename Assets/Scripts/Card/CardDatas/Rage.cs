@@ -26,7 +26,7 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
 
         public override string GetDescription()
         {
-            return $"내 방어도 만큼 근력을 올립니다.";
+            return $"이동 전: 내 방어도 만큼 근력을 올립니다.";
         }
 
         private DirectionalMovement CreateMovement(CreatureData caster)
@@ -53,18 +53,17 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
                 var temp = new SelectMap(CreateMovement(caster), data.Caster, false, true);
                 return temp;
             });
+            castCard.AddCommand((_) =>
+            {
+                    return new GainStrength(caster, caster.Armor);
+            });
 
              
             castCard.SetTrigger((result, _) =>
             {
-                int amount = caster.Armor;
                 SelectMap.Result selectResult = result as SelectMap.Result;
 
                 TriggerCard triggerCard = new TriggerCard(null, caster, 0, selectResult.SelectedCoord);
-                triggerCard.AddCommand((_) =>
-                {
-                    return new GainStrength(caster, amount);
-                });
                 if (selectResult.SelectedCoord != null)
                 {
                     triggerCard.AddCommand((_) =>

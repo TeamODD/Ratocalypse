@@ -26,7 +26,7 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
 
         public override string GetDescription()
         {
-            return $"방어도를 {GetAmount()} 얻고 내 방어도 만큼 피해를 줍니다.";
+            return $"방어도를 {GetAmount()} 얻습니다.\n이후 내 방어도 만큼 피해를 줍니다.";
         }
 
         private int GetAmount()
@@ -61,6 +61,9 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
                 caster = data.Caster;
                 var temp = new SelectMap(CreateMovement(caster), data.Caster, true, true);
                 return temp;
+            });
+            castCard.AddCommand((_)=>{
+                return new GainArmor(caster, GetAmount());
             });
 
             int damage;
