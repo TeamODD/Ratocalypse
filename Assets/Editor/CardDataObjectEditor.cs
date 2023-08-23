@@ -65,7 +65,7 @@ public class CardDataObjectEditor : Editor
                 CreateEditorField(oldValue);
                 continue;
             }
-            if(oldValue != newValue)
+            else if(!oldValue.Equals(newValue))
             {
                 Save();
             }
