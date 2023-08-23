@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using TeamOdd.Ratocalypse.CardLib;
 using TMPro;
 
 namespace TeamOdd.Ratocalypse.UI
@@ -12,6 +9,7 @@ namespace TeamOdd.Ratocalypse.UI
     {
         [SerializeField]
         private Vector3 _offPosition = new Vector3(248, 0, 0);
+
         [SerializeField]
         private Vector3 _onPosition = new Vector3(-248, 0, 0);
 
@@ -20,14 +18,19 @@ namespace TeamOdd.Ratocalypse.UI
 
         [SerializeField]
         private TextMeshProUGUI _cardTitle;
+
         [SerializeField]
         private Image _cardCardillustration;
+
         [SerializeField]
         private Image _mold;
+
         [SerializeField]
         private TextMeshProUGUI _cardExplanation;
+
         [SerializeField]
         private Image _chessPiecesIcon;
+
         [SerializeField]
         private Image _backGround;
 

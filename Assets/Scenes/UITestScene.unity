@@ -28400,9 +28400,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  _currentColor: {r: 0, g: 0, b: 0, a: 0}
-  <Ativation>k__BackingField: 0
-  _ease: 9
+  <EventColor>k__BackingField: {r: 1, g: 0, b: 0, a: 1}
+  <Ativation>k__BackingField: 1
+  _ease: 10
   MoveTime: 1
 --- !u!1 &1656762375
 GameObject:

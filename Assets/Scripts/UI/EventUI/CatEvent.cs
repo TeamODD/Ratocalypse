@@ -1,5 +1,4 @@
 using DG.Tweening;
-using TeamOdd.Ratocalypse.CardLib;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
