@@ -56,7 +56,7 @@ namespace TeamOdd.Ratocalypse.DeckLib
         {
             for (int i = 0; i <= 20; i++)
             {
-                CardView card = _cardFactory.Create(new CardData(), transform, CardColor.Blue);
+                CardView card = _cardFactory.CreateDummy(transform);
                 HandCard handCard = card.gameObject.AddComponent<HandCard>();
                 card.gameObject.AddComponent<CardEvents>();
                 card.gameObject.SetActive(false);

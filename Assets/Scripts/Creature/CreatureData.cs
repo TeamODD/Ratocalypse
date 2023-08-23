@@ -29,6 +29,9 @@ namespace TeamOdd.Ratocalypse.CreatureLib
         [field: ReadOnly, SerializeField]
         public int Stamina { get; private set; }
 
+        [field: ReadOnly, SerializeField]
+        public int Strength { get; private set; }
+
         public UnityEvent<int> OnHpReduced { get; private set; } = new UnityEvent<int>();
         public UnityEvent<int> OnHpRestored { get; private set; } = new UnityEvent<int>();
         public UnityEvent<int> OnArmorReduced { get; private set; } = new UnityEvent<int>();
@@ -92,6 +95,16 @@ namespace TeamOdd.Ratocalypse.CreatureLib
             {
                 Die();
             }
+        }
+
+        public void IncreaseStrength(int amount)
+        {
+            Strength += amount;
+        }
+
+        public void ReduceStrength(int amount)
+        {
+            Strength = Mathf.Max(0, Strength - amount);
         }
 
         public void RestoreHp(int amount)
