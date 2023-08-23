@@ -64,12 +64,13 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
 
             castCard.SetTrigger((result, _) =>
             {
+                int amount = GetAmount();
                 SelectMap.Result selectResult = result as SelectMap.Result;
 
                 TriggerCard triggerCard = new TriggerCard(null, caster, 0, selectResult.SelectedCoord);
                 triggerCard.AddCommand((_) =>
                 {
-                    return new GainStrength(caster, GetAmount());
+                    return new GainStrength(caster, amount);
                 });
                 if (selectResult.SelectedCoord != null)
                 {
