@@ -18,7 +18,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
         protected override ExecuteResult RunSuccess()
         {
             _target.RestoreHp(_amount);
-            return new End();
+            return new End(WrapResult(true));
         }
     }
 }

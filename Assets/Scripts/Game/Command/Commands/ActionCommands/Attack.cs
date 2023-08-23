@@ -24,7 +24,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
             _target = target;
         }
 
-        public override ExecuteResult Execute()
+        protected override ExecuteResult RunSuccess()
         {
             var (endWait, result) = CreateWait();
             
@@ -38,7 +38,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
                 count--;
                 if (count == 0)
                 {
-                    endWait(new End());
+                    endWait(new End(WrapResult(true)));
                 }
             }
 
