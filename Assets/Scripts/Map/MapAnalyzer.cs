@@ -121,9 +121,29 @@ namespace TeamOdd.Ratocalypse.MapLib
             return WhereIn(All(), match);
         }
 
-        public int GetDistance(Vector2Int from, Vector2Int to)
+        public static int GetDistance(Vector2Int from, Vector2Int to)
         {
             return Mathf.Max(Mathf.Abs(from.x - to.x) , Mathf.Abs(from.y - to.y));
+        }
+
+        public static int GetDistance(Placement from, Placement to)
+        {
+            var fromCoords = from.Shape.GetCoords(from.Coord);
+            var toCoords = to.Shape.GetCoords(to.Coord);
+
+            int minDistance = int.MaxValue;
+            foreach (var fromCoord in fromCoords)
+            {
+                foreach (var toCoord in toCoords)
+                {
+                    int distance = GetDistance(fromCoord, toCoord);
+                    if (distance < minDistance)
+                    {
+                        minDistance = distance;
+                    }
+                }
+            }
+            return minDistance;
         }
 
         public bool CheckAllIn(List<Vector2Int> coords, Func<Vector2Int, Placement, bool> filter)
