@@ -24,6 +24,9 @@ namespace TeamOdd.Ratocalypse.CardLib
         private TextMeshPro _title;
 
         [SerializeField]
+        private TextMeshPro _cost;
+
+        [SerializeField]
         private TextMeshPro _description;
         
         public void View(CardData cardData, CardColor cardType)
@@ -31,6 +34,7 @@ namespace TeamOdd.Ratocalypse.CardLib
             _cardImage.material.SetTexture("_Texture", cardData.Texture);
             SetBackground((int)cardType);
             SetTitle(cardData.GetTitle());
+            SetCost(cardData.GetCost());
             SetDescription(cardData.GetDescription());
         }
 
@@ -42,6 +46,11 @@ namespace TeamOdd.Ratocalypse.CardLib
         public void SetTitle(string title)
         {
             _title.text = title;
+        }
+        
+        public void SetCost(int cost)
+        {
+            _cost.text = cost.ToString();
         }
 
         public void SetDescription(string description)
