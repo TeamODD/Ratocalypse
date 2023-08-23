@@ -133,6 +133,11 @@ namespace TeamOdd.Ratocalypse.CreatureLib
             Stamina -= amount;
         }
 
+        public void IncreaseMaxStamina(int amount)
+        {
+            MaxStamina += amount;
+        }
+
         public void Attack(IDamageable target, int damage)
         {
             target.ReduceHp(damage);
