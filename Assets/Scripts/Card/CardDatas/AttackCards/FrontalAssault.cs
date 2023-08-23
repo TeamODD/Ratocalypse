@@ -26,7 +26,7 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
 
         public override string GetDescription()
         {
-            return $"피해를 {GetAttackDamage()}을 적에게 줍니다.\n 자신에게도 피해를 {GetGainDamage()}을 줍니다.";
+            return $"피해 {GetAttackDamage()}을 적에게 줍니다.\n 이후 자신에게도 피해를 {GetGainDamage()}을 줍니다.";
         }
 
         private int GetAttackDamage()

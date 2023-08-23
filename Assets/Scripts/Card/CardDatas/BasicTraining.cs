@@ -26,7 +26,7 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
 
         public override string GetDescription()
         {
-            return $"근력 수치를 +{GetAmount()} 합니다.";
+            return $"이동 전: 근력 수치를 +{GetAmount()} 합니다.";
         }
 
         private int GetAmount()
@@ -60,18 +60,17 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
                 var temp = new SelectMap(CreateMovement(caster), data.Caster, false, true);
                 return temp;
             });
+            castCard.AddCommand((_) =>
+            {
+                return new GainStrength(caster, GetAmount());
+            });
 
 
             castCard.SetTrigger((result, _) =>
             {
-                int amount = GetAmount();
                 SelectMap.Result selectResult = result as SelectMap.Result;
 
                 TriggerCard triggerCard = new TriggerCard(null, caster, 0, selectResult.SelectedCoord);
-                triggerCard.AddCommand((_) =>
-                {
-                    return new GainStrength(caster, amount);
-                });
                 if (selectResult.SelectedCoord != null)
                 {
                     triggerCard.AddCommand((_) =>

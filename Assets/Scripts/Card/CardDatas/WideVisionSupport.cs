@@ -26,7 +26,7 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
 
         public override string GetDescription()
         {
-            return $"(휘발성)이동합니다.";
+            return $"이동합니다.\n다음 라운드에 사라집니다.";
         }
 
 
