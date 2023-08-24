@@ -1,10 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using System.Linq;
 
 public class StaminaUI : MonoBehaviour
 {
+    private int _maxStamina;
+    [SerializeField]
     private Image _bigStaminaImage;
-    private Image[] _smallStaminaImage = new Image[4];
+    private List<Image> _smallStaminaImage = new List<Image>();
 
     [SerializeField]
     private Sprite _bigBlueStaminaSprite;
@@ -15,6 +19,20 @@ public class StaminaUI : MonoBehaviour
     [SerializeField]
     private Sprite _smallGrayStaminaSprite;
 
+    public void SetMaxStamina(int maxStamina)
+    {
+        _maxStamina = maxStamina;
+
+        for (int i = 0; i < maxStamina - 1; i++)
+        {
+            GameObject staminaUi = new GameObject();
+            staminaUi.name = "SmallStamina";
+            _smallStaminaImage.Add(staminaUi.AddComponent<Image>());
+            _smallStaminaImage.Last().sprite = _bigBlueStaminaSprite;
+            staminaUi.GetComponent<RectTransform>().SetParent(transform.Find("Stamina/SmallStaminaGroup"), false);
+            staminaUi.SetActive(true);
+        }
+    }
 
     public void SetStamina(int stamina)
     {
@@ -32,7 +50,7 @@ public class StaminaUI : MonoBehaviour
         {
             _smallStaminaImage[i].sprite = _smallBlueStaminaSprite;
         }
-        for (; i < 4; i++)
+        for (; i < _maxStamina - 1; i++)
         {
             _smallStaminaImage[i].sprite = _smallGrayStaminaSprite;
         }
@@ -40,16 +58,12 @@ public class StaminaUI : MonoBehaviour
 
     private void Awake()
     {
-        _bigStaminaImage = transform.Find("Stamina/BigStamina").GetComponent<Image>();
-        for (int i = 0; i < 4; i++)
-        {
-            _smallStaminaImage[i] = transform.Find("Stamina/SmallStaminaGroup/SmallStamina" + (i + 1)).GetComponent<Image>();
-        }
     }
 
     // Start is called before the first frame update
     private void Start()
     {
+        SetMaxStamina(7);
         SetStamina(3);
     }
 
