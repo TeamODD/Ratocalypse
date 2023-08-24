@@ -23,7 +23,14 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.CardCommands
 
         public int CalculateFinalDamage()
         {
-            return (int)(Damage * DamageMultiplier);
+            var blessMultiplier = 1;
+            var (has, _) = Caster.HasEffect("Blessing");
+            if (has)
+            {
+                blessMultiplier *= 2;
+            }
+            Caster.RemoveEffect("Blessing");
+            return (int)(Damage * DamageMultiplier * blessMultiplier);
         }
 
         public override ExecuteResult Execute()
