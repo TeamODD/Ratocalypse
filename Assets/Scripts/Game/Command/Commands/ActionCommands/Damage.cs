@@ -3,6 +3,7 @@ using TeamOdd.Ratocalypse.CreatureLib.Attributes;
 using TeamOdd.Ratocalypse.CardLib.CommandLib;
 using System;
 using System.Collections.Generic;
+using TeamOdd.Ratocalypse.CreatureLib;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
 {
@@ -14,11 +15,21 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
         public Damage(IDamageable target, int damage) : base(target)
         {
             _target = target;
-            _damage = damage;
+            _damage = damage; 
         }
 
         protected override ExecuteResult RunSuccess()
         {
+            if(_target is CreatureData creatureData)
+            {
+                var (has, data) = creatureData.HasEffect("Protect");
+                var protector = data as CreatureData;
+                if(protector != null && protector.IsAlive())
+                {
+                    creatureData.RemoveEffect("Protect");
+                    return new NextCommand(new Damage(protector, _damage));
+                }
+            }
             _target.ReduceHp(_damage);
             List<Command> commands = new List<Command>();
 
@@ -29,7 +40,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
                 commands.Add(new Die(_target));
             }
 
-            return new NextCommands(commands,WrapResult(true));
+            return new NextCommands(commands, WrapResult(true));
         }
     }
 }
