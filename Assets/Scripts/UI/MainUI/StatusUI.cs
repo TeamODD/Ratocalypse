@@ -44,9 +44,10 @@ public class StatusUI : MonoBehaviour
     private void Start()
     {
         SetStatus("Poison");
-        SetStatus("Etc");
-        RemoveStatus("Poison");
         SetStatus("Poison");
+        SetStatus("Poison");
+        SetStatus("Etc");
+        RemoveStatus("Etc");
     }
 
     // Update is called once per frame

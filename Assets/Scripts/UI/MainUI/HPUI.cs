@@ -46,7 +46,7 @@ public class HPUI : MonoBehaviour
 
     private void Start()
     {
-        SetHpShield(5, 10, 3);
+        SetHpShield(5, 10, 0);
     }
 
     [ContextMenu("ExcuteEvent")]
