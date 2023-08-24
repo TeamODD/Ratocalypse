@@ -30,7 +30,7 @@ namespace TeamOdd.Ratocalypse.UI
 
         public float MoveTime;
 
-        private bool _isEventAtivation = false;
+        private bool _isEventAtivation = true;
 
         [ContextMenu("ExcuteEvent")]
         public void ExcuteEvent()
