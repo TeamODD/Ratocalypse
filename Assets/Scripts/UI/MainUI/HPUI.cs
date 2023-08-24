@@ -49,7 +49,7 @@ public class HPUI : MonoBehaviour
         SetHpShield(5, 10, 0);
     }
 
-    [ContextMenu("ExcuteEvent")]
+    [ContextMenu("ExecuteEvent")]
     private void TestHpShield()
     {
         SetHpShield(_currentHp, _maxHp, _currentShield);

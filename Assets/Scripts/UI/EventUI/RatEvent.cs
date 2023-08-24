@@ -38,8 +38,8 @@ namespace TeamOdd.Ratocalypse.UI
 
         private bool _isEventAtivation = false;
 
-        [ContextMenu("ExcuteEvent")]
-        public void ExcuteEvent()
+        [ContextMenu("ExecuteEvent")]
+        public void ExecuteEvent()
         {
             if (!_isEventAtivation)
             { 
