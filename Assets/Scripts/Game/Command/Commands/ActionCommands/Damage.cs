@@ -15,27 +15,36 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
         public Damage(IDamageable target, int damage) : base(target)
         {
             _target = target;
-            _damage = damage; 
+            _damage = damage;
         }
 
         protected override ExecuteResult RunSuccess()
         {
-            if(_target is CreatureData creatureData)
+            if (_target is CreatureData creatureData)
             {
-                var (has, data) = creatureData.HasEffect("Protect");
-                var protector = data as CreatureData;
-                if(protector != null && protector.IsAlive())
+                var (hasPoison, stack) = creatureData.HasEffect("Poison");
+                if (hasPoison)
                 {
-                    creatureData.RemoveEffect("Protect");
-                    return new NextCommand(new Damage(protector, _damage));
+                    _damage += (int)stack;
+                }
+
+                var (hasProtect, data) = creatureData.HasEffect("Protect");
+                if (hasProtect)
+                {
+                    var protector = data as CreatureData;
+                    if (protector != null && protector.IsAlive())
+                    {
+                        creatureData.RemoveEffect("Protect");
+                        return new NextCommand(new Damage(protector, _damage));
+                    }
                 }
             }
             _target.ReduceHp(_damage);
             List<Command> commands = new List<Command>();
 
-            commands.Add(new Animation(_target, "Hit", true, null, ()=>{}));
+            commands.Add(new Animation(_target, "Hit", true, null, () => { }));
 
-            if(_target.IsAlive() == false)
+            if (_target.IsAlive() == false)
             {
                 commands.Add(new Die(_target));
             }
