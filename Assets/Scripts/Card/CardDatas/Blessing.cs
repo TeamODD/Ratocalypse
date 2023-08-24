@@ -30,13 +30,6 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
             return $"범위 내에 있는 모든 아군은 각자 다음 공격시에 데미지를 2배 줍니다.\n다음 라운드에 효과가 사라집니다.\n패링시 성공한 경우에만 발동합니다.";
         }
 
-        private int GetCount()
-        {
-            var originValueData = OriginValueData as ValueData;
-            var gameValueData = GameValueData as ValueData;
-            return originValueData.Count + gameValueData.Count; 
-        }
-
         private DirectionalMovement CreateMapSelecting(CreatureData caster)
         {
             Pattern pattern = Pattern.GetChessPattern(OriginValueData.rangeType);
@@ -63,7 +56,6 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
                 return null;
             });
 
-            int count = GetCount();
             castCard.SetTrigger((result, _) =>
             {
                 SelectMap.Result selectResult = result as SelectMap.Result;
@@ -96,7 +88,7 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
 
         public class ValueData : CardValueData
         {
-            public int Count = 0;
+
         }
     }
 }
