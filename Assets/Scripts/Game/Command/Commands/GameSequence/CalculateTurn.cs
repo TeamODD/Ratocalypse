@@ -54,10 +54,6 @@ namespace TeamOdd.Ratocalypse.GameLib.Commands.GameSequenceCommands
                 return new End();
             }
 
-            next.ForEach(creatureData =>
-            {
-                creatureData.RemoveEffect("Stealth");
-            });
 
             if(next.Count == 1)
             {
