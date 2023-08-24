@@ -71,6 +71,11 @@ namespace TeamOdd.Ratocalypse.DeckLib
             return DrawResult.Drawn;
         }
 
+        public DrawResult InsertLastHand(CardData card)
+        {
+            return InsertHandAt(_handData.Count, card);
+        }
+
         private (DrawResult result, int drawnCount) DrawsCardFrom(CardDataCollection pool, int count)
         {
             for (int i = 0; i < count; i++)
@@ -148,6 +153,13 @@ namespace TeamOdd.Ratocalypse.DeckLib
         public CardData RemoveCardAtFromUndrawn(int index)
         {
             return _undrawnCards.RemoveCard(index);
+        }
+
+        public void RemoveVolatileCards()
+        {
+            _handData.RemoveVolatileCards();
+            _tombData.RemoveVolatileCards();
+            _undrawnCards.RemoveVolatileCards();
         }
 
 

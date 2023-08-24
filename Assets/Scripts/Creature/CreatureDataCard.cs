@@ -58,7 +58,10 @@ namespace TeamOdd.Ratocalypse.CreatureLib
                 throw new System.InvalidOperationException("No card is casting");
             }
             var (index, cardData) = _castCardData.Value;
-            DeckData.AddCardToTomb(cardData);
+            if(cardData is not IVolatileCard)
+            {
+                DeckData.AddCardToTomb(cardData);
+            }
             var cost = cardData.GetCost();
             ReduceStamina(cost);
             _castCardData = null;
