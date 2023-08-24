@@ -13,7 +13,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
         private CreatureData _target;
         private bool _fromTomb = false;
         private int _count = 0;
-        public Draw(CreatureData target,int count,bool fromTomb) : base(target)
+        public Draw(CreatureData target,int count, bool fromTomb) : base(target)
         {
             _target = target;
             _fromTomb = fromTomb;

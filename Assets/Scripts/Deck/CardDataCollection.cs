@@ -93,5 +93,10 @@ namespace TeamOdd.Ratocalypse.DeckLib
             _cardDatas.RemoveAt(0);
             return cardData;
         }
+
+        public void RemoveVolatileCards()
+        {
+            _cardDatas.RemoveAll(cardData => cardData is IVolatileCard);
+        }
     }
 }
