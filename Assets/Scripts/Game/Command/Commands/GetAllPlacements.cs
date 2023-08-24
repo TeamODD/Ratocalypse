@@ -21,7 +21,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
             _mapData = require;
         }
 
-        public GetAllPlacements(Func<Placement,bool> filter)
+        public GetAllPlacements(Func<Placement,bool> filter = null)
         {
             _filter = filter;
         }
@@ -30,7 +30,15 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
         public override ExecuteResult Execute()
         {
             var result = new Result();
-            result.placements = _mapData.GetPlacements().Where(_filter).ToList();
+            if(_filter==null)
+            {
+                result.placements = _mapData.GetPlacements();
+            }
+            else
+            {
+                result.placements = _mapData.GetPlacements().Where(_filter).ToList();
+            }
+            
             return new End(result);
         }
 
