@@ -2,6 +2,7 @@ using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
 using TeamOdd.Ratocalypse.CreatureLib.Attributes;
 using TeamOdd.Ratocalypse.CardLib.CommandLib;
 using System;
+using TeamOdd.Ratocalypse.CreatureLib;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
 {
@@ -26,6 +27,11 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
 
         protected override ExecuteResult RunSuccess()
         {
+            if(_attacker is IDamageable attacker && attacker.IsAlive() == false)
+            {
+                return new End(WrapResult(false));
+            }
+
             var (endWait, result) = CreateWait();
             
             var attackExecutor = _createExecutor();

@@ -6,19 +6,24 @@ using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
 {
-    public class GainArmor : TargetCommand<CreatureData>
+    public class StackPoison : TargetCommand<CreatureData>
     {
         private CreatureData _target;
-        private int _amount = 0;
-        public GainArmor(CreatureData target,int amount) : base(target)
+        private int _stack = 0 ;
+        public StackPoison(CreatureData target, int stack) : base(target)
         {
-            _amount = amount;
+            _stack = stack;
             _target = target;
         }
 
         protected override ExecuteResult RunSuccess()
         {
-            _target.IncreaseArmor(_amount);
+            var (has,prevStack) = _target.HasEffect("Poison");
+            if(has)
+            {
+                _stack += (int)prevStack;
+            }
+            _target.SetEffect("Poison", _stack);
             return new End(WrapResult(true));
         }
     }

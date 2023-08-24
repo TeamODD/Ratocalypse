@@ -6,7 +6,7 @@ using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
 {
-    public class GainStrength : TargetCommand<IDamageable>
+    public class GainStrength : TargetCommand<CreatureData>
     {
         private CreatureData _target;
         private int _amount = 0;

@@ -34,6 +34,10 @@ namespace TeamOdd.Ratocalypse.CardLib.CommandLib
 
         public override ExecuteResult Execute()
         {
+            if(_target == null)
+            {
+                return RunFail();
+            }
             if(_target.IsAlive())
             {
                 return RunSuccess();
