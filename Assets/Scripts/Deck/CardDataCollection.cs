@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using TeamOdd.Ratocalypse.CardLib;
+using UnityEngine;
 
 namespace TeamOdd.Ratocalypse.DeckLib
 {
+    [System.Serializable]
     public class CardDataCollection : IEnumerable<CardData>
     {
+        [SerializeField]
         protected List<CardData> _cardDatas = new List<CardData>();
 
         public CardDataCollection(params CardData[] cardDataItems)
@@ -26,6 +29,11 @@ namespace TeamOdd.Ratocalypse.DeckLib
             _cardDatas.Add(cardData);
         }
 
+        public void InsertCard(int index, CardData cardData)
+        {
+            _cardDatas.Insert(index, cardData);
+        }
+
         public void AddCards(params CardData[] cardDataItems)
         {
             foreach (CardData cardData in cardDataItems)
@@ -33,10 +41,18 @@ namespace TeamOdd.Ratocalypse.DeckLib
                 AddCard(cardData);
             }
         }
-        public void RemoveCard(int index)
+        public CardData RemoveCard(int index)
         {
+            CardData cardData = _cardDatas[index];
             _cardDatas.RemoveAt(index);
+            return cardData;
         }
+
+        public void RemoveCard(CardData cardData)
+        {
+            _cardDatas.Remove(cardData);
+        }
+
 
         public void RemoveCards(ISet<int> indices)
         {
@@ -60,6 +76,22 @@ namespace TeamOdd.Ratocalypse.DeckLib
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public void Shuffle()
+        {
+            _cardDatas = _cardDatas.OrderBy(x => UnityEngine.Random.value).ToList();
+        }
+
+        public CardData Draw()
+        {
+            if (_cardDatas.Count == 0)
+            {
+                return null;
+            }
+            CardData cardData = _cardDatas[0];
+            _cardDatas.RemoveAt(0);
+            return cardData;
         }
     }
 }

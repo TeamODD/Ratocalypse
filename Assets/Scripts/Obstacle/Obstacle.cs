@@ -13,10 +13,10 @@ namespace TeamOdd.Ratocalypse.ObstacleLib
         [SerializeField]
         protected ObstacleData _obstacleData;
 
-        public override void Initiate(Placement placement, IMapCoord mapCoord)
+        public override void Initialize(Placement placement, IMapCoord mapCoord)
         {
             _obstacleData = (ObstacleData)placement;
-            base.Initiate(placement, mapCoord);
+            base.Initialize(placement, mapCoord);
         }
 
         protected override void RegisterCallbacks()

@@ -5,15 +5,22 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Attributes
 {
     public interface IDamageable
     {
-        public float MaxHp { get; }
-        public float Hp { get; }
+        public int MaxHp { get; }
+        public int Hp { get; }
+        public int Armor { get; }
 
         public void Die();
-        public void ReduceHp(float amount);
-        public void RestoreHp(float amount);
+        public void ReduceHp(int amount);
+        public void RestoreHp(int amount);
+        public void IncreaseArmor(int amount);
+        public void ReduceArmor(int amount);
 
-        public UnityEvent<float> OnHpReduced{ get; }
-        public UnityEvent<float> OnHpRestored{ get; }
+        public bool IsAlive();
+
+        public UnityEvent<int> OnHpReduced{ get; }
+        public UnityEvent<int> OnHpRestored{ get; }
+        public UnityEvent<int> OnArmorIncreased{ get; }
+        public UnityEvent<int> OnArmorReduced{ get; }
         public UnityEvent OnDie{ get; }
     }
 }

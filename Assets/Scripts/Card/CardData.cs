@@ -1,45 +1,65 @@
-using TeamOdd.Ratocalypse.CardLib.Command;
+using System;
+using System.Collections.Generic;
+using TeamOdd.Ratocalypse.CardLib.CommandLib;
+using TeamOdd.Ratocalypse.CreatureLib;
+using TeamOdd.Ratocalypse.MapLib;
 using TeamOdd.Ratocalypse.MapLib.GameLib.Commands;
+using TeamOdd.Ratocalypse.MapLib.GameLib.Commands.CardCommands;
+using TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib;
+using UnityEditor;
+using UnityEngine;
+using static TeamOdd.Ratocalypse.MapLib.MapData;
 
-namespace TeamOdd.Ratocalypse.CardLib
+namespace TeamOdd.Ratocalypse.CardLib   
 {
+    [Serializable]
     public class CardData
     {
-        public int Id { get; }
+        public int Id;
+        public CardValueData OriginValueData;
+        public CardValueData GameValueData;
 
-        public CardDataValue OriginDataValue;
-        public CardDataValue DeckDataValue = new CardDataValue();
-        public CardDataValue GameDataValue = new CardDataValue();
+        public Texture2D Texture{ get; private set; }
 
-        public CardData(int id, CardDataValue originDataValue)
+        public CardData()
         {
-            Id = id;
-            OriginDataValue = originDataValue;
+
+        }
+
+        public static CardData CreateCardData(Type cardDataType, int id, Texture2D texture, CardValueData originValueData)
+        {
+            CardData cardData = Activator.CreateInstance(cardDataType) as CardData;
+
+            cardData.Id = id;
+            cardData.Texture = texture;
+            cardData.OriginValueData = originValueData;
+            cardData.GameValueData = cardData.CreateDefaultValueData();
+            return cardData;
+        }
+
+        public CardValueData CreateDefaultValueData()
+        {
+            var type = OriginValueData.GetType();
+            return Activator.CreateInstance(type) as CardValueData;
         }
 
         public virtual CardData CloneOriginCard()
         {
-            CardData cloned = new CardData(Id, OriginDataValue);
-            return cloned;
-        }
-
-        public virtual CardData CloneDeckCard()
-        {
-            CardData cloned = CloneOriginCard();
-            cloned.DeckDataValue = DeckDataValue.Clone();
+            CardData cloned = MemberwiseClone() as  CardData;
+            cloned.GameValueData = CreateDefaultValueData();
             return cloned;
         }
 
         public virtual CardData CloneGameCard()
         {
-            CardData cloned = CloneDeckCard();
-            cloned.GameDataValue = GameDataValue.Clone();
+            CardData cloned = CloneOriginCard();
+            cloned.GameValueData = GameValueData.Clone();
             return cloned;
         }
 
-        public virtual CardCommand CreateCardCommand()
+        public virtual CastCard CreateCastCardCommand(CardCastData cardCastData, bool runTrigger)
         {
-            return new CardCommand((CardCastData data) => { return null; });
+            return new CastCard(cardCastData, runTrigger);
         }
 
         public virtual string GetTitle()
@@ -54,32 +74,22 @@ namespace TeamOdd.Ratocalypse.CardLib
 
         public virtual int GetCost()
         {
-            return OriginDataValue.Cost + DeckDataValue.Cost + GameDataValue.Cost;
+            return OriginValueData.Cost + GameValueData.Cost;
+        }
+
+        public virtual MapSelecting GetPreview(CreatureData caster)
+        {
+            return null;
         }
     }
 
-    public class CardDataValue
+    public class CardValueData
     {
-        public int Cost { get; private set; }
-
-        public CardDataValue()
+        public int Cost = 0;
+        public ChessRangeType rangeType = ChessRangeType.None;
+        public CardValueData Clone()
         {
-            Cost = 0;
-        }
-
-        public CardDataValue(int cost)
-        {
-            Cost = cost;
-        }
-
-        public void SetCost(int cost)
-        {
-            Cost = cost;
-        }
-
-        public virtual CardDataValue Clone()
-        {
-            return new CardDataValue(Cost);
+            return MemberwiseClone() as CardValueData;
         }
     }
 }

@@ -18,6 +18,10 @@ namespace TeamOdd.Ratocalypse.DeckLib
 
         public CardData Draw()
         {
+            if(_cardDatas.Count == 0)
+            {
+                return null;
+            }
             CardData cardData = _cardDatas[0];
             _cardDatas.RemoveAt(0);
             return cardData;

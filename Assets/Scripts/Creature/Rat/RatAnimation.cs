@@ -4,6 +4,8 @@ using UnityEngine;
 using static TeamOdd.Ratocalypse.MapLib.MapData;
 using DG.Tweening;
 using TeamOdd.Ratocalypse.TestScripts;
+using System;
+
 
 namespace TeamOdd.Ratocalypse.CreatureLib.Rat
 {
@@ -20,16 +22,23 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Rat
             _ratPose = GetComponent<RatPose>();
         }
 
-        public void AttackMotion()
+        public void AttackMotion(params Action[] callbacks)
         {
             _jumpAnimation.Jump(()=>{
                 _ratPose.SetPose(RatPose.Pose.Attack);
+                if(callbacks!=null&&callbacks.Length>0)
+                {
+                    callbacks[0]?.Invoke();
+                }
             },
             ()=>{
                 _ratPose.SetPose(RatPose.Pose.Idle);
             },
             ()=>{
-                Debug.Log("Attack End");
+                if(callbacks!=null&&callbacks.Length>1)
+                {
+                    callbacks[1]?.Invoke();
+                }
             });
         }
     }

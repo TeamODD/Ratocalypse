@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,13 +11,14 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
         private MapData _mapData;
         private List<Vector2Int> _deltas;
         private int _step = 1;
+        private int _maxStep = 0;
 
-        public Pattern(List<Vector2Int> deltas, int step = 1)
+        public Pattern(List<Vector2Int> deltas, int step = 1, int maxStep = 0)
         {
             _deltas = deltas;
             _step = step;
+            _maxStep = maxStep;
         }
-
 
         public List<IEnumerator<List<Vector2Int>>> Calculate(Vector2Int size, Vector2Int origin, Shape shape)
         {
@@ -32,7 +34,10 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
         private IEnumerator<List<Vector2Int>> CalculateDelta(Vector2Int delta, Vector2Int size, Vector2Int origin, Shape shape)
         {
             int maxLoop = Mathf.Max(size.y, size.x);
-            
+            int maxStep = _maxStep == 0 ? maxLoop : _maxStep + 1;
+
+            maxLoop = Mathf.Min(maxStep, maxLoop);
+
             Vector2Int start = origin;
 
             for (int loop = 1; loop < maxLoop; loop++)
@@ -55,5 +60,68 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
 
             }
         }
+
+
+        public static Pattern GetChessPattern(ChessRangeType rangeType)
+        {
+            List<Vector2Int> deltas = new List<Vector2Int>();
+            int maxStep = 0;
+            switch (rangeType)
+            {
+                case ChessRangeType.Knight:
+                    deltas.Add(new Vector2Int(1, 2));
+                    deltas.Add(new Vector2Int(2, 1));
+                    deltas.Add(new Vector2Int(2, -1));
+                    deltas.Add(new Vector2Int(1, -2));
+                    deltas.Add(new Vector2Int(-1, -2));
+                    deltas.Add(new Vector2Int(-2, -1));
+                    deltas.Add(new Vector2Int(-2, 1));
+                    deltas.Add(new Vector2Int(-1, 2));
+                    maxStep = 1;
+                    break;
+                case ChessRangeType.King:
+                    deltas.Add(new Vector2Int(1, 1));
+                    deltas.Add(new Vector2Int(1, 0));
+                    deltas.Add(new Vector2Int(1, -1));
+                    deltas.Add(new Vector2Int(0, -1));
+                    deltas.Add(new Vector2Int(-1, -1));
+                    deltas.Add(new Vector2Int(-1, 0));
+                    deltas.Add(new Vector2Int(-1, 1));
+                    deltas.Add(new Vector2Int(0, 1));
+                    maxStep = 1;
+                    break;
+                case ChessRangeType.Queen:
+                    deltas.Add(new Vector2Int(1, 1));
+                    deltas.Add(new Vector2Int(1, 0));
+                    deltas.Add(new Vector2Int(1, -1));
+                    deltas.Add(new Vector2Int(0, -1));
+                    deltas.Add(new Vector2Int(-1, -1));
+                    deltas.Add(new Vector2Int(-1, 0));
+                    deltas.Add(new Vector2Int(-1, 1));
+                    deltas.Add(new Vector2Int(0, 1));
+                    break;
+                case ChessRangeType.Rook:
+                    deltas.Add(new Vector2Int(1, 0));
+                    deltas.Add(new Vector2Int(0, -1));
+                    deltas.Add(new Vector2Int(-1, 0));
+                    deltas.Add(new Vector2Int(0, 1));
+                    break;
+                case ChessRangeType.Bishop:
+                    deltas.Add(new Vector2Int(1, 1));
+                    deltas.Add(new Vector2Int(1, -1));
+                    deltas.Add(new Vector2Int(-1, -1));
+                    deltas.Add(new Vector2Int(-1, 1));
+                    break;
+                default:
+                    break;
+            }
+            return  new Pattern(deltas, 1, maxStep);
+        }
+
+        internal static Pattern GetChessPattern(object knight)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

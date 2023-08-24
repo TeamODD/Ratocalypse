@@ -21,15 +21,15 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: CardEffect 1
-  m_Shader: {fileID: -6465566751694194690, guid: 1ee188aa4b31a2c4c9247e45c9f95017,
+  m_Shader: {fileID: -6465566751694194690, guid: 42edf6ecb371ee845999c0bcd98124e2,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords:
   - _SURFACE_TYPE_TRANSPARENT
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 1
-  m_CustomRenderQueue: 3000
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -41,6 +41,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Blur:
+        m_Texture: {fileID: 2800000, guid: 588d41b500fb8e4478dfff31b559c692, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -91,12 +95,24 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Shape:
+        m_Texture: {fileID: 2800000, guid: f1e52ab2970b44a40a50f1ea93cba483, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TerrainHolesTexture:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_74469a6f1eb6497185e9c5a8239f7c99_Out_0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _blur:
+        m_Texture: {fileID: 2800000, guid: 588d41b500fb8e4478dfff31b559c692, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -148,19 +164,21 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 5
     - _Surface: 1
-    - _Thickness: 1.05
+    - _Thickness: 1
     - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 1
+    - _thickness: 12
     m_Colors:
+    - _Base: {r: 0.09560263, g: 1, b: 0, a: 0}
     - _BaseColor: {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 1}
-    - _Bright: {r: 0, g: 0.38679248, b: 0.0057730633, a: 1}
+    - _Bright: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 0, g: 0, b: 0, a: 1}
-    - _Dark: {r: 0.24546158, g: 1, b: 0, a: 1}
+    - _Dark: {r: 0.14779866, g: 1, b: 0.3777577, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _HightLight: {r: 0.46855342, g: 1, b: 0.684787, a: 0}
+    - _HightLight: {r: 1, g: 1, b: 1, a: 0}
     - _Outline: {r: 0, g: 0, b: 0, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

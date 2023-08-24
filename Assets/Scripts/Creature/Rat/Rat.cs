@@ -4,6 +4,7 @@ using UnityEngine;
 using static TeamOdd.Ratocalypse.MapLib.MapData;
 using DG.Tweening;
 using TeamOdd.Ratocalypse.CreatureLib.Attributes;
+using System;
 
 namespace TeamOdd.Ratocalypse.CreatureLib.Rat
 {
@@ -21,10 +22,10 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Rat
             _ratAnimation = GetComponent<RatAnimation>();
         }
 
-        public override void Initiate(Placement placement, IMapCoord mapCoord)
+        public override void Initialize(Placement placement, IMapCoord mapCoord)
         {
             _ratData = (RatData)placement; 
-            base.Initiate(placement, mapCoord);
+            base.Initialize(placement, mapCoord);
         }
 
         protected override void RegisterCallbacks()
@@ -37,14 +38,26 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Rat
             transform.DOMove(_mapCoord.GetTileWorldPosition(coord), 0.2f);
         }
 
-        protected override void OnHpReduced(float hp)
+        protected override void OnHpReduced(int hp)
         {
             
         }
 
-        protected override void OnAttack(IDamageable target, float damage)
+        protected override void OnAnimationEvent(object parm, string name, Action[] callbacks)
         {
-            _ratAnimation.AttackMotion();
+            if(name == "Attack")
+            {
+                _ratAnimation.AttackMotion(callbacks);
+            }
+            else if(name == "Hit")
+            {
+                transform.DORotate(new Vector3(0, 0, 10), 0.2f).SetLoops(2, LoopType.Yoyo).OnComplete(() => {
+                    if(callbacks!=null&&callbacks.Length > 0)
+                    {
+                        callbacks[0]?.Invoke();
+                    }
+                });
+            }
         }
     }
 }

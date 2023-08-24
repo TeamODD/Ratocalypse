@@ -3,14 +3,16 @@ using TeamOdd.Ratocalypse.CardLib;
 using UnityEngine;
 using DG.Tweening;
 using static TeamOdd.Ratocalypse.DeckLib.HandCard;
+using TeamOdd.Ratocalypse.MapLib.GameLib;
+using TeamOdd.Ratocalypse.MapLib.GameLib.SelectionLib;
+using System;
 
 namespace TeamOdd.Ratocalypse.DeckLib
 {
-    public class Hand : MonoBehaviour
+    public class Hand : MonoBehaviour, ICardSelector
     {
         [SerializeField]
         private CardFactory _cardFactory;
-
 
         [Header("Hand Shape")]
         [SerializeField]
@@ -32,33 +34,47 @@ namespace TeamOdd.Ratocalypse.DeckLib
         private float _dragHeight;
 
 
-        private HandData _handData = new HandData();
+        private DeckData _deckData;
 
         [SerializeField]
-        private List<HandCard> _cards = new List<HandCard>();
+        private List<HandCard> _handcards = new List<HandCard>();
         [SerializeField]
-        private Stack<HandCard> _deactiveCards = new Stack<HandCard>();
+        private Queue<HandCard> _deactiveCards = new Queue<HandCard>();
 
         private HandCard _focusingCard = null;
 
         [SerializeField]
         private MovementValues _movementValues = new MovementValues();
 
+        [ReadOnly, SerializeField]
+        private bool _isSelecting = false;
+
+        private Selection<List<int>> _selection;
+
+
         public void PreCreateCards()
         {
-            for (int i = 0; i < _handData.MaxCount; i++)
+            for (int i = 0; i <= 20; i++)
             {
-                CardView card = _cardFactory.Create(new CardData(0, new CardDataValue()), transform);
+                CardView card = _cardFactory.CreateDummy(transform);
                 HandCard handCard = card.gameObject.AddComponent<HandCard>();
                 card.gameObject.AddComponent<CardEvents>();
                 card.gameObject.SetActive(false);
-                _deactiveCards.Push(handCard);
+                _deactiveCards.Enqueue(handCard);
             }
         }
 
-        public void AddCard(CardData cardData)
+        public HandCard AddCard(CardData cardData)
         {
-            HandCard card = _deactiveCards.Pop();
+            HandCard card = _deactiveCards.Dequeue();
+            ResetCard(card, cardData);
+            _handcards.Add(card);
+            UpdatePosition();
+            return card;
+        }
+
+        private void ResetCard(HandCard card, CardData cardData)
+        {
             card.Initialize(_movementValues);
             card.gameObject.SetActive(true);
             card.OnExecute.AddListener(Execute);
@@ -66,28 +82,39 @@ namespace TeamOdd.Ratocalypse.DeckLib
             cardEvents.MouseOverEvents.AddListener(() => SetFocus(card));
             cardEvents.MouseOutEvents.AddListener(() => UnFocus(card));
 
-            cardEvents.MouseDownEvents.AddListener(() => card.Run(CardAction.StartDrag));
+            cardEvents.MouseDownEvents.AddListener(() => Drag(card));
             cardEvents.MouseUpEvents.AddListener(() => card.Run(CardAction.EndDrag));
 
-            var index = _cards.Count;
-            _cards.Add(card);
-
-            UpdatePosition();
+            CardView cardView = card.GetComponent<CardView>();
+            cardView.View(cardData,_deckData.CardColor);
         }
 
-        [ContextMenu("AddOne")]
-        public void AddOne()
+        private void Drag(HandCard card)
         {
-            AddCard(new CardData(0, new CardDataValue()));
+            if(!_isSelecting)
+            {
+                return;
+            }
+            var index = _handcards.IndexOf(card);
+
+            if(_selection.GetCandidates().Contains(index))
+            {
+                card.Run(CardAction.StartDrag);
+            }
         }
 
         public void Execute(HandCard card)
         {
+            int index = _handcards.IndexOf(card);
+            _selection.Select(index);
+            _selection = null;
+            _isSelecting = false;
             UnFocus(card);
-            _cards.Remove(card);
-            _deactiveCards.Push(card);
+            _handcards.Remove(card);
+            _deactiveCards.Enqueue(card);
             card.Run(CardAction.Consume);
             card.GetComponent<CardEvents>().RemoveAllListeners();
+            card.gameObject.SetActive(false);
             UpdatePosition();
         }
 
@@ -120,20 +147,20 @@ namespace TeamOdd.Ratocalypse.DeckLib
         }
 
         [ContextMenu("Remove")]
-        public void Remove()
+        public bool Remove()
         {
-            if(_cards.Count == 0)
+            if(_handcards.Count == 0)
             {
-                return;
+                return false;
             }
 
-            UnFocus(_cards[0]);
-            _cards[0].GetComponent<CardEvents>().RemoveAllListeners();
+            UnFocus(_handcards[0]);
+            _handcards[0].GetComponent<CardEvents>().RemoveAllListeners();
 
-            _deactiveCards.Push(_cards[0]);
-            _cards[0].gameObject.SetActive(false);
-            _cards.RemoveAt(0);
-            UpdatePosition();
+            _deactiveCards.Enqueue(_handcards[0]);
+            _handcards[0].gameObject.SetActive(false);
+            _handcards.RemoveAt(0);
+            return true;
         }
 
         public void Awake()
@@ -141,19 +168,6 @@ namespace TeamOdd.Ratocalypse.DeckLib
             PreCreateCards();
         }
 
-        public void Update()
-        {
-
-            UpdateFocus();
-            if(Input.GetKeyDown(KeyCode.Space))
-            {
-                AddOne();
-            }
-            if(Input.GetKeyDown(KeyCode.A))
-            {
-                Remove();
-            }
-        }
 
         private float CalcInCircleRatio(float ratio)
         {
@@ -173,7 +187,7 @@ namespace TeamOdd.Ratocalypse.DeckLib
 
         public (Vector3 position,float angle) GetTransfrom(int index)
         {
-            float maxIndex = _cards.Count - 1;
+            float maxIndex = _handcards.Count - 1;
             float maxAngle = CalcInCircleRatio(0.5f);
             float minY = CalcYRatio(maxAngle);
             float minX = CalcXRatio(maxAngle);
@@ -191,14 +205,52 @@ namespace TeamOdd.Ratocalypse.DeckLib
         [ContextMenu("UpdatePosition")]
         public void UpdatePosition()
         {
-            for (int i = 0; i < _cards.Count; i++)
+            for (int i = 0; i < _handcards.Count; i++)
             {
                 var (position, rotation) = GetTransfrom(i);
-                _cards[i].SetOrigin(position, rotation);
-                _cards[i].Run(CardAction.UpdateOrigin);
+                _handcards[i].SetOrigin(position, rotation);
+                _handcards[i].Run(CardAction.UpdateOrigin);
             }
         }
 
+        public void UpdateHandCards(DeckData deckData)
+        {
+            _deckData = deckData;
+            UpdateCards();
+        }
+
+        public void UpdateCards()
+        {
+            _isSelecting = false;
+            while(Remove()){};
+            var newCards = _deckData.GetHandCards();
+            for (int i = 0; i < newCards.Count; i++)
+            {
+                var handCard = AddCard(newCards[i]);
+                handCard.GetComponent<CardGlow>().SetInactiveGlow();
+            }
+            UpdatePosition();
+        }
+
+        public void Select(Selection<List<int>> selection)
+        {
+            _selection = selection;
+            foreach(int index in _selection.GetCandidates())
+            {
+                _handcards[index].GetComponent<CardGlow>().SetActiveGlow();
+            }
+            _isSelecting = true;
+        }
+
+        public void SetTarget(DeckData deckData)
+        {
+            UpdateHandCards(deckData);
+        }
+
+        public DeckData GetTarget()
+        {
+            return _deckData;
+        }
 
     }
 }

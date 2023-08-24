@@ -8,6 +8,6 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
 {
     public class GameStatistics
     {
-        
+        public int round = 1;
     }
 }

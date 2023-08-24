@@ -17,7 +17,7 @@ namespace TeamOdd.Ratocalypse.MapLib
         public Vector2Int Coord => _placement.Coord;
         protected IMapCoord _mapCoord;
 
-        public virtual void Initiate(Placement placement, IMapCoord mapCoord)
+        public virtual void Initialize(Placement placement, IMapCoord mapCoord)
         {
             _placement = placement;
             _mapCoord = mapCoord;

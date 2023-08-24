@@ -14,10 +14,10 @@ namespace TeamOdd.Ratocalypse.CreatureLib
         [SerializeField]
         protected CreatureData _creatrueData;
 
-        public override void Initiate(Placement placement, IMapCoord mapCoord)
+        public override void Initialize(Placement placement, IMapCoord mapCoord)
         {
             _creatrueData = (CreatureData)placement;
-            base.Initiate(placement, mapCoord);
+            base.Initialize(placement, mapCoord);
         }
 
         protected override void RegisterCallbacks()
@@ -27,7 +27,7 @@ namespace TeamOdd.Ratocalypse.CreatureLib
             _creatrueData.OnHpReduced.AddListener(OnHpReduced);
             _creatrueData.OnHpRestored.AddListener(OnHpRestored);
             _creatrueData.OnDie.AddListener(OnDie);
-            _creatrueData.OnAttack.AddListener(OnAttack);
+            _creatrueData.AnimationEvent.AddListener(OnAnimationEvent);
         }
 
         protected override void OnCoordChanged(Vector2Int coord)
@@ -35,12 +35,12 @@ namespace TeamOdd.Ratocalypse.CreatureLib
             
         }
 
-        protected virtual void OnHpReduced(float hp)
+        protected virtual void OnHpReduced(int hp)
         {
             
         }
 
-        protected virtual void OnHpRestored(float hp)
+        protected virtual void OnHpRestored(int hp)
         {
             
         }
@@ -50,7 +50,7 @@ namespace TeamOdd.Ratocalypse.CreatureLib
             
         }
 
-        protected virtual void OnAttack(IDamageable target, float damage)
+        protected virtual void OnAnimationEvent(object parm, string name, Action[] callbacks)
         {
             
         }

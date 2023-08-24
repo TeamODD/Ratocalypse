@@ -1,41 +1,49 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TeamOdd.Ratocalypse.MapLib
 {
     public partial class MapData
     {
         public Vector2Int Size { get; }
-        public List<List<Placement>> Placements { get; private set; }
+        private List<List<Placement>> _placedMap;
+        private HashSet<Placement> _placements = new HashSet<Placement>();
 
         public MapData(Vector2Int size)
         {
             Size = size;
-            ResetPlacements();
+            ResetMap();
         }
 
         public MapData(int width = 8, int height = 8)
         {
             Size = new Vector2Int(width, height);
-            ResetPlacements();
+            ResetMap();
         }
 
-        private void ResetPlacements()
+        public List<Placement> GetPlacements()
         {
-            Placements = new List<List<Placement>>();
+            return _placements.ToList();
+        }
+
+        private void ResetMap()
+        {
+            _placedMap = new List<List<Placement>>();
+            _placements.Clear();
             for (int y = 0; y < Size.y; y++)
             {
-                Placements.Add(new List<Placement>());
+                _placedMap.Add(new List<Placement>());
                 for (int x = 0; x < Size.x; x++)
                 {
-                    Placements[y].Add(null);
+                    _placedMap[y].Add(null);
                 }
             }
         }
 
         public Placement GetPlacement(Vector2Int coord)
         {
-            return Placements[coord.y][coord.x];
+            return _placedMap[coord.y][coord.x];
         }
 
         public bool IsExist(Vector2Int coord)
@@ -46,22 +54,28 @@ namespace TeamOdd.Ratocalypse.MapLib
         private Placement RemovePlaceable(Vector2Int coord)
         {
             Placement exist = GetPlacement(coord);
-            Placements[coord.y][coord.x] = null;
+            _placedMap[coord.y][coord.x] = null;
+
+            _placements.Remove(exist);
+
             return exist;
         }
 
         private void SetPlaceble(Vector2Int coord, Placement placement, bool force = false)
         {
+            
             if (!force && placement != null && GetPlacement(coord) != null)
             {
                 throw new System.Exception("placement is already exist");
             }
             if (placement == null)
             {
-                Debug.Log("use RemovePlaceable instead of SetPlaceble");
+                throw new System.Exception("use RemovePlaceable instead of SetPlaceble");
             }
 
-            Placements[coord.y][coord.x] = placement;
+            _placements.Add(placement);
+
+            _placedMap[coord.y][coord.x] = placement;
 
         }
 
@@ -73,7 +87,7 @@ namespace TeamOdd.Ratocalypse.MapLib
 
                 for (int x = 0; x < Size.x; x++)
                 {
-                    line += Placements[y][x] == null ? "0" : "1";
+                    line += _placedMap[y][x] == null ? "0" : "1";
                 }
                 line += "\n";
             }

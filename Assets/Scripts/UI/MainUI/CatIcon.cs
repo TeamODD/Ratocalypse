@@ -1,5 +1,7 @@
 using UnityEngine;
+using System.Collections;
 using DG.Tweening;
+using TeamOdd.Ratocalypse.CreatureLib.Cat;
 
 namespace TeamOdd.Ratocalypse.UI
 {
@@ -9,25 +11,24 @@ namespace TeamOdd.Ratocalypse.UI
 
         private ParticleSystem _fireEffect;
 
-        [SerializeField]
-        private Ease _iconEase = Ease.InOutCubic;
+        public int Order { get => -_catData.Stamina; }
+        public Ease IconEase;
+        public float _moveTime = 2f;
 
-        [field: SerializeField]
-        public int Order { get; set; }
+        private CatData _catData;
 
-        public float _moveTime = 1f;
-
-        public void Awake()
-        {
-            _fireEffect = transform.GetChild(0).GetComponent<ParticleSystem>();
-            _fireEffect.Stop();
-        }
         public void SetPosition(Vector3 position)
         {
-            if (_fireEffect != null) {_fireEffect.transform.SetAsLastSibling(); }
             _startPosition = transform.localPosition;
-            DOTween.To(() => _startPosition, x => transform.localPosition = x, position, _moveTime).SetEase(_iconEase);
+            DOTween.To(() => _startPosition, x => transform.localPosition = x, position, _moveTime).SetEase(IconEase);
+
         }
+
+        public void Initialize(CatData catData)
+        {
+            _catData = catData;
+        }
+
 
         [ContextMenu("SetEffect")]
         public void SetEffect()

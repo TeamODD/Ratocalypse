@@ -1,6 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
-
+using TeamOdd.Ratocalypse.CreatureLib.Rat;
+using UnityEngine.EventSystems;
 
 namespace TeamOdd.Ratocalypse.UI
 {
@@ -10,26 +11,27 @@ namespace TeamOdd.Ratocalypse.UI
 
         private ParticleSystem _fireEffect;
 
-        [SerializeField]
-        private Ease _iconEase = Ease.InOutCubic;
-
-        [field: SerializeField]
-        public int Order { get; set; }
-       
+        public int Order { get => -_ratData.Stamina; }
+        public Ease IconEase;
         public float _moveTime = 1f;
 
-        public void Awake()
+        private RatData _ratData;
+
+        public void Initialize(RatData ratData)
         {
-            _fireEffect = transform.GetChild(0).GetComponent<ParticleSystem>();
-            _fireEffect.Stop();
-        }
-        public void SetPosition(Vector3 position)
-        {
-            if (_fireEffect!=null) { _fireEffect.transform.SetAsLastSibling(); }
-            _startPosition = transform.localPosition;
-            DOTween.To(() => _startPosition, x => transform.localPosition = x, position, _moveTime).SetEase(_iconEase);
+            _ratData = ratData;
         }
 
+        public void SetPosition(Vector3 position)
+        {
+            _startPosition = transform.localPosition;
+            DOTween.To(() => _startPosition, x => transform.localPosition = x, position, _moveTime).SetEase(IconEase);
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            _ratData.SelectCard();
+        }
         [ContextMenu("SetEffect")]
         public void SetEffect()
         {

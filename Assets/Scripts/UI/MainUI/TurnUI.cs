@@ -1,85 +1,87 @@
 using System.Collections.Generic;
-using System.Linq;
+using TeamOdd.Ratocalypse.CreatureLib;
 using UnityEngine;
+using UnityEngine.UI;
+using System.Linq;
+using Unity.VisualScripting;
 
 namespace TeamOdd.Ratocalypse.UI
 {
+    [RequireComponent(typeof(RectTransform))]
     public class TurnUI : MonoBehaviour
     {
-       
-        private List<IIcon> _deployment = new List<IIcon>();
 
         [SerializeField]
-        private List<int> _deploymentNumber = new List<int>();
+        private List<IIcon> _icons = new List<IIcon>();
+        private List<int> _iconOrders = new List<int>();
 
+        [SerializeField]
         private Vector2 _uiSize;
 
         [SerializeField]
         private float _xMargin = 50;
+
         [SerializeField]
         private float _maxXGap = 150;
 
         [SerializeField]
-        private float _yGap = 30;
+        private float _yGap = 100;
 
         [SerializeField]
-        private float _yOrigin = 30;
+        private float _yOrigin = 2;
+
 
         public List<GameObject> TestIconList; 
-
 
         private void Start()
         {
             _uiSize = GetComponent<RectTransform>().sizeDelta;
             SetTestIcon();
         }
+
+
         public void AddIcon(IIcon icon)
         {
-            _deployment.Add(icon);
+            _icons.Add(icon);
         }
+
         public void SetTestIcon()
         {
             foreach (GameObject a in TestIconList)
             {
-                _deployment.Add(a.GetComponent<IIcon>());
+                _icons.Add(a.GetComponent<IIcon>());
             }
         }
 
-        [ContextMenu("SetDeployment")]
-        public void SetDeployment()
+        [ContextMenu("UpdatePositions")]
+        public void UpdatePositions()
         {
-            _deploymentNumber = _deployment.Select((icon) => icon.Order).Distinct().ToList();
-            _deploymentNumber = _deploymentNumber.FindAll((oreder) => oreder != -1).Distinct().ToList();
-            _deploymentNumber.Sort();
+            _iconOrders = _icons.Select((icon) => icon.Order).Distinct().ToList();
+            _iconOrders.Sort();
 
-            float interval = Mathf.RoundToInt((_uiSize.x - 20) / _deploymentNumber.Count);
-            interval = Mathf.Min(interval, _maxXGap);
+            float xGap = (_uiSize.x - (2 * _xMargin)) / (_iconOrders.Count - 1);
+            xGap = Mathf.Min(xGap, _maxXGap);
 
             float left = -(_uiSize.x / 2) + _xMargin;
 
-            foreach (IIcon a in _deployment)
+            for (int xIndex = 0; xIndex < _iconOrders.Count; xIndex++)
             {
-                List<IIcon> iconsInOrder = _deployment.Where((icon) => icon.Order == a.Order).ToList();
+                int order = _iconOrders[xIndex];
+                List<IIcon> iconsInOrder = _icons.Where((icon) => icon.Order == order).ToList();
 
-             
-                if (a.Order == -1)
+                for (int yIndex = 0; yIndex < iconsInOrder.Count; yIndex++)
                 {
-                    float x = (_uiSize.x - 20) / 2;
-                    float y = -_yOrigin -_yGap * iconsInOrder.FindIndex((icon) => icon == a);
+                    IIcon icon = iconsInOrder[yIndex];
+                    float x = left + (xGap * xIndex);
+                    float y = _yOrigin -_yGap * yIndex;
 
-                    a.SetPosition(new Vector2(x,y));
-                }
-                else
-                {
-                    float x = left + (interval * _deploymentNumber.FindIndex(element => element == a.Order));
-                    float y = -_yOrigin - _yGap * iconsInOrder.FindIndex((icon) => icon == a);
-
-                    a.SetPosition(new Vector2(x, y));
+                    icon.SetPosition(new Vector2(x, y));
                 }
             }
         }
 
-        public void ActivationChange()
+
+        public void ToggleActivation()
         {
             gameObject.SetActive(!gameObject.activeSelf);
         }

@@ -10,10 +10,10 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
     public abstract record ExecuteResult()
     {
         public record SubCommand(Command Command) : ExecuteResult;
-        public record NextCommand(Command Command) : ExecuteResult;
-        public record NextCommands(List<Command> Commands) : ExecuteResult;
-        public record End(ICommandResult Result) : ExecuteResult;
-        public record Wait(UnityEvent Callback) : ExecuteResult;
+        public record NextCommand(Command Command, ICommandResult Result = null) : ExecuteResult;
+        public record NextCommands(List<Command> Commands, ICommandResult Result = null) : ExecuteResult;
+        public record End(ICommandResult Result = null) : ExecuteResult;
+        public record Wait(UnityEvent<ExecuteResult> Callback) : ExecuteResult;
     }
 
 }

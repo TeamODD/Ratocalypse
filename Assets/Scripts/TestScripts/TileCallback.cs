@@ -35,5 +35,12 @@ namespace TeamOdd.Ratocalypse.TestScripts
             ExitEvent.Invoke(_tile);
         }
 
+        public void RemoveAll()
+        {
+            ClickEvent.RemoveAllListeners();
+            EnterEvent.RemoveAllListeners();
+            ExitEvent.RemoveAllListeners();
+        }
+
     }
 }

@@ -1,10 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using TeamOdd.Ratocalypse.CardLib.Cards.Templates;
 using TeamOdd.Ratocalypse.CreatureLib;
-using TeamOdd.Ratocalypse.MapLib.GameLib.Commands;
-using UnityEngine;
-using static TeamOdd.Ratocalypse.CardLib.Cards.Templates.MoveOrAttackCardData;
+using TeamOdd.Ratocalypse.GameLib.Commands.GameSequenceCommands;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib
 {
@@ -13,7 +8,6 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
         private MapData _mapData;
         private MapAnalyzer _mapAnalyzer;
         private CommandExecutor _commandExecutor;
-        private List<Command> _commands;
         private GameStatistics _gameStatistics;
 
 
@@ -29,19 +23,17 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
 
         public void Start()
         {
-            _commands = new List<Command>();
-            var testCreature = (CreatureData)_mapData.GetPlacement(new Vector2Int(0, 0));
-            MoveOrAttackCardData testCard = new MoveOrAttackCardData(0, new DataValue(), MoveOrAttackRangeType.Rook);
-            var cardCast = new CardCast(testCreature, 0, testCard.CreateCardCommand());
-
-            _commandExecutor.PushCommand(cardCast);
+            _mapData.GetPlacements().ForEach((placement)=>{
+                if(placement is CreatureData creatureData)
+                {
+                    creatureData.DeckData.DrawCards(5);
+                }
+            });
+            
             _round = 1;
+            _commandExecutor.PushCommand(new ProcessRound());
+            _commandExecutor.PushCommand(new CalculateTurn());
             _commandExecutor.Run();
-        }
-
-        public void CalculateTurn()
-        {
-
         }
     }
 }
