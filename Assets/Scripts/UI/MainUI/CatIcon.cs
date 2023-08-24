@@ -9,12 +9,19 @@ namespace TeamOdd.Ratocalypse.UI
     {
         private Vector3 _startPosition;
 
+        private ParticleSystem _fireEffect;
+
         public int Order { get => -_catData.Stamina; }
         public Ease IconEase;
         public float _moveTime = 2f;
-        
+
         private CatData _catData;
-        
+
+        public void Awake()
+        {
+            _fireEffect = transform.GetChild(0).GetComponent<ParticleSystem>();
+            _fireEffect.Stop();
+        }
         public void SetPosition(Vector3 position)
         {
             _startPosition = transform.localPosition;
@@ -28,5 +35,18 @@ namespace TeamOdd.Ratocalypse.UI
         }
 
 
+        [ContextMenu("SetEffect")]
+        public void SetEffect()
+        {
+            if (_fireEffect.isStopped)
+            { 
+                _fireEffect.Play(); 
+            }
+            else
+            {
+                _fireEffect.Stop(); 
+            }
+
+        }
     }
 }

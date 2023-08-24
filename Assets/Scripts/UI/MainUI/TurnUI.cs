@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using TeamOdd.Ratocalypse.CreatureLib;
 using UnityEngine;
@@ -31,7 +30,8 @@ namespace TeamOdd.Ratocalypse.UI
         [SerializeField]
         private float _yOrigin = 2;
 
-        public List<Image> TestIconList;
+    
+        public List<GameObject> TestIconList; 
 
         private void Start()
         {
@@ -47,7 +47,7 @@ namespace TeamOdd.Ratocalypse.UI
 
         public void SetTestIcon()
         {
-            foreach (Image a in TestIconList)
+            foreach (GameObject a in TestIconList)
             {
                 _icons.Add(a.GetComponent<IIcon>());
             }

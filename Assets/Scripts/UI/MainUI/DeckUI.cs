@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace TeamOdd.Ratocalypse.UI
-{
+{ 
     public class DeckUI : MonoBehaviour
     {
         private TextMeshProUGUI _deckText;
