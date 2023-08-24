@@ -4,7 +4,7 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - _redHpSprite: {fileID: 21300000, guid: d3141695e696bdd43885d83a5cef23ad, type: 3}
+  - _redHpSprite: {fileID: 21300000, guid: f7ef5ddd0deca184c93b95dd9eefd835, type: 3}
   - _blueHpSprite: {fileID: 21300000, guid: 72c27c9b274f5f846958dfcf0302ada0, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
