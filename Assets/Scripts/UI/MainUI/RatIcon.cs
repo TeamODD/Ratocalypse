@@ -17,6 +17,12 @@ namespace TeamOdd.Ratocalypse.UI
 
         private RatData _ratData;
 
+        public void Awake()
+        {
+            _fireEffect = transform.GetChild(0).GetComponent<ParticleSystem>();
+            _fireEffect.Stop();
+        }
+
         public void Initialize(RatData ratData)
         {
             _ratData = ratData;

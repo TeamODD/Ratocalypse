@@ -17,6 +17,11 @@ namespace TeamOdd.Ratocalypse.UI
 
         private CatData _catData;
 
+        public void Awake()
+        {
+            _fireEffect = transform.GetChild(0).GetComponent<ParticleSystem>();
+            _fireEffect.Stop();
+        }
         public void SetPosition(Vector3 position)
         {
             _startPosition = transform.localPosition;

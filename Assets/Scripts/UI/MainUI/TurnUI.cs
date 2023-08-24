@@ -30,7 +30,7 @@ namespace TeamOdd.Ratocalypse.UI
         [SerializeField]
         private float _yOrigin = 2;
 
-
+    
         public List<GameObject> TestIconList; 
 
         private void Start()
