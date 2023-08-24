@@ -28,6 +28,13 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
                     _damage += (int)stack;
                 }
 
+                var (hasGod, _) = creatureData.HasEffect("God");
+                if (hasGod)
+                {
+                    creatureData.RemoveEffect("God");
+                    return new End();
+                }
+
                 var (hasProtect, data) = creatureData.HasEffect("Protect");
                 if (hasProtect)
                 {
