@@ -129,8 +129,13 @@ namespace TeamOdd.Ratocalypse.CreatureLib
             Stamina = MaxStamina;
         }
 
-        public void RestoreStamina(int amount)
+        public void RestoreStamina(int amount, bool bypassMax = false)
         {
+            if(bypassMax)
+            {
+                Stamina += amount;
+                return;
+            }
             Stamina = Mathf.Min(MaxStamina, Stamina + amount);
         }
 
