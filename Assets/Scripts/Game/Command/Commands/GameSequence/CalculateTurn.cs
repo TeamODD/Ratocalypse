@@ -44,6 +44,7 @@ namespace TeamOdd.Ratocalypse.GameLib.Commands.GameSequenceCommands
                 if(creatureDatas.Any(creatureData => creatureData.HasCastableCard()))
                 {
                     next = creatureDatas;
+                    next = next.Where(creatureData => creatureData.HasCastableCard()).ToList();
                     continue;
                 }
             }
@@ -53,12 +54,19 @@ namespace TeamOdd.Ratocalypse.GameLib.Commands.GameSequenceCommands
                 return new End();
             }
 
+            next.ForEach(creatureData =>
+            {
+                creatureData.RemoveEffect("Stealth");
+            });
+
             if(next.Count == 1)
             {
-                return new SubCommand(new SelectAndCastCard(next.First(), true));
+                var target = next.First();
+                return new SubCommand(new SelectAndCastCard(target, true));
             }
             else
             {
+
                 return new SubCommand(new ProcessMultipleTurns(next));
             }
         }
@@ -70,6 +78,8 @@ namespace TeamOdd.Ratocalypse.GameLib.Commands.GameSequenceCommands
             {
                 return placement is CreatureData;
             }).Cast<CreatureData>().ToList();
+
+
 
 
             creatureDatas.Sort((a, b) =>

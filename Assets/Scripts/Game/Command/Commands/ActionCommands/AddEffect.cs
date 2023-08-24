@@ -6,19 +6,21 @@ using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
 {
-    public class GainArmor : TargetCommand<CreatureData>
+    public class SetEffect : TargetCommand<IDamageable>
     {
         private CreatureData _target;
-        private int _amount = 0;
-        public GainArmor(CreatureData target,int amount) : base(target)
+        private string _effect;
+        private object _data;
+        public SetEffect(CreatureData target, string effect, object data) : base(target)
         {
-            _amount = amount;
+            _data = data;
+            _effect = effect;
             _target = target;
         }
 
         protected override ExecuteResult RunSuccess()
         {
-            _target.IncreaseArmor(_amount);
+            _target.SetEffect(_effect,_data);
             return new End(WrapResult(true));
         }
     }

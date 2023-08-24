@@ -41,13 +41,14 @@ namespace TeamOdd.Ratocalypse.CreatureLib
 
         public UnityEvent<object, string, Action[]> AnimationEvent{get; private set;} = new UnityEvent<object, string, Action[]>();
         
-        public List<string> StatusEffectList;
+        public Dictionary<string, object> StatusEffectList = new Dictionary<string, object>();
         
         [field: ReadOnly, SerializeField]
         public DeckData DeckData{ get; private set; }
         private ICardSelector _cardSelector;
         private Selection<List<int>> _currentCardSelection;
-        private (int index,CardData cardData) ?_castCardData = null;
+        private (int index, CardData cardData) ?_castCardData = null;
+
 
         public CreatureData(int maxHp, int maxStamina, MapData mapData,
                             Vector2Int coord, Shape shape, List<int> deck,
@@ -152,6 +153,25 @@ namespace TeamOdd.Ratocalypse.CreatureLib
         public bool IsAlive()
         {
             return Hp > 0;
+        }
+
+        public (bool result,object data) HasEffect(string effect)
+        {
+            if(StatusEffectList.ContainsKey(effect))
+            {
+                return (true, StatusEffectList[effect]);
+            }
+            return (false, null);
+        }
+
+        public void SetEffect(string effect, object data)
+        {
+            StatusEffectList[effect] = data;
+        }
+
+        public void RemoveEffect(string effect)
+        {
+            StatusEffectList.Remove(effect);
         }
     }
 }

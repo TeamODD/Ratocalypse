@@ -62,6 +62,13 @@ namespace TeamOdd.Ratocalypse.GameLib.Commands.GameSequenceCommands
                     }
                     rat.RestoreAllStamina();
                 }
+
+                if(placement is CreatureData creatureData)
+                {
+                    creatureData.RemoveEffect("Poison");
+                    creatureData.RemoveEffect("Taunt");
+                    creatureData.ReduceStrength(1);
+                }
             }
             
         }
