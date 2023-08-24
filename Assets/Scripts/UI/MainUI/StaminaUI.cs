@@ -3,66 +3,70 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Linq;
 
-public class StaminaUI : MonoBehaviour
+
+namespace TeamOdd.Ratocalypse.UI
 {
-    private int _maxStamina;
-    [SerializeField]
-    private Image _bigStaminaImage;
-    private List<Image> _smallStaminaImage = new List<Image>();
-
-    [SerializeField]
-    private Sprite _bigBlueStaminaSprite;
-    [SerializeField]
-    private Sprite _bigGrayStaminaSprite;
-    [SerializeField]
-    private Sprite _smallBlueStaminaSprite;
-    [SerializeField]
-    private Sprite _smallGrayStaminaSprite;
-
-    public void SetMaxStamina(int maxStamina)
+    public class StaminaUI : MonoBehaviour
     {
-        _maxStamina = maxStamina;
+        private int _maxStamina;
+        [SerializeField]
+        private Image _bigStaminaImage;
+        private List<Image> _smallStaminaImage = new List<Image>();
 
-        for (int i = 0; i < maxStamina - 1; i++)
-        {
-            GameObject staminaUi = new GameObject();
-            staminaUi.name = "SmallStamina";
-            _smallStaminaImage.Add(staminaUi.AddComponent<Image>());
-            _smallStaminaImage.Last().sprite = _bigBlueStaminaSprite;
-            staminaUi.GetComponent<RectTransform>().SetParent(transform.Find("Stamina/SmallStaminaGroup"), false);
-            staminaUi.SetActive(true);
-        }
-    }
+        [SerializeField]
+        private Sprite _bigBlueStaminaSprite;
+        [SerializeField]
+        private Sprite _bigGrayStaminaSprite;
+        [SerializeField]
+        private Sprite _smallBlueStaminaSprite;
+        [SerializeField]
+        private Sprite _smallGrayStaminaSprite;
 
-    public void SetStamina(int stamina)
-    {
-        if (stamina > 0)
+        public void SetMaxStamina(int maxStamina)
         {
-            _bigStaminaImage.sprite = _bigBlueStaminaSprite;
-        }
-        else
-        {
-            _bigStaminaImage.sprite = _bigGrayStaminaSprite;
+            _maxStamina = maxStamina;
+
+            for (int i = 0; i < maxStamina - 1; i++)
+            {
+                GameObject staminaUi = new GameObject();
+                staminaUi.name = "SmallStamina";
+                _smallStaminaImage.Add(staminaUi.AddComponent<Image>());
+                _smallStaminaImage.Last().sprite = _bigBlueStaminaSprite;
+                staminaUi.GetComponent<RectTransform>().SetParent(transform.Find("Stamina/SmallStaminaGroup"), false);
+                staminaUi.SetActive(true);
+            }
         }
 
-        int i;
-        for (i = 0; i < stamina - 1; i++)
+        public void SetStamina(int stamina)
         {
-            _smallStaminaImage[i].sprite = _smallBlueStaminaSprite;
+            if (stamina > 0)
+            {
+                _bigStaminaImage.sprite = _bigBlueStaminaSprite;
+            }
+            else
+            {
+                _bigStaminaImage.sprite = _bigGrayStaminaSprite;
+            }
+
+            int i;
+            for (i = 0; i < stamina - 1; i++)
+            {
+                _smallStaminaImage[i].sprite = _smallBlueStaminaSprite;
+            }
+            for (; i < _maxStamina - 1; i++)
+            {
+                _smallStaminaImage[i].sprite = _smallGrayStaminaSprite;
+            }
         }
-        for (; i < _maxStamina - 1; i++)
+
+        private void Start()
         {
-            _smallStaminaImage[i].sprite = _smallGrayStaminaSprite;
+            SetMaxStamina(7);
+            SetStamina(3);
         }
-    }
 
-    private void Start()
-    {
-        SetMaxStamina(7);
-        SetStamina(3);
-    }
-
-    private void Update()
-    {
+        private void Update()
+        {
+        }
     }
 }
