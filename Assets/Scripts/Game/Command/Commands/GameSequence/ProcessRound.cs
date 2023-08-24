@@ -67,6 +67,8 @@ namespace TeamOdd.Ratocalypse.GameLib.Commands.GameSequenceCommands
                 {
                     creatureData.RemoveEffect("Poison");
                     creatureData.RemoveEffect("Taunt");
+                    creatureData.RemoveEffect("Stealth");
+                    creatureData.RemoveEffect("Mozzarella");
                     creatureData.ReduceStrength(1);
 
                     creatureData.DeckData.RemoveVolatileCards();
