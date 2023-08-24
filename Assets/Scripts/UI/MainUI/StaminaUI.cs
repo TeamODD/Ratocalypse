@@ -1,11 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Net;
-using TeamOdd.Ratocalypse.CreatureLib.Cat;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
 
 public class StaminaUI : MonoBehaviour
 {
@@ -13,36 +7,38 @@ public class StaminaUI : MonoBehaviour
     private Image[] _smallStaminaImage = new Image[4];
 
     [SerializeField]
-    private Sprite _bigBlueStamina;
+    private Sprite _bigBlueStaminaSprite;
     [SerializeField]
-    private Sprite _bigGrayStamina;
+    private Sprite _bigGrayStaminaSprite;
     [SerializeField]
-    private Sprite _smallBlueStamina;
+    private Sprite _smallBlueStaminaSprite;
     [SerializeField]
-    private Sprite _smallGrayStamina;
+    private Sprite _smallGrayStaminaSprite;
 
-    // 임시 테스트용 변수
-    private int stamina = 5;
 
-    private void SetStamina(int stamina)
+    public void SetStamina(int stamina)
     {
         if (stamina > 0)
-            _bigStaminaImage.sprite = _bigBlueStamina;
+        {
+            _bigStaminaImage.sprite = _bigBlueStaminaSprite;
+        }
         else
-            _bigStaminaImage.sprite = _bigGrayStamina;
+        {
+            _bigStaminaImage.sprite = _bigGrayStaminaSprite;
+        }
 
         int i;
         for (i = 0; i < stamina - 1; i++)
         {
-            _smallStaminaImage[i].sprite = _smallBlueStamina;
+            _smallStaminaImage[i].sprite = _smallBlueStaminaSprite;
         }
         for (; i < 4; i++)
         {
-            _smallStaminaImage[i].sprite = _smallGrayStamina;
+            _smallStaminaImage[i].sprite = _smallGrayStaminaSprite;
         }
     }
 
-    void Awake()
+    private void Awake()
     {
         _bigStaminaImage = transform.Find("Stamina/BigStamina").GetComponent<Image>();
         for (int i = 0; i < 4; i++)
@@ -52,18 +48,12 @@ public class StaminaUI : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
+        SetStamina(3);
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
-        {
-            if (stamina == 0)
-                stamina = 5;
-            else stamina--;
-            SetStamina(stamina);
-        }
     }
 }

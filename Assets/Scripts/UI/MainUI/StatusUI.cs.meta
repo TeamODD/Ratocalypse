@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 98dbfeae20c515245ae8185917565f01
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _statusPrefab: {fileID: 5344207889591406887, guid: 197cdc42fd69e634eb87dfc43ce5f95c,
+      type: 3}
+  - _poisonSprite: {fileID: 21300000, guid: b7d82dbef5872ae4e8358d338dc12869, type: 3}
+  - _etcStatusSprite: {fileID: 21300000, guid: f75ccbd8c801f784c8ac4233506c6fc8, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

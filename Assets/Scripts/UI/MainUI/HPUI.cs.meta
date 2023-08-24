@@ -3,7 +3,9 @@ guid: db722a147578ccc4784e2737a605caeb
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _redHpSprite: {fileID: 21300000, guid: d3141695e696bdd43885d83a5cef23ad, type: 3}
+  - _blueHpSprite: {fileID: 21300000, guid: 72c27c9b274f5f846958dfcf0302ada0, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

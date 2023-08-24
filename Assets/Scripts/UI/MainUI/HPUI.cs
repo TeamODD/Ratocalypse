@@ -1,37 +1,57 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Net;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
 
 public class HPUI : MonoBehaviour
 {
     private Image _hpImage;
     private TextMeshProUGUI _hpText;
 
-    private void SetHpText(string hpText)
+    [SerializeField]
+    private Sprite _redHpSprite;
+    [SerializeField]
+    private Sprite _blueHpSprite;
+
+    [SerializeField]
+    private int _currentHp;
+    [SerializeField]
+    private int _maxHp;
+    [SerializeField]
+    private int _currentShield;
+
+    public void SetHpShield(int currentHp, int maxHp, int shield)
     {
-        _hpText.text = hpText;
+        _currentHp = currentHp;
+        _maxHp = maxHp;
+        _currentShield = shield;
+
+        if (shield > 0)
+        {
+            _hpImage.sprite = _blueHpSprite;
+        }
+        else
+        {
+            _hpImage.sprite = _redHpSprite;
+        }
+
+        _hpText.text = currentHp + (shield > 0 ? "(+" + shield + ")" : "") + "/" + maxHp;
+        _hpImage.fillAmount = (float)currentHp / maxHp;
     }
 
-    private void UpdateHpBar(float hpRatio)
-    {
-        _hpImage.fillAmount = hpRatio;
-    }
-
-
-    void Awake()
+    private void Awake()
     {
         _hpImage = transform.Find("HP/HpImage").GetComponent<Image>();
         _hpText = transform.Find("HP/HpText").GetComponent<TextMeshProUGUI>();
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        SetHpText("50 / 100");
-        UpdateHpBar(0.5f);
+        SetHpShield(5, 10, 3);
+    }
+
+    [ContextMenu("ExcuteEvent")]
+    private void TestHpShield()
+    {
+        SetHpShield(_currentHp, _maxHp, _currentShield);
     }
 }

@@ -1,27 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Net;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
-
 
 public class CreatureUI : MonoBehaviour
 {
-    // 테스트용 임시 변수
-    public Transform target;
+    [SerializeField] // 테스트용 SerializeField
+    private Transform _target;
+    [SerializeField]
+    private int _uiOffset = 150;
+    private RectTransform _rectTransform;
+    private Vector3 _interfacePoint;  
     
-    private RectTransform rectTransform;
-    private Vector3 InterfacePoint;  
-    public void Start()
+    public void AttachUi(Transform target, int offset)
     {
-        rectTransform = transform.GetComponent<RectTransform>();
+        _target = target;
+        _uiOffset = offset;
     }
-    public void LateUpdate()
+    private void Start()
+    {
+        _rectTransform = transform.GetComponent<RectTransform>();
+    }
+    private void LateUpdate()
     {
         // transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, target.position);
         //transform.position = Camera.main.WorldToScreenPoint(target.position + new Vector3(0, 150, 0)) ;
-         InterfacePoint = RectTransformUtility.WorldToScreenPoint(Camera.main, target.position);
-        rectTransform.anchoredPosition = InterfacePoint + new Vector3(0, 150, 0);
+        _interfacePoint = RectTransformUtility.WorldToScreenPoint(Camera.main, _target.position);
+        _rectTransform.anchoredPosition = _interfacePoint + new Vector3(0, _uiOffset, 0);
     }
 }
