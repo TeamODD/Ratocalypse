@@ -26,7 +26,7 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
 
         public override string GetDescription()
         {
-            return $"이동 전: 적을 이번 라운드 동안 도발합니다.\n 방어도를 {GetAmount()} 얻습니다.";
+            return $"이동 후: 적을 이번 라운드 동안 도발합니다\n 방어도를 {GetAmount()} 얻습니다.";
         }
 
         private int GetAmount()
@@ -60,14 +60,12 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
                 var temp = new SelectMap(CreateMovement(caster), data.Caster, false, true);
                 return temp;
             });
-            castCard.AddCommand((_) =>
-            {
-                return new GainArmor(caster, GetAmount());
-            });
+
 
 
             castCard.SetTrigger((result, _) =>
             {
+                int amount = GetAmount();
                 SelectMap.Result selectResult = result as SelectMap.Result;
 
                 TriggerCard triggerCard = new TriggerCard(null, caster, 0, selectResult.SelectedCoord);
@@ -78,6 +76,14 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
                         return new Move(caster, selectResult.SelectedCoord.Value);
                     });
                 }
+                triggerCard.AddCommand((_) =>
+                {
+                    return new GainArmor(caster, amount);
+                });
+                triggerCard.AddCommand((_) =>
+                {
+                    return new SetEffect(caster, "Taunt", null);
+                });
 
                 return triggerCard;
             });
