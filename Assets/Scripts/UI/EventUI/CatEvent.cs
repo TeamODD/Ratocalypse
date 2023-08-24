@@ -1,41 +1,50 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
-using TeamOdd.Ratocalypse.CardLib;
+using TMPro;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 namespace TeamOdd.Ratocalypse.UI
 {
     public class CatEvent : MonoBehaviour
     {
-        private Vector3 _onPosition = new Vector3(248, 0, 0);
-        private Vector3 _offPosition = new Vector3(-248, 0, 0);
-        private bool _cardChoice = false;
+        [SerializeField]
+        private Vector3 _offPosition = new Vector3(248, 0, 0);
+        [SerializeField]
+        private Vector3 _onPosition = new Vector3(-248, 0, 0);
+
+        [SerializeField]
         private Ease _ease = Ease.InOutCubic;
 
-        public CardData CardData { get; set; }
-       
+        [SerializeField]
+        private TextMeshProUGUI _cardTitle;
+        [SerializeField]
+        private Image _cardCardillustration;
+        [SerializeField]
+        private Image _mold;
+        [SerializeField]
+        private TextMeshProUGUI _cardExplanation;
+        [SerializeField]
+        private Image _chessPiecesIcon;
+        [SerializeField]
+        private Image _backGround;
+
         public float MoveTime;
 
-        [ContextMenu("EventExcute")]
-        public void EventExcute()
+        private bool _isEventAtivation = false;
+
+        [ContextMenu("ExcuteEvent")]
+        public void ExcuteEvent()
         {
-            if (_cardChoice == false)
+            if (!_isEventAtivation)
             {
-                Debug.Log("카드 데이터 숫자, 이미지 적용");
-                DOTween.To(() => _offPosition, x => transform.localPosition = x, _onPosition, MoveTime).SetEase(_ease);
-                _cardChoice = true;
+                DOTween.To(() => _offPosition, x => transform.localPosition = x, _onPosition, MoveTime).SetEase(_ease); _isEventAtivation = true; 
             }
-            else
-            {
-                DOTween.To(() => _onPosition, x => transform.localPosition = x, _offPosition, MoveTime).SetEase(_ease);
-                Debug.Log("카드 반환");
-                _cardChoice = false;
+            else 
+            { 
+                DOTween.To(() => _onPosition, x => transform.localPosition = x, _offPosition, MoveTime).SetEase(_ease); _isEventAtivation = false;
             }
         }
-
-
+   
         public void ActivationChange()
         {
             gameObject.SetActive(!gameObject.activeSelf);

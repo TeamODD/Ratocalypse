@@ -1,29 +1,47 @@
 using UnityEngine;
 using DG.Tweening;
 
+
 namespace TeamOdd.Ratocalypse.UI
 {
     public class RatIcon : MonoBehaviour, IIcon
     {
         private Vector3 _startPosition;
 
-        [SerializeField]
         private ParticleSystem _fireEffect;
+
+        [SerializeField]
+        private Ease _iconEase = Ease.InOutCubic;
+
         [field: SerializeField]
         public int Order { get; set; }
-        public Ease IconEase;
-        public float _moveTime = 2f;
+       
+        public float _moveTime = 1f;
 
+        public void Awake()
+        {
+            _fireEffect = transform.GetChild(0).GetComponent<ParticleSystem>();
+            _fireEffect.Stop();
+        }
         public void SetPosition(Vector3 position)
         {
-            if (_fireEffect!=null) { Debug.Log("적용"); _fireEffect.transform.SetAsLastSibling(); }
+            if (_fireEffect!=null) { _fireEffect.transform.SetAsLastSibling(); }
             _startPosition = transform.localPosition;
-            DOTween.To(() => _startPosition, x => transform.localPosition = x, position, _moveTime).SetEase(IconEase);
+            DOTween.To(() => _startPosition, x => transform.localPosition = x, position, _moveTime).SetEase(_iconEase);
         }
-        public void OnEffect()
+
+        [ContextMenu("SetEffect")]
+        public void SetEffect()
         {
-            _fireEffect.Play();
-                    
+            if (_fireEffect.isStopped)
+            {
+                _fireEffect.Play();
+            }
+            else
+            {
+                _fireEffect.Stop();
+            }
+
         }
     }
 }
