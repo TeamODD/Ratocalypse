@@ -40,7 +40,9 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
         private DirectionalMovement CreateMapSelecting(CreatureData caster)
         {
             Pattern pattern = Pattern.GetChessPattern(OriginValueData.rangeType);
-            DirectionalMovement movement = new DirectionalMovement(caster, pattern, true);
+            DirectionalMovement movement = new DirectionalMovement(caster, pattern, true,(placement)=>{
+                return !Utils.IsEnemy(caster, placement, true);
+            });
             return movement;
         }
 
