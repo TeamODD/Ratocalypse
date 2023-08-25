@@ -69,7 +69,7 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
             });
 
             int damage = GetDamage();
-           
+
             castCard.SetTrigger((result, _) =>
             {
                 var getAllPlacementResult = result as GetPlacementInRange.Result;
@@ -78,11 +78,13 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
                 damage *= count;
                 TriggerCard triggerCard = new TriggerCard(null, caster, damage, null);
 
-
-                triggerCard.AddCommand((_) =>
+                if (count != 0)
                 {
-                    return new Attack(caster, enemies, damage/count); 
-                });
+                    triggerCard.AddCommand((_) =>
+                    {
+                        return new Attack(caster, enemies, damage / count);
+                    });
+                }
 
                 return triggerCard;
             });

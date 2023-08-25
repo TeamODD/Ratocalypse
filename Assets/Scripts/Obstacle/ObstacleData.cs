@@ -9,7 +9,7 @@ using static TeamOdd.Ratocalypse.MapLib.MapData;
 namespace TeamOdd.Ratocalypse.Obstacle
 {
     [System.Serializable]
-    public class ObstacleData : Placement, IDamageable, IAnimatable
+    public class ObstacleData : Placement, IDamageable
     {
         [SerializeField]
         public int MaxHp { get; private set; }

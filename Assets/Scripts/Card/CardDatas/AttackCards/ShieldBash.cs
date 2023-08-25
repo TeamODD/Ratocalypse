@@ -62,7 +62,9 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
                 var temp = new SelectMap(CreateMovement(caster), data.Caster, true, true);
                 return temp;
             });
-            castCard.AddCommand((_)=>{
+            SelectMap.Result selectResult = null;
+            castCard.AddCommand((result)=>{
+                selectResult = result as SelectMap.Result;
                 return new GainArmor(caster, GetAmount());
             });
 
@@ -70,7 +72,7 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
 
             castCard.SetTrigger((result, _) =>
             {
-                SelectMap.Result selectResult = result as SelectMap.Result;
+                
                 damage = caster.Armor;
                 TriggerCard triggerCard = new TriggerCard(null, caster, damage, selectResult.SelectedCoord);
 

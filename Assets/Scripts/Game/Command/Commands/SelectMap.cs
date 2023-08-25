@@ -54,23 +54,35 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
                 selector = _catSelector;
             }
 
-            var (endWait, result) = CreateWait();
+
+            var (endWait, waitResult) = CreateWait();
+            ExecuteResult result = waitResult;
             _mapSelecting.Calculate(_mapData);
-            if (_selectMap)
+
+            
+            var coordSelection = _mapSelecting.CreateCoordSelection((coord) =>
             {
-                var coordSelection = _mapSelecting.CreateCoordSelection((coord) =>
-                {
-                    endWait(new End(new Result { SelectedCoord = coord }));
-                });
+                result = new End(new Result { SelectedCoord = coord });
+                endWait(result);
+            });
+
+            var placementSelection = _mapSelecting.CreatePlacementSelection((placement) =>
+            {
+                result = new End(new Result { SelectedPlacement = placement });
+                endWait(result);
+            });
+
+            if (_selectTarget && _selectMap)
+            {
+                selector.Select(coordSelection, placementSelection);
+            }
+            else if (_selectMap)
+            {
                 selector.Select(coordSelection);
             }
-
-            if (_selectTarget)
+            else if (_selectTarget)
             {
-                var placementSelection = _mapSelecting.CreatePlacementSelection((placement) =>
-                {
-                    endWait(new End(new Result { SelectedPlacement = placement }));
-                });
+
                 selector.Select(placementSelection);
             }
 

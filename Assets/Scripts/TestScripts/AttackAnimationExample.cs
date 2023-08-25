@@ -41,7 +41,9 @@ namespace TeamOdd.Ratocalypse.TestScripts
             .Insert(SecondRotateTime,rotate2)
             .InsertCallback(FirstRotateTime + (FirstRotateDuration / 2), ()=>{firstRotationMiddleCallback?.Invoke();})
             .InsertCallback(SecondRotateTime + (SecondRotateDuration / 2), ()=>{secondRotationMiddleCallback?.Invoke();})
-            .OnComplete(()=>{endCallback?.Invoke();});
+            .OnComplete(()=>{
+                endCallback?.Invoke();
+            });
         }
     }
 }

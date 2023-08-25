@@ -105,10 +105,8 @@ namespace TeamOdd.Ratocalypse.DeckLib
 
         public void Execute(HandCard card)
         {
-            int index = _handcards.IndexOf(card);
-            _selection.Select(index);
-            _selection = null;
             _isSelecting = false;
+            int index = _handcards.IndexOf(card);
             UnFocus(card);
             _handcards.Remove(card);
             _deactiveCards.Enqueue(card);
@@ -116,6 +114,9 @@ namespace TeamOdd.Ratocalypse.DeckLib
             card.GetComponent<CardEvents>().RemoveAllListeners();
             card.gameObject.SetActive(false);
             UpdatePosition();
+            var prevSelection = _selection;
+            _selection = null;
+            prevSelection.Select(index);
         }
 
         public void SetFocus(HandCard card)

@@ -23,10 +23,15 @@ MonoBehaviour:
     Assembly-CSharp\",\"Id\":35,\"TextureName\":\"\uACF5\uD1B5_\uACF5\uACA9\",\"CardDataType\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.EmergencyTreatment,
     Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\",\"OriginValueData\":{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.EmergencyTreatment+ValueData,
     Assembly-CSharp\",\"RecoveryAmount\":2,\"Cost\":0,\"rangeType\":0}},{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardCreateData,
-    Assembly-CSharp\",\"Id\":36,\"TextureName\":\"\uACF5\uD1B5_\uC2E0\uC18D\uD55C
-    \uC774\uB3D9\",\"CardDataType\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.SwiftMovement,
+    Assembly-CSharp\",\"Id\":36,\"TextureName\":\"\uACF5\uD1B5_\uACF5\uACA9\",\"CardDataType\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.SwiftMovement,
     Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\",\"OriginValueData\":{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.SwiftMovement+ValueData,
     Assembly-CSharp\",\"Cost\":1,\"rangeType\":3}},{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardCreateData,
     Assembly-CSharp\",\"Id\":37,\"TextureName\":\"\uACF5\uD1B5_\uB2E4\uB2E8\uD0C0\",\"CardDataType\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.Combo,
     Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\",\"OriginValueData\":{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.Combo+ValueData,
-    Assembly-CSharp\",\"Cost\":1,\"rangeType\":4}}]}"
+    Assembly-CSharp\",\"Cost\":1,\"rangeType\":4}},{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardCreateData,
+    Assembly-CSharp\",\"Id\":38,\"TextureName\":\"\uACF5\uD1B5_\uAE30\uCD08\uD6C8\uB828\",\"CardDataType\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.BasicTraining,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\",\"OriginValueData\":{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.BasicTraining+ValueData,
+    Assembly-CSharp\",\"Amount\":1,\"Cost\":0,\"rangeType\":0}},{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardCreateData,
+    Assembly-CSharp\",\"Id\":39,\"TextureName\":\"\uACF5\uD1B5_\uBC29\uC5B4\",\"CardDataType\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.Defend,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\",\"OriginValueData\":{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.Defend+ValueData,
+    Assembly-CSharp\",\"Amount\":6,\"Cost\":2,\"rangeType\":5}}]}"

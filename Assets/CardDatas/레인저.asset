@@ -12,4 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de6cdd76e5ce98f4284987411f71c0bb, type: 3}
   m_Name: "\uB808\uC778\uC800"
   m_EditorClassIdentifier: 
-  _serializedJson: 
+  _serializedJson: "{\"$type\":\"System.Collections.Generic.List`1[[TeamOdd.Ratocalypse.CardLib.CardCreateData,
+    Assembly-CSharp]], mscorlib\",\"$values\":[{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardCreateData,
+    Assembly-CSharp\",\"Id\":16,\"TextureName\":\"\uB808\uC778\uC800_\uC950\uB3C4\uC0C8\uB3C4\uBAA8\uB974\uAC8C\",\"CardDataType\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.SecretlyDraw,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\",\"OriginValueData\":{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.SecretlyDraw+ValueData,
+    Assembly-CSharp\",\"Cost\":5,\"rangeType\":1}},{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardCreateData,
+    Assembly-CSharp\",\"Id\":17,\"TextureName\":\"\uB808\uC778\uC800_\uB85C\uBE48\uD6C4\uB4DC\",\"CardDataType\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.RobinHood,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\",\"OriginValueData\":{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.RobinHood+ValueData,
+    Assembly-CSharp\",\"Damage\":10,\"Cost\":3,\"rangeType\":3}},{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardCreateData,
+    Assembly-CSharp\",\"Id\":18,\"TextureName\":\"\uB808\uC778\uC800_\uC804\uB7B5\uC801\uBE0C\uB9AC\uD551\",\"CardDataType\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.StrategicBriefing,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\",\"OriginValueData\":{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.StrategicBriefing+ValueData,
+    Assembly-CSharp\",\"Count\":1,\"Cost\":1,\"rangeType\":2}},{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardCreateData,
+    Assembly-CSharp\",\"Id\":19,\"TextureName\":\"\uB808\uC778\uC800_\uBD88\uD544\uC694\uD55C\uC804\uC81C\",\"CardDataType\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.UnnecessaryAssumption,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\",\"OriginValueData\":{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.UnnecessaryAssumption+ValueData,
+    Assembly-CSharp\",\"Count\":2,\"Cost\":2,\"rangeType\":1}},{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardCreateData,
+    Assembly-CSharp\",\"Id\":20,\"TextureName\":\"\uB808\uC778\uC800_\uC2A4\uB098\uC774\uD551\",\"CardDataType\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.Sniping,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\",\"OriginValueData\":{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.Sniping+ValueData,
+    Assembly-CSharp\",\"Cost\":3,\"rangeType\":0}}]}"

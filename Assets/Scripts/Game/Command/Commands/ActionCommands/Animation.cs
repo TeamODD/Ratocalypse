@@ -8,11 +8,11 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
 {
     public class Animation : Command
     {
-        private IAnimatable _target;
+        private IAnimatable _target = null;
         private string _animationName;
         private object _parm;
         private Action[] _callbacks;
-        private bool _wait;
+        private bool _wait = false;
 
         public Animation(object target, string animationName, bool wait, object parm, params Action[] callbacks)
         {
@@ -21,9 +21,9 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
                 _target = animateTarget;
                 _animationName = animationName;
                 _parm = parm;
-                _callbacks = callbacks;
                 _wait = wait;
             }
+            _callbacks = callbacks;
         }
 
         public override ExecuteResult Execute()

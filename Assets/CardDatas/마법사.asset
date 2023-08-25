@@ -12,4 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de6cdd76e5ce98f4284987411f71c0bb, type: 3}
   m_Name: "\uB9C8\uBC95\uC0AC"
   m_EditorClassIdentifier: 
-  _serializedJson: 
+  _serializedJson: "{\"$type\":\"System.Collections.Generic.List`1[[TeamOdd.Ratocalypse.CardLib.CardCreateData,
+    Assembly-CSharp]], mscorlib\",\"$values\":[{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardCreateData,
+    Assembly-CSharp\",\"Id\":21,\"TextureName\":\"\uB9C8\uBC95\uC0AC_\uD654\uC5FC\uBCFC\uCE58\uC988\uBCFC\",\"CardDataType\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.FireballCheeseBall,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\",\"OriginValueData\":{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.FireballCheeseBall+ValueData,
+    Assembly-CSharp\",\"Damage\":25,\"Cost\":4,\"rangeType\":2}},{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardCreateData,
+    Assembly-CSharp\",\"Id\":22,\"TextureName\":\"\uB9C8\uBC95\uC0AC_\uB9C8\uB098\uCE58\uC988\",\"CardDataType\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.ManaCheese,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\",\"OriginValueData\":{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.ManaCheese+ValueData,
+    Assembly-CSharp\",\"Amount\":1,\"Cost\":2,\"rangeType\":0}},{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardCreateData,
+    Assembly-CSharp\",\"Id\":23,\"TextureName\":\"\uB9C8\uBC95\uC0AC_\uC5D0\uB108\uC9C0\uC804\uC1A1\",\"CardDataType\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.EnergyTransfer,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\",\"OriginValueData\":{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.EnergyTransfer+ValueData,
+    Assembly-CSharp\",\"Count\":1,\"Cost\":3,\"rangeType\":0}},{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardCreateData,
+    Assembly-CSharp\",\"Id\":24,\"TextureName\":\"\uB9C8\uBC95\uC0AC_\uD638\uD658\uBC30\uD130\uB9AC\",\"CardDataType\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.CompatibleBattery,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\",\"OriginValueData\":{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.CompatibleBattery+ValueData,
+    Assembly-CSharp\",\"Damage\":0,\"Cost\":2,\"rangeType\":4}},{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardCreateData,
+    Assembly-CSharp\",\"Id\":25,\"TextureName\":\"\uB9C8\uBC95\uC0AC_\uB2E4\uC911\uBC1C\uC0AC\uBBF8\uC0AC\uC77C\",\"CardDataType\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.MultipleLaunchMissiles,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\",\"OriginValueData\":{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.MultipleLaunchMissiles+ValueData,
+    Assembly-CSharp\",\"Damage\":6,\"Cost\":2,\"rangeType\":3}},{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardCreateData,
+    Assembly-CSharp\",\"Id\":26,\"TextureName\":\"\uB9C8\uBC95\uC0AC_\uBA54\uD14C\uC624\",\"CardDataType\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.Meteor,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\",\"OriginValueData\":{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.Meteor+ValueData,
+    Assembly-CSharp\",\"multiplier\":10,\"Cost\":7,\"rangeType\":6}}]}"
