@@ -2,6 +2,7 @@
 using TeamOdd.Ratocalypse.CardLib.CommandLib;
 using TeamOdd.Ratocalypse.CreatureLib.Attributes;
 using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
+using static TeamOdd.Ratocalypse.MapLib.MapData;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
 {
@@ -16,7 +17,11 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
         protected override ExecuteResult RunSuccess()
         {
             var animation = new Animation(_target, "Die", true, null, ()=>{});
-            return new NextCommand(animation,WrapResult(true));
+            if(_target is Placement placement)
+            {
+                placement.Remove();
+            }
+            return new NextCommand(animation, WrapResult(true));
         }
     }
 }
