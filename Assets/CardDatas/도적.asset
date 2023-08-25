@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de6cdd76e5ce98f4284987411f71c0bb, type: 3}
+  m_Name: "\uB3C4\uC801"
+  m_EditorClassIdentifier: 
+  _serializedJson: '{"$type":"System.Collections.Generic.List`1[[TeamOdd.Ratocalypse.CardLib.CardCreateData,
+    Assembly-CSharp]], mscorlib","$values":[{"$type":"TeamOdd.Ratocalypse.CardLib.CardCreateData,
+    Assembly-CSharp","Id":0,"TextureName":"texture","CardDataType":"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.TrapDisarm,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","OriginValueData":{"$type":"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.TrapDisarm+ValueData,
+    Assembly-CSharp","Cost":0,"rangeType":6}},{"$type":"TeamOdd.Ratocalypse.CardLib.CardCreateData,
+    Assembly-CSharp","Id":0,"TextureName":"texture","CardDataType":"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.RottenCheesePlague,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","OriginValueData":{"$type":"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.RottenCheesePlague+ValueData,
+    Assembly-CSharp","Amount":0,"Damage":0,"Count":0,"Cost":0,"rangeType":6}},{"$type":"TeamOdd.Ratocalypse.CardLib.CardCreateData,
+    Assembly-CSharp","Id":0,"TextureName":"texture","CardDataType":"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.WideVision,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","OriginValueData":{"$type":"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.WideVision+ValueData,
+    Assembly-CSharp","CardId":0,"Cost":0,"rangeType":6}},{"$type":"TeamOdd.Ratocalypse.CardLib.CardCreateData,
+    Assembly-CSharp","Id":0,"TextureName":"texture","CardDataType":"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.WideVisionSupport,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","OriginValueData":{"$type":"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.WideVisionSupport+ValueData,
+    Assembly-CSharp","Cost":0,"rangeType":6}},{"$type":"TeamOdd.Ratocalypse.CardLib.CardCreateData,
+    Assembly-CSharp","Id":0,"TextureName":"texture","CardDataType":"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.TombRaiding,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","OriginValueData":{"$type":"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.TombRaiding+ValueData,
+    Assembly-CSharp","Count":0,"Cost":0,"rangeType":6}},{"$type":"TeamOdd.Ratocalypse.CardLib.CardCreateData,
+    Assembly-CSharp","Id":0,"TextureName":"texture","CardDataType":"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.RatHole,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","OriginValueData":{"$type":"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.RatHole+ValueData,
+    Assembly-CSharp","Count":0,"Cost":0,"rangeType":6}}]}'
