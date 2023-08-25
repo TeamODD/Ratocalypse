@@ -51,7 +51,7 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Rat
             }
             else if(name == "Hit")
             {
-                transform.DORotate(new Vector3(0, 0, 10), 0.2f).SetLoops(2, LoopType.Yoyo).OnComplete(() => {
+                transform.DORotate(new Vector3(0, 0, 10), 0.2f).SetLoops(2, LoopType.Yoyo).OnKill(() => {
                     if(callbacks!=null&&callbacks.Length > 0)
                     {
                         callbacks[0]?.Invoke();

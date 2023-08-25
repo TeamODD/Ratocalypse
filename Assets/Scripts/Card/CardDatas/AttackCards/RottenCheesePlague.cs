@@ -78,6 +78,7 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
             });
             SelectMap.Result selectResult = null;
             castCard.AddCommand((result)=>{
+                selectResult = result as SelectMap.Result;
                 if(selectResult.SelectedPlacement != null)
                 {
                     selectResult = result as SelectMap.Result;

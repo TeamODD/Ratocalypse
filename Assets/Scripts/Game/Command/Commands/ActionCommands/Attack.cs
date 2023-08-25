@@ -4,6 +4,8 @@ using TeamOdd.Ratocalypse.CardLib.CommandLib;
 using System;
 using TeamOdd.Ratocalypse.CreatureLib;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
 {
@@ -43,32 +45,11 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
             var (endWait, result) = CreateWait();
             var attackExecutor = _createExecutor();
 
-            var count = _targets.Count + 1;
+            int count = _targets.Count + 1;
 
-            List<CommandExecutor> damageExecutors = new List<CommandExecutor>();
-            foreach (var target in _targets)
+            UnityAction endExecute = () =>
             {
-                var damageExecutor = _createExecutor();
-                damageExecutors.Add(damageExecutor);
-                damageExecutor.OnEmpty.AddListener(EndExecute);
-
-                var damage = new Damage(target, _damage);
-                damageExecutor.PushCommand(damage);
-            }
-
-            Animation animation = new Animation(_attacker, "Attack", true, null,
-            () =>
-            {
-                damageExecutors.ForEach(damageExecutor => damageExecutor.Run());
-            }, () => { });
-
-            attackExecutor.PushCommand(animation);
-            attackExecutor.Run();
-            attackExecutor.OnEmpty.AddListener(EndExecute);
-
-
-            void EndExecute()
-            {
+                Debug.Log(count);
                 count--;
                 if (count == 0)
                 {
@@ -83,7 +64,33 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
                     }
                     endWait(new End());
                 }
+            };
+
+            List<CommandExecutor> damageExecutors = new List<CommandExecutor>();
+            foreach (var target in _targets)
+            {
+                var damageExecutor = _createExecutor();
+                damageExecutors.Add(damageExecutor);
+                damageExecutor.OnEmpty.AddListener(endExecute);
+
+                var damage = new Damage(target, _damage);
+                damageExecutor.PushCommand(damage);
             }
+
+            Animation animation = new Animation(_attacker, "Attack", true, null,
+            () =>
+            {
+                damageExecutors.ForEach(damageExecutor => damageExecutor.Run());
+            }, () => { });
+
+
+            attackExecutor.OnEmpty.AddListener(endExecute);
+            attackExecutor.PushCommand(animation);
+            attackExecutor.Run();
+
+
+
+
 
             return result;
         }

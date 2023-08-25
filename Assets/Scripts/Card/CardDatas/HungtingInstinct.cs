@@ -60,15 +60,15 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
                 var temp = new SelectMap(CreateMovement(caster), data.Caster, false, true);
                 return temp;
             });
-            castCard.AddCommand((_) =>
+            SelectMap.Result selectResult = null;
+            castCard.AddCommand((result) =>
             {
+                selectResult = result as SelectMap.Result;
                 return new RestoreStamina(caster, GetAmount());
             });
 
             castCard.SetTrigger((result, _) =>
             {
-                SelectMap.Result selectResult = result as SelectMap.Result;
-
                 TriggerCard triggerCard = new TriggerCard(null, caster, 0, selectResult.SelectedCoord);
                 if (selectResult.SelectedCoord != null)
                 {

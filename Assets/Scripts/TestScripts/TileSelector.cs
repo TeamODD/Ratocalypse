@@ -20,7 +20,7 @@ namespace TeamOdd.Ratocalypse.TestScripts
 
         private ShapedCoordList _coords;
         private List<Placement> _placements;
-
+        private bool _selectBoth = false;
         private void Start()
         {
             _map = GetComponent<Map>();
@@ -48,9 +48,9 @@ namespace TeamOdd.Ratocalypse.TestScripts
 
         public void ResetHandlers()
         {
-            for(int y = 0; y < _map.Size.y; y++)
+            for (int y = 0; y < _map.Size.y; y++)
             {
-                for(int x = 0; x < _map.Size.x; x++)
+                for (int x = 0; x < _map.Size.x; x++)
                 {
                     _map.GetTile(new Vector2Int(x, y)).GetComponent<TileCallback>().RemoveAll();
                 }
@@ -59,9 +59,9 @@ namespace TeamOdd.Ratocalypse.TestScripts
 
         public void ResetHighlight()
         {
-            for(int y = 0; y < _map.Size.y; y++)
+            for (int y = 0; y < _map.Size.y; y++)
             {
-                for(int x = 0; x < _map.Size.x; x++)
+                for (int x = 0; x < _map.Size.x; x++)
                 {
                     _map.GetTile(new Vector2Int(x, y)).GetComponent<TileColorSetter>().Default();
                 }
@@ -70,6 +70,16 @@ namespace TeamOdd.Ratocalypse.TestScripts
 
         public void Select(Selection<ShapedCoordList> selection)
         {
+            if (!_selectBoth)
+            {
+                var count = selection.GetCandidates().Count;
+                if (count == 0)
+                {
+                    selection.Select(-1);
+                    return;
+                }
+            }
+
             _coords = selection.GetCandidates();
 
             for (int i = 0; i < _coords.Count; i++)
@@ -109,10 +119,20 @@ namespace TeamOdd.Ratocalypse.TestScripts
 
         public void Select(Selection<List<Placement>> selection)
         {
-            List<Placement> placements = selection.GetCandidates();
-            for(int i = 0; i<placements.Count;i++)
+            if (!_selectBoth)
             {
-                Placement placement = placements[i];
+                var count = selection.GetCandidates().Count;
+                if (count == 0)
+                {
+                    selection.Select(-1);
+                    return;
+                }
+            }
+
+            _placements = selection.GetCandidates();
+            for (int i = 0; i < _placements.Count; i++)
+            {
+                Placement placement = _placements[i];
                 List<Vector2Int> coords = placement.Shape.GetCoords(placement.Coord);
                 foreach (Vector2Int coord in coords)
                 {
@@ -145,6 +165,20 @@ namespace TeamOdd.Ratocalypse.TestScripts
                     });
 
                 }
+            }
+
+        }
+
+        public void Select(Selection<ShapedCoordList> coordSelection, Selection<List<Placement>> placementSelection)
+        {
+            _selectBoth = true;
+            Select(coordSelection);
+            Select(placementSelection);
+            _selectBoth = false;
+            var count = _coords.Count + _placements.Count;
+            if (count == 0)
+            {
+                coordSelection.Select(-1);
             }
 
         }

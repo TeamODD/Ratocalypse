@@ -38,6 +38,12 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
         {
             CreatureData caster = null;
             CastCard castCard = new CastCard(cardCastData, runTrigger);
+            castCard.AddCommand((result) =>
+            {
+                CardCastData data = result as CardCastData;
+                caster = data.Caster;
+                return null;
+            });
 
             castCard.SetTrigger((_, _) =>
             {

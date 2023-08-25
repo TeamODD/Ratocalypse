@@ -52,6 +52,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
         public CommandExecutor Clone()
         {
             var cloned = MemberwiseClone() as CommandExecutor;
+            cloned.OnEmpty = new UnityEvent();
             cloned.Clear();
             return cloned;
         }

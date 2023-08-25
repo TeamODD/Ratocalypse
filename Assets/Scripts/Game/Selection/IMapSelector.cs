@@ -10,6 +10,6 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
 {
     public interface IMapSelector : ISelector<ShapedCoordList>, ISelector<List<Placement>>
     {
-
+        void Select(Selection<ShapedCoordList> coordSelection, Selection<List<Placement>> placementSelection);
     }
 }

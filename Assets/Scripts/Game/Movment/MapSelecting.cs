@@ -29,10 +29,15 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib
             
         }
 
-        public Selection<ShapedCoordList> CreateCoordSelection(Action<Vector2Int> onSelect, Action onCancel = null)
+        public Selection<ShapedCoordList> CreateCoordSelection(Action<Vector2Int?> onSelect, Action onCancel = null)
         {
             var selection = new Selection<ShapedCoordList>(CoordCandidates,
             (index)=>{
+                if(index == -1)
+                {
+                    onSelect(null);
+                    return;
+                }
                 onSelect(CoordCandidates.GetCoord(index));
             }, onCancel);
             return selection;
@@ -42,6 +47,11 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib
         {
             var selection = new Selection<List<Placement>>(PlacementCanditates,
             (index)=>{
+                if(index == -1)
+                {
+                    onSelect(null);
+                    return;
+                }
                 onSelect(PlacementCanditates[index]);
             }, onCancel);
             return selection;
