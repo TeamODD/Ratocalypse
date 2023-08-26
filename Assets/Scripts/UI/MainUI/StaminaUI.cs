@@ -22,6 +22,20 @@ namespace TeamOdd.Ratocalypse.UI
         [SerializeField]
         private Sprite _smallGrayStaminaSprite;
 
+
+        public void SetStamina(int stamina, int maxStamina)
+        {
+
+            var parent = transform.Find("Stamina/SmallStaminaGroup");
+            _smallStaminaImage.Clear();
+            for (int i = 0; i < parent.childCount; i++)
+            {
+                Destroy(parent.GetChild(i).gameObject);
+            }
+            SetMaxStamina(Mathf.Max(stamina,maxStamina));
+            SetStamina(stamina);
+        }
+
         public void SetMaxStamina(int maxStamina)
         {
             _maxStamina = maxStamina;
@@ -61,8 +75,7 @@ namespace TeamOdd.Ratocalypse.UI
 
         private void Start()
         {
-            SetMaxStamina(7);
-            SetStamina(3);
+
         }
 
         private void Update()

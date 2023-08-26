@@ -80,18 +80,18 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
 
                 triggerCard.AddCommand((result)=>{
                     var getAllPlacementResult = result as GetPlacementInRange.Result;
-                    var creatureDatas = getAllPlacementResult.placements.Cast<CreatureData>();
+                    var placements = getAllPlacementResult.placements;
                     var chainCommand = new ChainCommand();
 
-                    foreach(var creatureData in creatureDatas)
+                    foreach(var placement in placements)
                     {
-                        if(Utils.IsEnemy(caster, creatureData, false))
+                        if(Utils.IsEnemy(caster, placement, false))
                         {
-                            enemies.Add(creatureData);
+                            enemies.Add(placement as CreatureData);
                         }
-                        else if(!Utils.IsEnemy(caster, creatureData, true))
+                        else if(!Utils.IsEnemy(caster, placement, true))
                         {
-                            allies.Add(creatureData);
+                            allies.Add(placement as CreatureData);
                         }
                     }
 

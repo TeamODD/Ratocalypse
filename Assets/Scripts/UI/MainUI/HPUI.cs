@@ -44,14 +44,5 @@ public class HPUI : MonoBehaviour
         _hpText = transform.Find("HP/HpText").GetComponent<TextMeshProUGUI>();
     }
 
-    private void Start()
-    {
-        SetHpShield(5, 10, 0);
-    }
 
-    [ContextMenu("ExecuteEvent")]
-    private void TestHpShield()
-    {
-        SetHpShield(_currentHp, _maxHp, _currentShield);
-    }
 }

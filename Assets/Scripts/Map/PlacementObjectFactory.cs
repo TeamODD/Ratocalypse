@@ -8,9 +8,9 @@ namespace TeamOdd.Ratocalypse.MapLib
     public class PlacementObjectFactory : MonoBehaviour
     {
         [SerializeField]
-        private Map _map;
+        protected Map _map;
         [SerializeField]
-        private Transform _parent;
+        protected Transform _parent;
 
         public PlacementObject Create(Placement placement,PlacementObject prefab)
         {

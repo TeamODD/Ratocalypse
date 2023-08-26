@@ -38,10 +38,11 @@ namespace TeamOdd.Ratocalypse.UI
         {
             _ratData.SelectCard();
         }
+
         [ContextMenu("SetEffect")]
-        public void SetEffect()
+        public void SetEffect(bool state)
         {
-            if (_fireEffect.isStopped)
+            if (state)
             {
                 _fireEffect.Play();
             }
@@ -49,7 +50,6 @@ namespace TeamOdd.Ratocalypse.UI
             {
                 _fireEffect.Stop();
             }
-
         }
     }
 }

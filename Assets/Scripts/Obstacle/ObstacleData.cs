@@ -28,6 +28,8 @@ namespace TeamOdd.Ratocalypse.Obstacle
 
         public UnityEvent<int> OnArmorReduced => new UnityEvent<int>();
 
+        public UnityEvent<int> OnArmorChanged => new UnityEvent<int>();
+
         public ObstacleData(int maxHp, MapData mapData, Vector2Int coord, Shape shape):base(mapData, coord, shape)
         {
             MaxHp = maxHp;

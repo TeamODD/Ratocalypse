@@ -34,8 +34,11 @@ namespace TeamOdd.Ratocalypse.CreatureLib
 
         public UnityEvent<int> OnHpReduced { get; private set; } = new UnityEvent<int>();
         public UnityEvent<int> OnHpRestored { get; private set; } = new UnityEvent<int>();
-        public UnityEvent<int> OnArmorReduced { get; private set; } = new UnityEvent<int>();
-        public UnityEvent<int> OnArmorIncreased { get; private set; } = new UnityEvent<int>();
+        
+        public UnityEvent<int> OnArmorChanged { get; private set; } = new UnityEvent<int>();
+        public UnityEvent OnStaminaChanged { get; private set; } = new UnityEvent();
+        public UnityEvent OnEffectChanged { get; private set; } = new UnityEvent();
+
         public UnityEvent OnDie { get; private set; } = new UnityEvent();
         public UnityEvent<IDamageable, int> OnAttack { get; private set; } = new UnityEvent<IDamageable, int>();
 
@@ -117,20 +120,24 @@ namespace TeamOdd.Ratocalypse.CreatureLib
         public void IncreaseArmor(int amount)
         {
             Armor += amount;
+            OnArmorChanged.Invoke(Armor);
         }
 
         public void ReduceArmor(int amount)
         {
             Armor =  Mathf.Max(0,Armor - amount);
+            OnArmorChanged.Invoke(Armor);
         }
 
         public void RestoreAllStamina()
         {
             Stamina = MaxStamina;
+            OnStaminaChanged.Invoke();
         }
 
         public void RestoreStamina(int amount, bool bypassMax = false)
         {
+            OnStaminaChanged.Invoke();
             if(bypassMax)
             {
                 Stamina += amount;
@@ -142,11 +149,13 @@ namespace TeamOdd.Ratocalypse.CreatureLib
         public void ReduceStamina(int amount)
         {
             Stamina -= amount;
+            OnStaminaChanged.Invoke();
         }
 
         public void IncreaseMaxStamina(int amount)
         {
             MaxStamina += amount;
+            OnStaminaChanged.Invoke();
         }
 
         public void Attack(IDamageable target, int damage)
@@ -171,11 +180,13 @@ namespace TeamOdd.Ratocalypse.CreatureLib
 
         public void SetEffect(string effect, object data)
         {
+            OnEffectChanged.Invoke();
             StatusEffectList[effect] = data;
         }
 
         public void RemoveEffect(string effect)
         {
+            OnEffectChanged.Invoke();
             StatusEffectList.Remove(effect);
         }
     }

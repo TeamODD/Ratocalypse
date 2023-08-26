@@ -79,6 +79,23 @@ namespace TeamOdd.Ratocalypse.MapLib
             return placements;
         }
 
+        public Vector2Int GetRandomCoord(Shape shape)
+        {
+            var size = _mapData.Size;
+            var randomCoord = new Vector2Int(UnityEngine.Random.Range(0, size.x), UnityEngine.Random.Range(0, size.y));
+            var check = CheckAllIn(shape.GetCoords(randomCoord), (Vector2Int coord, Placement placement) =>
+            {
+                return placement == null;
+            });
+
+            if(!check)
+            {
+                return GetRandomCoord(shape);
+            }
+
+            return randomCoord;
+        }
+
         public List<Vector2Int> WhereIn(List<Vector2Int> coords, Func<Vector2Int, bool> match)
         {
             if (match == null)
@@ -150,6 +167,11 @@ namespace TeamOdd.Ratocalypse.MapLib
         {
             foreach (Vector2Int coord in coords)
             {
+                if(!CheckInbound(coord))
+                {
+                    return true;
+                }
+
                 Placement placement = _mapData.GetPlacement(coord);
                 if (!filter(coord,placement))
                 {

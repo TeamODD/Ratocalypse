@@ -266,9 +266,13 @@ MonoBehaviour:
         m_Calls: []
     <MaxHp>k__BackingField: 0
     <Hp>k__BackingField: 0
+    <Armor>k__BackingField: 0
     <MaxStamina>k__BackingField: 0
     <Stamina>k__BackingField: 0
-    StatusEffectList: []
+    <Strength>k__BackingField: 0
+    <DeckData>k__BackingField:
+      _handData:
+        _cardDatas: []
   _ratData:
     <Coord>k__BackingField: {x: 0, y: 0}
     <Shape>k__BackingField:
@@ -279,9 +283,13 @@ MonoBehaviour:
         m_Calls: []
     <MaxHp>k__BackingField: 0
     <Hp>k__BackingField: 0
+    <Armor>k__BackingField: 0
     <MaxStamina>k__BackingField: 0
     <Stamina>k__BackingField: 0
-    StatusEffectList: []
+    <Strength>k__BackingField: 0
+    <DeckData>k__BackingField:
+      _handData:
+        _cardDatas: []
 --- !u!114 &8987688953959101399
 MonoBehaviour:
   m_ObjectHideFlags: 0

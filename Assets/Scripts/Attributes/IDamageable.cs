@@ -19,8 +19,7 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Attributes
 
         public UnityEvent<int> OnHpReduced{ get; }
         public UnityEvent<int> OnHpRestored{ get; }
-        public UnityEvent<int> OnArmorIncreased{ get; }
-        public UnityEvent<int> OnArmorReduced{ get; }
+        public UnityEvent<int> OnArmorChanged{ get; }
         public UnityEvent OnDie{ get; }
     }
 }
