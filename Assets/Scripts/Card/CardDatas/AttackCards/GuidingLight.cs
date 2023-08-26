@@ -44,7 +44,7 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
             Func<Placement, bool> filter = enemy ? (Placement placement)=>{
                 return Utils.IsEnemy(caster, placement, false);
             } : null;
-            DirectionalMovement movement = new DirectionalMovement(caster, pattern, true, filter);
+            DirectionalMovement movement = new DirectionalMovement(true,true,caster, pattern, true, filter);
             return movement;
         }
 

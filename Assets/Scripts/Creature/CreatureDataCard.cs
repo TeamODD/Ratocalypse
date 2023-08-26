@@ -43,11 +43,11 @@ namespace TeamOdd.Ratocalypse.CreatureLib
             return false;
         }
 
-        public CastCard CastCard(int index,bool runTrigger)
+        public CastCard CastCard(int index, bool runTrigger)
         {
             CardData castCardData = DeckData.RemoveCardAtFromHand(index);
             _castCardData = (index, castCardData);
-            CardCastData cardCastData =  new CardCastData(this, index);
+            CardCastData cardCastData = new CardCastData(this, index);
             return castCardData.CreateCastCardCommand(cardCastData, runTrigger);
         }
 
@@ -58,7 +58,7 @@ namespace TeamOdd.Ratocalypse.CreatureLib
                 throw new System.InvalidOperationException("No card is casting");
             }
             var (index, cardData) = _castCardData.Value;
-            if(cardData is not IVolatileCard)
+            if (cardData is not IVolatileCard)
             {
                 DeckData.AddCardToTomb(cardData);
             }
@@ -86,11 +86,14 @@ namespace TeamOdd.Ratocalypse.CreatureLib
 
         public void SelectCard()
         {
-            _cardSelector.SetTarget(DeckData);
-            if(_currentCardSelection != null)
+            _cardSelector.SetTarget(this, () =>
             {
-                _cardSelector.Select(_currentCardSelection);
-            }
+                if (_currentCardSelection != null)
+                {
+                    _cardSelector.Select(_currentCardSelection);
+                }
+            });
+
         }
 
     }

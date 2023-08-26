@@ -32,7 +32,7 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
         private DirectionalMovement CreateMovement(CreatureData caster)
         {
             Pattern pattern = Pattern.GetChessPattern(OriginValueData.rangeType);
-            DirectionalMovement movement = new DirectionalMovement(caster, pattern, (placement)=>{
+            DirectionalMovement movement = new DirectionalMovement(true,true,caster, pattern, (placement)=>{
                 return Utils.IsEnemy(caster, placement);
             });
             return movement;
@@ -70,7 +70,7 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
                     if (selectResult.SelectedPlacement != null)
                     {
                         CreatureData target = selectResult.SelectedPlacement as CreatureData;
-                        var cardId = (result as ValueData).CardId;
+                        var cardId = (OriginValueData as ValueData).CardId;
                         return new InsertCard(target, cardId);
                     }
                     return null;

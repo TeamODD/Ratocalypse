@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TeamOdd.Ratocalypse.CardLib;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace TeamOdd.Ratocalypse.DeckLib
 {
@@ -11,6 +12,8 @@ namespace TeamOdd.Ratocalypse.DeckLib
     {
         [SerializeField]
         protected List<CardData> _cardDatas = new List<CardData>();
+
+        public UnityEvent OnChanged { get; private set; } = new UnityEvent();
 
         public CardDataCollection(params CardData[] cardDataItems)
         {
@@ -27,11 +30,13 @@ namespace TeamOdd.Ratocalypse.DeckLib
         public void AddCard(CardData cardData)
         {
             _cardDatas.Add(cardData);
+            OnChanged.Invoke();
         }
 
         public void InsertCard(int index, CardData cardData)
         {
             _cardDatas.Insert(index, cardData);
+            OnChanged.Invoke();
         }
 
         public void AddCards(params CardData[] cardDataItems)
@@ -45,12 +50,14 @@ namespace TeamOdd.Ratocalypse.DeckLib
         {
             CardData cardData = _cardDatas[index];
             _cardDatas.RemoveAt(index);
+            OnChanged.Invoke();
             return cardData;
         }
 
         public void RemoveCard(CardData cardData)
         {
             _cardDatas.Remove(cardData);
+            OnChanged.Invoke();
         }
 
 
@@ -61,6 +68,7 @@ namespace TeamOdd.Ratocalypse.DeckLib
             {
                 _cardDatas.RemoveAt(i);
             }
+            OnChanged.Invoke();
         }
 
         public void Clear()
@@ -91,12 +99,14 @@ namespace TeamOdd.Ratocalypse.DeckLib
             }
             CardData cardData = _cardDatas[0];
             _cardDatas.RemoveAt(0);
+            OnChanged.Invoke();
             return cardData;
         }
 
         public void RemoveVolatileCards()
         {
             _cardDatas.RemoveAll(cardData => cardData is IVolatileCard);
+            OnChanged.Invoke();
         }
     }
 }

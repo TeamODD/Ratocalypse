@@ -26,7 +26,7 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
 
         public override string GetDescription()
         {
-            return $"이동 전: 공격범위 내 아군을 한명 지정하여 '보호'버프를 겁니다.\n'보호'버프에 걸린 대상이 받는 데미지를 1회 대신 받습니다.";
+            return $"공격 범위 내 아군을 한명 지정하여 '보호'버프를 겁니다.\n'보호'버프에 걸린 대상이 받는 데미지를 1회 대신 받습니다.";
         }
 
         private int GetAmount()
@@ -39,7 +39,7 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
         private DirectionalMovement CreateMovement(CreatureData caster)
         {
             Pattern pattern = Pattern.GetChessPattern(OriginValueData.rangeType);
-            DirectionalMovement movement = new DirectionalMovement(caster, pattern, (placement) =>
+            DirectionalMovement movement = new DirectionalMovement(true,true,caster, pattern, (placement) =>
             {
                 return !Utils.IsEnemy(caster, placement, true);
             });
@@ -78,14 +78,7 @@ namespace TeamOdd.Ratocalypse.CardLib.CardDatas.Templates
             int amount = GetAmount();
             castCard.SetTrigger((result, _) =>
             {
-                TriggerCard triggerCard = new TriggerCard(null, caster, 0, selectResult.SelectedCoord);
-                if (selectResult.SelectedCoord != null)
-                {
-                    triggerCard.AddCommand((_) =>
-                    {
-                        return new Move(caster, selectResult.SelectedCoord.Value);
-                    });
-                }
+                TriggerCard triggerCard = new TriggerCard(null, caster, 0, null);
 
                 return triggerCard;
             });

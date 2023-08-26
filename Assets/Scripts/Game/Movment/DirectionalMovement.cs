@@ -15,15 +15,21 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib
         private Func<Placement, bool> _filter;
         private bool _bypassPlacement = false;
 
-        public DirectionalMovement(Placement target, Pattern pattern,Func<Placement, bool> filter = null)
+        private bool _containTile;
+        private bool _containPlacement;
+
+        public DirectionalMovement(bool containTile, bool containPlacement, Placement target, Pattern pattern,Func<Placement, bool> filter = null)
         {
+            _containTile = containTile;
+            _containPlacement = containPlacement;
             _filter = filter;
             _pattern = pattern;
             _target = target;
         }
 
-        public DirectionalMovement(Placement target, Pattern pattern, bool bypassPlacement,Func<Placement, bool> filter = null)
+        public DirectionalMovement(bool containTile, bool containPlacement,Placement target, Pattern pattern, bool bypassPlacement,Func<Placement, bool> filter = null)
         {
+            _containTile = containTile;
             _filter = filter;
             _pattern = pattern;
             _target = target;
@@ -59,6 +65,15 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib
             if (_filter != null)
             {
                 PlacementCanditates = PlacementCanditates.Where(_filter).ToList();
+            }
+
+            if (!_containTile)
+            {
+                CoordCandidates.Coords = new List<Vector2Int>();
+            }
+            if (!_containPlacement)
+            {
+                PlacementCanditates = new List<Placement>();
             }
         }
     }

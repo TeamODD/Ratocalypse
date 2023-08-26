@@ -128,6 +128,15 @@ namespace TeamOdd.Ratocalypse.DeckLib
             _originZRotation = originZRotation;
         }
 
+        public void ForceUpdateOrigin()
+        {
+            transform.localPosition = _originPosition;
+            transform.localRotation = Quaternion.Euler(0f, 0f, _originZRotation);
+            ResetSequence();
+            CurrentState = CardState.Normal;
+            _currentAction = CardAction.None;
+        }
+
         private void UpdateOriginTransform()
         {
             if (AllowStates(CardState.Normal, CardState.Focused) || AllowActions(CardAction.UpdateOrigin))

@@ -12,7 +12,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib
     {        
         public ShapedCoordList CoordCandidates {get; protected set;}
         public List<Placement> PlacementCanditates {get; protected set;}
-
+        
         public MapSelecting()
         {
 

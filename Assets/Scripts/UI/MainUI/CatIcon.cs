@@ -22,11 +22,11 @@ namespace TeamOdd.Ratocalypse.UI
             _fireEffect = transform.GetChild(0).GetComponent<ParticleSystem>();
             _fireEffect.Stop();
         }
+        
         public void SetPosition(Vector3 position)
         {
             _startPosition = transform.localPosition;
             DOTween.To(() => _startPosition, x => transform.localPosition = x, position, _moveTime).SetEase(IconEase);
-
         }
 
         public void Initialize(CatData catData)

@@ -8,6 +8,7 @@ using static TeamOdd.Ratocalypse.TestScripts.TileColorSetter;
 using TeamOdd.Ratocalypse.MapLib.GameLib.SelectionLib;
 using TeamOdd.Ratocalypse.CreatureLib.Attributes;
 using TeamOdd.Ratocalypse.MapLib.GameLib;
+using TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib;
 
 namespace TeamOdd.Ratocalypse.TestScripts
 {
@@ -35,6 +36,26 @@ namespace TeamOdd.Ratocalypse.TestScripts
         public void HightLightTile(Vector2Int coord, TileColor color)
         {
             _map.GetTile(coord).GetComponent<TileColorSetter>().SetColor(color);
+        }
+
+        public void Preview(MapSelecting mapSelecting)
+        {
+            mapSelecting.Calculate(_map.MapData);
+            var allCoords = mapSelecting.CoordCandidates;
+            foreach(List<Vector2Int> coords in allCoords)
+            {
+                foreach(Vector2Int coord in coords)
+                {
+                    HightLightTile(coord, TileColor.Red);
+                }
+            }
+            mapSelecting.PlacementCanditates.ForEach((placement) =>
+            {
+                foreach (Vector2Int coord in placement.Shape.GetCoords(placement.Coord))
+                {
+                    HightLightTile(coord, TileColor.Red);
+                }
+            });
         }
 
         public void Reset()

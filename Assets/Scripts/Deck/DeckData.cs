@@ -2,6 +2,7 @@
 using TeamOdd.Ratocalypse.CardLib;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.Events;
 
 namespace TeamOdd.Ratocalypse.DeckLib
 {
@@ -25,8 +26,16 @@ namespace TeamOdd.Ratocalypse.DeckLib
         private UndrawnCards _undrawnCards = new UndrawnCards();
         public CardColor CardColor { get; private set; } = CardColor.Blue;
 
+        public UnityEvent<CardData> OnCardDrawn { get; private set; } = new UnityEvent<CardData>();
+        public UnityEvent<CardData, int> OnCardInsert { get; private set; } = new UnityEvent<CardData, int>();
+        public UnityEvent OnTombOrUndrawnChanged { get; private set; } = new UnityEvent();
+
+
         public DeckData(List<int> originDeckCards, CardColor cardColor, int maxHandCount = 10)
         {
+            _undrawnCards.OnChanged.AddListener(OnTombOrUndrawnChanged.Invoke);
+            _tombData.OnChanged.AddListener(OnTombOrUndrawnChanged.Invoke);
+            
             _originDeckCards = originDeckCards;
             MaxHandCount = maxHandCount;
             CardColor = cardColor;
@@ -56,6 +65,7 @@ namespace TeamOdd.Ratocalypse.DeckLib
             }
 
             _handData.AddCard(cardData);
+            OnCardDrawn.Invoke(cardData);
             return DrawResult.Drawn;
         }
 
@@ -68,6 +78,7 @@ namespace TeamOdd.Ratocalypse.DeckLib
             }
 
             _handData.InsertCard(index, card);
+            OnCardInsert.Invoke(card, index);
             return DrawResult.Drawn;
         }
 
