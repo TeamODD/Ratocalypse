@@ -1,8 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using TeamOdd.Ratocalypse.CreatureLib;
+using TeamOdd.Ratocalypse.CreatureLib.Cat;
+using TeamOdd.Ratocalypse.CreatureLib.Rat;
 using TeamOdd.Ratocalypse.MapLib;
 using TeamOdd.Ratocalypse.MapLib.GameLib;
+using TeamOdd.Ratocalypse.MapLib.GameLib.Commands;
 using TeamOdd.Ratocalypse.MapLib.GameLib.Commands.CardCommands;
 using TeamOdd.Ratocalypse.UI;
 using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
@@ -31,11 +34,31 @@ namespace TeamOdd.Ratocalypse.GameLib.Commands.GameSequenceCommands
 
         public override ExecuteResult Execute()
         {
+            var ratCount = _mapData.GetPlacements().Where(placement => placement is RatData).Count();
+            var catCount = _mapData.GetPlacements().Where(placement => placement is CatData).Count();
+            if(ratCount == 0)
+            {
+                return new NextCommands(new List<Command>(){
+                    new EventAnimation("Defeat"),
+                    new LoadNewGame()}
+                );
+            }
+            else if(catCount == 0)
+            {
+                return new NextCommands(new List<Command>(){
+                    new EventAnimation("victory"),
+                    new LoadNewGame()}
+                );
+            }
+
             var orderedDatas = Calcuate();
 
             if (orderedDatas.Count == 0)
             {
-                return new End();
+                return new NextCommands(new List<Command>(){
+                    new EventAnimation("defeat"),
+                    new LoadNewGame()}
+                );
             }
 
             List<CreatureData> next = null;
@@ -51,7 +74,9 @@ namespace TeamOdd.Ratocalypse.GameLib.Commands.GameSequenceCommands
 
             if(next==null)
             {
-                return new End();
+                return new NextCommand(
+                    new EventAnimation("nextround")
+                );
             }
 
             next.ForEach(creatureData =>
@@ -87,8 +112,6 @@ namespace TeamOdd.Ratocalypse.GameLib.Commands.GameSequenceCommands
             {
                 return placement is CreatureData;
             }).Cast<CreatureData>().ToList();
-
-
 
 
             creatureDatas.Sort((a, b) =>

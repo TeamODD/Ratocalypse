@@ -29,19 +29,19 @@ namespace TeamOdd.Ratocalypse.GameLib.Commands.GameSequenceCommands
         private ChainCommand CreateParryingChain(CastJointAttack catsAttack, CastJointAttack ratsAttack)
         {
             var parryingChain = new ChainCommand();
-            List<TriggerCard> catTriggers = null;
+            List<TriggerCard> ratTriggers = null;
             parryingChain.AddCommand((_) =>
             {
-                return catsAttack;
-            });
-            parryingChain.AddCommand((result) =>
-            {
-                catTriggers = (result as CastJointAttack.Result).TriggerCards;
                 return ratsAttack;
             });
             parryingChain.AddCommand((result) =>
             {
-                var ratTriggers = (result as CastJointAttack.Result).TriggerCards;
+                ratTriggers = (result as CastJointAttack.Result).TriggerCards;
+                return catsAttack;
+            });
+            parryingChain.AddCommand((result) =>
+            {
+                var catTriggers = (result as CastJointAttack.Result).TriggerCards;
                 return new ParryAttacks(catTriggers, ratTriggers);
             });
             return parryingChain;

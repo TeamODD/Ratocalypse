@@ -51,7 +51,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.ActionCommands
 
             commands.Add(new Animation(_target, "Hit", true, null, () => { }));
 
-            if (_target.IsAlive() == false)
+            if (_target.Hp<=0)
             {
                 commands.Add(new Die(_target));
             }

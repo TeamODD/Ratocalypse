@@ -9,6 +9,8 @@ using TeamOdd.Ratocalypse.MapLib.GameLib.SelectionLib;
 using TeamOdd.Ratocalypse.CreatureLib.Attributes;
 using TeamOdd.Ratocalypse.MapLib.GameLib;
 using TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib;
+using UnityEngine.UI;
+using TeamOdd.Ratocalypse.UI;
 
 namespace TeamOdd.Ratocalypse.TestScripts
 {
@@ -22,8 +24,23 @@ namespace TeamOdd.Ratocalypse.TestScripts
         private ShapedCoordList _coords;
         private List<Placement> _placements;
         private bool _selectBoth = false;
+ 
+        public bool Selecting {get;private set;} = false;
+        private Action _cancelAction;
+
+        [SerializeField]
+        private Button _cancelButton;
+
+        [SerializeField]
+        private CancelUI _cancelUI;
+
         private void Start()
         {
+            _cancelButton.onClick.AddListener(()=>{
+                var action = _cancelAction;
+                Reset();
+                action?.Invoke();
+            });
             _map = GetComponent<Map>();
             _analyzer = new MapAnalyzer(_map.MapData);
         }
@@ -40,15 +57,21 @@ namespace TeamOdd.Ratocalypse.TestScripts
 
         public void Preview(MapSelecting mapSelecting)
         {
+            
             mapSelecting.Calculate(_map.MapData);
             var allCoords = mapSelecting.CoordCandidates;
-            foreach(List<Vector2Int> coords in allCoords)
+            if(allCoords!=null)
             {
-                foreach(Vector2Int coord in coords)
+                foreach(List<Vector2Int> coords in allCoords)
                 {
-                    HightLightTile(coord, TileColor.Red);
+                    foreach(Vector2Int coord in coords)
+                    {
+                        HightLightTile(coord, TileColor.Red);
+                    }
                 }
             }
+            if(mapSelecting.PlacementCanditates!=null)
+            {
             mapSelecting.PlacementCanditates.ForEach((placement) =>
             {
                 foreach (Vector2Int coord in placement.Shape.GetCoords(placement.Coord))
@@ -56,14 +79,20 @@ namespace TeamOdd.Ratocalypse.TestScripts
                     HightLightTile(coord, TileColor.Red);
                 }
             });
+            }
         }
+
+
 
         public void Reset()
         {
+            Selecting = false;
             ResetHighlight();
             ResetHandlers();
             _coords = null;
             _placements = null;
+            _cancelAction = null;
+            _cancelUI.SetView(false);
         }
 
 
@@ -100,7 +129,9 @@ namespace TeamOdd.Ratocalypse.TestScripts
                     return;
                 }
             }
-
+            _cancelUI.SetView(true);
+            _cancelAction = selection.Cancel;
+            Selecting = true;
             _coords = selection.GetCandidates();
 
             for (int i = 0; i < _coords.Count; i++)
@@ -149,7 +180,9 @@ namespace TeamOdd.Ratocalypse.TestScripts
                     return;
                 }
             }
-
+            _cancelUI.SetView(true);
+            _cancelAction = selection.Cancel;
+            Selecting = true;
             _placements = selection.GetCandidates();
             for (int i = 0; i < _placements.Count; i++)
             {

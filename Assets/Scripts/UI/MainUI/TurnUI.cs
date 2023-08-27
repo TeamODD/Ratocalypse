@@ -45,6 +45,12 @@ namespace TeamOdd.Ratocalypse.UI
             _icons.Add(icon);
         }
 
+        public void Remove(IIcon icon)
+        {
+            _icons.Remove(icon);
+            icon.Remove();
+        }
+
         public void SetTestIcon()
         {
             foreach (GameObject a in TestIconList)
@@ -60,7 +66,7 @@ namespace TeamOdd.Ratocalypse.UI
             _iconOrders.Sort();
 
             float xGap = (_uiSize.x - (2 * _xMargin)) / (_iconOrders.Count - 1);
-            xGap = Mathf.Min(xGap, _maxXGap);
+            xGap = Mathf.Min(xGap, _maxXGap); 
 
             float left = -(_uiSize.x / 2) + _xMargin;
 
@@ -68,14 +74,19 @@ namespace TeamOdd.Ratocalypse.UI
             {
                 int order = _iconOrders[xIndex];
                 List<IIcon> iconsInOrder = _icons.Where((icon) => icon.Order == order).ToList();
-
+                
                 for (int yIndex = 0; yIndex < iconsInOrder.Count; yIndex++)
                 {
                     IIcon icon = iconsInOrder[yIndex];
                     float x = left + (xGap * xIndex);
                     float y = _yOrigin -_yGap * yIndex;
 
-                    icon.SetPosition(new Vector2(x, y));
+                    if(order == 1)
+                    {
+                        x = -left;
+                    }
+
+                    icon.SetPosition(xIndex, new Vector2(x, y));
                 }
             }
         }

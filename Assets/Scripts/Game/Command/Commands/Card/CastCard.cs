@@ -28,21 +28,43 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.CardCommands
             {
                 return new End();
             }
+            if(_cardCastData.Caster.CastCardData == null)
+            {
+                if(_runTrigger)
+                {
+                    return new NextCommand(new SelectAndCastCard(_cardCastData.Caster, true));
+                }
+                var cancelResult = new Result();
+                cancelResult.Cancel = true;
+                return new End(cancelResult);
+            }
+
+
 
             Command nextCommand = Next(_parm);
-            if (nextCommand != null)
+            
+            if (nextCommand != null)    
             {
                 nextCommand.RegisterOnEnd(SetParm);
                 return new SubCommand(nextCommand);
             }
 
+
             _cardCastData.Caster.TriggerCard();
             var triggerCommand = _triggerCommandCreator(_parm, _cardCastData.Caster);
+            var result = new Result();
+            result.TriggerCard = triggerCommand;
             if(_runTrigger)
             {
                return new NextCommand(triggerCommand);
             }
-            return new End(triggerCommand);
+            return new End(result);
+        }
+
+        public class Result:ICommandResult
+        {
+            public bool Cancel = false;
+            public TriggerCard TriggerCard;
         }
     }
 }

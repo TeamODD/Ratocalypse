@@ -20,12 +20,15 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands.CardCommands
 
         public override ExecuteResult Execute()
         {
-            var (endWait, result) = CreateWait();
+            ExecuteResult result = null;
+            var (endWait, waitResult) = CreateWait();
+            result = waitResult;
             var indicies = _creatureData.GetCastableCardIndices();
             var selection = new Selection<List<int>>(indicies,
             (int index)=>{
                 var cardCastData = new CardCastData(_creatureData,index);
-                endWait(new End(cardCastData));
+                result = new End(cardCastData);
+                endWait(result);
             });
             _creatureData.SetCardSlection(selection);
             _creatureData.SelectCard();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TeamOdd.Ratocalypse.CreatureLib.Cat;
 using TeamOdd.Ratocalypse.CreatureLib.Rat;
 using TeamOdd.Ratocalypse.DeckLib;
+using TeamOdd.Ratocalypse.MapLib.GameLib.AISelectorLib;
 using TeamOdd.Ratocalypse.Obstacle;
 using TeamOdd.Ratocalypse.TestScripts;
 using TeamOdd.Ratocalypse.UI;
@@ -21,6 +22,8 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
         [SerializeField]
         private TileSelector _tileSelector;
         [SerializeField]
+        private AISelector _aiSelector;
+        [SerializeField]
         private Hand _handSelector;
         [SerializeField]
         private Map _map;
@@ -38,7 +41,8 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
         private CatFactory _catFactory;
         [SerializeField]
         private PlacementObjectFactory _obstacleFactory;
-
+        [SerializeField]
+        private PlayEvent _playEvent;
 
         [System.Serializable]
         public class RatCreateData
@@ -48,6 +52,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
             public int Maxhp;
             public int MaxStatmina;
             public List<Vector2Int> PositionShape;
+            public Texture2D HeadIcon;
         }
 
         [System.Serializable]
@@ -86,8 +91,13 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
                 var coord = mapAnalyzer.GetRandomCoord(shape);
 
                 var ratData = new RatData(ratCreateData.Maxhp, ratCreateData.MaxStatmina,
-                 _map.MapData, coord, ratCreateData.cards, _handSelector);
+                 _map.MapData, coord, ratCreateData.cards, _handSelector, (CardColor)ratCreateData.RatType);
                 _ratFactory.Create(ratData, ratCreateData.RatType);
+                var icon = _ratIconFactory.Create(_turnUI.transform, ratData, ratCreateData.HeadIcon);
+                ratData.OnDie.AddListener(()=>{
+                    _turnUI.Remove(icon);
+                });
+                _turnUI.AddIcon(icon);
             });
         }
 
@@ -101,51 +111,40 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
 
                 var obstacleData = new ObstacleData(obstacleCreateData.Maxhp,
                  _map.MapData, coord, shape);
-                 _obstacleFactory.Create(obstacleData, obstacleCreateData.ObstaclePrefab);
+                _obstacleFactory.Create(obstacleData, obstacleCreateData.ObstaclePrefab);
             });
         }
 
-        private void CreateCat()
+        private CatData CreateCat()
         {
             var coord = new Vector2Int((_map.Size.x - 1) / 2, (_map.Size.y - 1) / 2);
 
             var catData = new CatData(_catCreateData.Maxhp, _catCreateData.MaxStatmina,
-             _map.MapData, coord, _catCreateData.cards, _handSelector);
+             _map.MapData, coord, _catCreateData.cards, _aiSelector);
             _catFactory.Create(catData);
+            var icon = _catIconFactory.Create(_turnUI.transform, catData,_tileSelector);
+            _turnUI.AddIcon(icon);
+            catData.OnDie.AddListener(icon.Remove);
+            return catData;
         }
 
 
         private void Awake()
         {
-
-            CreateCat();
+            var catData = CreateCat();
+            _aiSelector.Initialize(_map.MapData,catData);
             CreateRats();
             CreateObstacles();
 
             Debug.Log("GameInitializer Awake");
             _commandExecutor = new CommandExecutor(_map.MapData, _gameStatistics,
-                                                    _tileSelector, _tileSelector,
-                                                    _handSelector, _handSelector,
-                                                    _turnUI);
+                                                    _aiSelector, _tileSelector,
+                                                    _turnUI, _playEvent);
             _gameSequence = new GameSequence(_map.MapData, _commandExecutor);
         }
 
         private void Start()
         {
-            Debug.Log("?");
-            _map.MapData.GetPlacements().ForEach((placement) =>
-            {
-                if (placement is RatData ratData)
-                {
-                    var icon = _ratIconFactory.Create(_turnUI.transform, ratData);
-                    _turnUI.AddIcon(icon);
-                }
-                else if (placement is CatData catData)
-                {
-                    var icon = _catIconFactory.Create(_turnUI.transform, catData);
-                    _turnUI.AddIcon(icon);
-                }
-            });
             _turnUI.UpdatePositions();
             _gameSequence.Start();
         }

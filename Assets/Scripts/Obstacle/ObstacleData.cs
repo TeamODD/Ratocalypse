@@ -30,6 +30,8 @@ namespace TeamOdd.Ratocalypse.Obstacle
 
         public UnityEvent<int> OnArmorChanged => new UnityEvent<int>();
 
+        private bool _die = false;
+
         public ObstacleData(int maxHp, MapData mapData, Vector2Int coord, Shape shape):base(mapData, coord, shape)
         {
             MaxHp = maxHp;
@@ -42,6 +44,7 @@ namespace TeamOdd.Ratocalypse.Obstacle
 
         public void Die()
         {
+            _die = true;
             OnDie.Invoke();
         }
 
@@ -50,10 +53,6 @@ namespace TeamOdd.Ratocalypse.Obstacle
             Hp = Mathf.Max(0, Hp - amount);
             OnHpReduced.Invoke(Hp);
 
-            if(Hp <= 0)
-            {
-                Die();
-            }
         }
 
         public void RestoreHp(int amount)
@@ -64,7 +63,7 @@ namespace TeamOdd.Ratocalypse.Obstacle
 
         public bool IsAlive()
         {
-            return Hp > 0;
+            return !_die;
         }
 
         public void IncreaseArmor(int amount)

@@ -48,6 +48,11 @@ namespace TeamOdd.Ratocalypse.DeckLib
             _undrawnCards.Shuffle();
         }
 
+        public (int,int) GetUndrawnAndTombCount()
+        {
+            return (_undrawnCards.Count, _tombData.Count);
+        }
+
 
         private DrawResult DrawCardFrom(CardDataCollection pool)
         {

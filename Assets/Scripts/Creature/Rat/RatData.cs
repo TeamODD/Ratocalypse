@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TeamOdd.Ratocalypse.CardLib;
+using TeamOdd.Ratocalypse.DeckLib;
 using TeamOdd.Ratocalypse.MapLib;
 using TeamOdd.Ratocalypse.MapLib.GameLib;
 using UnityEngine;
@@ -16,8 +17,8 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Rat
         public RatData(int maxHp, int maxStamina,
                        MapData mapData, Vector2Int coord,
                        List<int> deck,
-                       ICardSelector cardSelector)
-        : base(maxHp, maxStamina, mapData, coord, _shape, deck, cardSelector)
+                       ICardSelector cardSelector, CardColor cardColor = CardColor.Blue)
+        : base(maxHp, maxStamina, mapData, coord, _shape, deck, cardSelector, cardColor)
         {
             
         }

@@ -6,6 +6,7 @@ using TeamOdd.Ratocalypse.CreatureLib.Cat;
 using TeamOdd.Ratocalypse.MapLib.GameLib.MovemnetLib;
 using static TeamOdd.Ratocalypse.MapLib.MapData;
 using static TeamOdd.Ratocalypse.MapLib.GameLib.ExecuteResult;
+using System;
 
 namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
 {
@@ -59,18 +60,24 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib.Commands
             ExecuteResult result = waitResult;
             _mapSelecting.Calculate(_mapData);
 
+
+            Action cancel = ()=>{
+                _target.CancelCast();
+                endWait(new End());
+            };
+
             
             var coordSelection = _mapSelecting.CreateCoordSelection((coord) =>
             {
                 result = new End(new Result { SelectedCoord = coord });
                 endWait(result);
-            });
+            }, cancel);
 
             var placementSelection = _mapSelecting.CreatePlacementSelection((placement) =>
             {
                 result = new End(new Result { SelectedPlacement = placement });
                 endWait(result);
-            });
+            }, cancel);
 
             if (_selectTarget && _selectMap)
             {

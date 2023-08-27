@@ -10,11 +10,11 @@ namespace TeamOdd.Ratocalypse.UI
         [SerializeField]
         private RatIcon _prefab;
 
-        public RatIcon Create(Transform parent,RatData ratData)
+        public RatIcon Create(Transform parent, RatData ratData, Texture2D headIcon)
         {
             RatIcon created = Instantiate(_prefab, parent);
             created.transform.localPosition = Vector3.zero;
-            created.Initialize(ratData);
+            created.Initialize(ratData, headIcon);
             return created;
         }
     }

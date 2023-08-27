@@ -15,21 +15,11 @@ namespace TeamOdd.Ratocalypse.CreatureLib
     [Serializable]
     public partial class  CreatureData : Placement, IDamageable, IAttackable, IAnimatable
     {
-        [field: ReadOnly, SerializeField]
         public int MaxHp { get; private set; }
-        [field: ReadOnly, SerializeField]
         public int Hp { get; private set; }
-
-        [field: ReadOnly, SerializeField]
         public int Armor { get; private set; }
-
-        [field: ReadOnly, SerializeField]
         public int MaxStamina { get; private set; }
-
-        [field: ReadOnly, SerializeField]
         public int Stamina { get; private set; }
-
-        [field: ReadOnly, SerializeField]
         public int Strength { get; private set; }
 
         public UnityEvent<int> OnHpReduced { get; private set; } = new UnityEvent<int>();
@@ -46,11 +36,12 @@ namespace TeamOdd.Ratocalypse.CreatureLib
         
         public Dictionary<string, object> StatusEffectList = new Dictionary<string, object>();
         
-        [field: ReadOnly, SerializeField]
         public DeckData DeckData{ get; private set; }
         private ICardSelector _cardSelector;
         private Selection<List<int>> _currentCardSelection;
-        private (int index, CardData cardData) ?_castCardData = null;
+        public (int index, CardData cardData) ?CastCardData {get;private set;}= null;
+        
+        private bool _die = false;
 
 
         public CreatureData(int maxHp, int maxStamina, MapData mapData,
@@ -64,7 +55,7 @@ namespace TeamOdd.Ratocalypse.CreatureLib
             DeckData = new DeckData(deck, cardColor);
             Init();
         }
-
+        
         public void Init()
         {
             Hp = MaxHp;
@@ -73,6 +64,7 @@ namespace TeamOdd.Ratocalypse.CreatureLib
 
         public void Die()
         {
+            _die = true;
             OnDie.Invoke();
         }
 
@@ -95,10 +87,6 @@ namespace TeamOdd.Ratocalypse.CreatureLib
             Hp = Mathf.Max(0, Hp - amount);
             OnHpReduced.Invoke(Hp);
 
-            if (Hp <= 0)
-            {
-                Die();
-            }
         }
 
         public void IncreaseStrength(int amount)
@@ -149,6 +137,7 @@ namespace TeamOdd.Ratocalypse.CreatureLib
         public void ReduceStamina(int amount)
         {
             Stamina -= amount;
+            Stamina = Mathf.Max(0, Stamina);
             OnStaminaChanged.Invoke();
         }
 
@@ -166,7 +155,7 @@ namespace TeamOdd.Ratocalypse.CreatureLib
 
         public bool IsAlive()
         {
-            return Hp > 0;
+            return !_die;
         }
 
         public (bool result,object data) HasEffect(string effect)

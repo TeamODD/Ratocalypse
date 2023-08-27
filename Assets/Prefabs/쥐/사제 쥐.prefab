@@ -107,6 +107,9 @@ MonoBehaviour:
     <DeckData>k__BackingField:
       _handData:
         _cardDatas: []
+    OnTriggerdCard:
+      m_PersistentCalls:
+        m_Calls: []
   _ratData:
     <Coord>k__BackingField: {x: 0, y: 0}
     <Shape>k__BackingField:
@@ -124,6 +127,9 @@ MonoBehaviour:
     <DeckData>k__BackingField:
       _handData:
         _cardDatas: []
+    OnTriggerdCard:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!114 &8987688953959101399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,8 +179,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967fb39a688120e4ebaa890bfc4f87e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _idlePose: {fileID: 0}
-  _attackPose: {fileID: 0}
+  _idlePose: {fileID: 5356970354908608892}
+  _attackPose: {fileID: 3036571247049905464}
 --- !u!1001 &2802778989274212457
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -320,6 +326,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2802778989274212457}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3036571247049905464 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3cadf39bccf886a4cb3e59de29760052,
+    type: 3}
+  m_PrefabInstance: {fileID: 2802778989274212457}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5086430907643790381
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -462,6 +474,12 @@ PrefabInstance:
 --- !u!4 &4691651898670867398 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 24ce03c1bfa4ad541aaab1ffc5a2ba9c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5086430907643790381}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5356970354908608892 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 24ce03c1bfa4ad541aaab1ffc5a2ba9c,
     type: 3}
   m_PrefabInstance: {fileID: 5086430907643790381}
   m_PrefabAsset: {fileID: 0}

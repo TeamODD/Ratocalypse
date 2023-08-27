@@ -16,6 +16,8 @@ namespace TeamOdd.Ratocalypse.CreatureLib
     public partial class CreatureData
     {
 
+        public UnityEvent OnTriggerdCard = new UnityEvent();
+
         public List<int> GetCastableCardIndices()
         {
             var castableCards = new List<int>();
@@ -46,32 +48,34 @@ namespace TeamOdd.Ratocalypse.CreatureLib
         public CastCard CastCard(int index, bool runTrigger)
         {
             CardData castCardData = DeckData.RemoveCardAtFromHand(index);
-            _castCardData = (index, castCardData);
+            CastCardData = (index, castCardData);
             CardCastData cardCastData = new CardCastData(this, index);
             return castCardData.CreateCastCardCommand(cardCastData, runTrigger);
         }
 
         public void TriggerCard()
         {
-            if (_castCardData == null)
+            if (CastCardData == null)
             {
                 throw new System.InvalidOperationException("No card is casting");
             }
-            var (index, cardData) = _castCardData.Value;
+            OnTriggerdCard.Invoke();
+            RemoveSelection();
+            var (index, cardData) = CastCardData.Value;
             if (cardData is not IVolatileCard)
             {
                 DeckData.AddCardToTomb(cardData);
             }
             var cost = cardData.GetCost();
             ReduceStamina(cost);
-            _castCardData = null;
+            CastCardData = null;
         }
 
         public void CancelCast()
         {
-            var (index, cardData) = _castCardData.Value;
+            var (index, cardData) = CastCardData.Value;
             DeckData.InsertHandAt(index, cardData);
-            _castCardData = null;
+            CastCardData = null;
         }
 
         public void SetCardSlection(Selection<List<int>> selection)

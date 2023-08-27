@@ -6,6 +6,7 @@ namespace TeamOdd.Ratocalypse.UI
     public interface IIcon
     {
         public int Order { get; }
-        public void SetPosition(Vector3 position);
+        public void Remove();
+        public void SetPosition(int order, Vector3 position);
     }
 }

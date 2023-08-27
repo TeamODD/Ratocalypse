@@ -10,9 +10,7 @@ namespace TeamOdd.Ratocalypse.MapLib
         public class Placement
         {
             protected MapData _mapData;
-            [field: ReadOnly, SerializeField]
             public Vector2Int Coord { get; protected set; }
-            [field: ReadOnly,SerializeField]
             public Shape Shape { get; protected set; }
 
             public UnityEvent<Vector2Int> OnCoordChanged = new UnityEvent<Vector2Int>();
@@ -38,7 +36,7 @@ namespace TeamOdd.Ratocalypse.MapLib
                 foreach (Vector2Int shapeCoord in Shape)
                 {
                     Placement removed = _mapData.RemovePlaceable(Coord + shapeCoord);
-                    if (removed != null && removed != this)
+                    if (removed != null && !removed.Equals(this))
                     {
                         throw new System.Exception("cannot remove another placement");
                     }

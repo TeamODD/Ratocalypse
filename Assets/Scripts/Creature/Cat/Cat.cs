@@ -55,6 +55,15 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Cat
                     }
                 });
             }
+            else if(name=="Die")
+            {
+                transform.DOScale(0, 0.2f).OnComplete(()=>{
+                    if(callbacks!=null&&callbacks.Length > 0)
+                    {
+                        callbacks[0]?.Invoke();
+                    }
+                });
+            }
         }
     }
 }

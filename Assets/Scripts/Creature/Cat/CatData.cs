@@ -16,7 +16,7 @@ namespace TeamOdd.Ratocalypse.CreatureLib.Cat
                        MapData mapData, Vector2Int coord,
                        List<int> deck,
                        ICardSelector cardSelector)
-        : base(maxHp, maxStamina, mapData, coord, _shape, deck, cardSelector)
+        : base(maxHp, maxStamina, mapData, coord, _shape, deck, cardSelector, DeckLib.CardColor.Red)
         {
 
         }

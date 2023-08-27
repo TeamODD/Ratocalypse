@@ -40,7 +40,7 @@ public class StatusUI : MonoBehaviour
         }
 
         statusUi.AddComponent<BoxCollider2D>();
-        statusUi.GetComponent<BoxCollider2D>().size = new Vector2(20, 20);
+        statusUi.GetComponent<BoxCollider2D>().size = new Vector2(50, 50);
         statusUi.GetComponent<Transform>().SetParent(transform.Find("Status"), false);
     }
 

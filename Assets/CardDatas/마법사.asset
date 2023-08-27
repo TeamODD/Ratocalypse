@@ -31,4 +31,4 @@ MonoBehaviour:
     Assembly-CSharp\",\"Damage\":6,\"Cost\":2,\"rangeType\":3}},{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardCreateData,
     Assembly-CSharp\",\"Id\":26,\"TextureName\":\"\uB9C8\uBC95\uC0AC_\uBA54\uD14C\uC624\",\"CardDataType\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.Meteor,
     Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\",\"OriginValueData\":{\"$type\":\"TeamOdd.Ratocalypse.CardLib.CardDatas.Templates.Meteor+ValueData,
-    Assembly-CSharp\",\"multiplier\":10,\"Cost\":7,\"rangeType\":6}}]}"
+    Assembly-CSharp\",\"multiplier\":10,\"Cost\":0,\"rangeType\":1}}]}"

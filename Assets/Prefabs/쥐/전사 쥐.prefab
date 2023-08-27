@@ -107,6 +107,9 @@ MonoBehaviour:
     <DeckData>k__BackingField:
       _handData:
         _cardDatas: []
+    OnTriggerdCard:
+      m_PersistentCalls:
+        m_Calls: []
   _ratData:
     <Coord>k__BackingField: {x: 0, y: 0}
     <Shape>k__BackingField:
@@ -124,6 +127,9 @@ MonoBehaviour:
     <DeckData>k__BackingField:
       _handData:
         _cardDatas: []
+    OnTriggerdCard:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!114 &8987688953959101399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,8 +179,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967fb39a688120e4ebaa890bfc4f87e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _idlePose: {fileID: 0}
-  _attackPose: {fileID: 0}
+  _idlePose: {fileID: 5234398009809265555}
+  _attackPose: {fileID: 2701463141378916092}
 --- !u!1001 &3007542241502577581
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -287,6 +293,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: warrior_damage
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 27ca74ae31de2784f9088ecdee9ac894,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1366278540751589237, guid: 27ca74ae31de2784f9088ecdee9ac894,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -309,6 +320,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27ca74ae31de2784f9088ecdee9ac894, type: 3}
+--- !u!1 &2701463141378916092 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 27ca74ae31de2784f9088ecdee9ac894,
+    type: 3}
+  m_PrefabInstance: {fileID: 3007542241502577581}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3329944385457693766 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 27ca74ae31de2784f9088ecdee9ac894,
@@ -455,6 +472,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4928407559019978434}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5234398009809265555 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 244ab33160fe04b419132b1c739a25e1,
+    type: 3}
+  m_PrefabInstance: {fileID: 4928407559019978434}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7616621309610768649
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -566,6 +589,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: warrior_attack
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6c20a262d55061a43af501371bfe0b36,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1366278540751589237, guid: 6c20a262d55061a43af501371bfe0b36,
         type: 3}

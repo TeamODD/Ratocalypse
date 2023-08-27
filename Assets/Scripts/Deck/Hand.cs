@@ -8,6 +8,8 @@ using TeamOdd.Ratocalypse.MapLib.GameLib.SelectionLib;
 using System;
 using TeamOdd.Ratocalypse.TestScripts;
 using TeamOdd.Ratocalypse.CreatureLib;
+using TeamOdd.Ratocalypse.UI;
+using TMPro;
 
 namespace TeamOdd.Ratocalypse.DeckLib
 {
@@ -49,7 +51,6 @@ namespace TeamOdd.Ratocalypse.DeckLib
         [SerializeField]
         private MovementValues _movementValues = new MovementValues();
 
-        [ReadOnly, SerializeField]
         private bool _isSelecting = false;
 
         private Selection<List<int>> _selection;
@@ -61,7 +62,7 @@ namespace TeamOdd.Ratocalypse.DeckLib
         private float _unFocusedScale = 0.5f;
         [SerializeField]
         private Vector3 _unfocusedOffset = new Vector2(0, 0);
-    
+
         [SerializeField]
         private Ease _focusEase = Ease.OutBack;
         [SerializeField]
@@ -83,8 +84,14 @@ namespace TeamOdd.Ratocalypse.DeckLib
         private float _changeDeckHeight = -1f;
 
         [SerializeField]
-        private TileSelector _tilePreviewer;
-        
+        private TileSelector _tileSelector;
+        [SerializeField]
+        private CancelUI _cancelUI;
+
+        [SerializeField]
+        private TextMeshProUGUI _deckText;
+        [SerializeField]
+        private TextMeshProUGUI _tombText;
 
         [ContextMenu("ToggleFocus")]
         public void ToggleFocus()
@@ -94,7 +101,19 @@ namespace TeamOdd.Ratocalypse.DeckLib
 
         public void Update()
         {
-            if(Input.GetKeyDown("space"))
+            if(_deckData!=null)
+            {
+                var (deck, tomb) = _deckData.GetUndrawnAndTombCount();
+                _deckText.text = "x "+ deck;
+                _tombText.text = "x "+ tomb;
+            }
+            else{
+                _deckText.text = "x "+ 0;
+                _tombText.text = "x "+ 0;
+            }
+            
+
+            if (Input.GetKeyDown("space"))
             {
                 ToggleFocus();
             }
@@ -102,13 +121,13 @@ namespace TeamOdd.Ratocalypse.DeckLib
 
         public void SetDeckFocused(bool focus)
         {
-            if(focus == _deckFocused)
+            if (focus == _deckFocused)
             {
                 return;
             }
             _deckFocused = focus;
 
-            if(focus)
+            if (!focus)
             {
                 var dest = _originPosition + _unfocusedOffset;
                 transform.DOLocalMove(dest, _focusTime).SetEase(_focusEase);
@@ -154,8 +173,6 @@ namespace TeamOdd.Ratocalypse.DeckLib
             return InsertCard(cardData, _handcards.Count);
         }
 
-
-
         private void ResetCard(HandCard card, CardData cardData)
         {
             card.Initialize(_movementValues);
@@ -169,28 +186,51 @@ namespace TeamOdd.Ratocalypse.DeckLib
             cardEvents.MouseUpEvents.AddListener(() => EndDrag(card));
 
             CardView cardView = card.GetComponent<CardView>();
-            cardView.View(cardData,_deckData.CardColor);
+            cardView.View(cardData, _deckData.CardColor);
         }
+        private bool _dragging = false;
+
+        private bool _focusDrag = false;
 
         private void EndDrag(HandCard card)
-        {
-            _tilePreviewer.Reset();
+        {         
+            if(!_dragging)
+            {
+                return;
+            }
+            _tileSelector.Reset();
+
+            if (_focusDrag)
+            {
+
+                SetDeckFocused(true);
+            }
             card.Run(CardAction.EndDrag);
+            _dragging = false;
         }
 
         private void Drag(HandCard card)
         {
-            if(!_isSelecting)
+            if (_tileSelector.Selecting)
+            {
+                return;
+            }
+            if (!_isSelecting)
             {
                 return;
             }
             var index = _handcards.IndexOf(card);
             var cardData = _deckData.GetHandCards()[index];
 
-            _tilePreviewer.Preview(cardData.GetPreview(_caster));
+            _focusDrag = _deckFocused;
 
-            if(_selection.GetCandidates().Contains(index))
+
+
+            if (_selection.GetCandidates().Contains(index))
             {
+                _dragging = true;
+                SetDeckFocused(false);
+                _tileSelector.Preview(cardData.GetPreview(_caster));
                 card.Run(CardAction.StartDrag);
             }
         }
@@ -208,12 +248,15 @@ namespace TeamOdd.Ratocalypse.DeckLib
             UpdatePosition();
             var prevSelection = _selection;
             _selection = null;
+            _cancelUI.SetCardView(_deckData.GetHandCards()[index], _deckData.CardColor);
             prevSelection.Select(index);
+
+            SetDeckFocused(false);
         }
 
         public void SetFocus(HandCard card)
         {
-            if(_focusingCard != card)
+            if (_focusingCard != card)
             {
                 UnFocus(_focusingCard);
             }
@@ -236,13 +279,16 @@ namespace TeamOdd.Ratocalypse.DeckLib
 
         public void UpdateFocus()
         {
-            _focusingCard?.Run(CardAction.Focus);
+            if (_focusingCard != null)
+            {
+                _focusingCard.Run(CardAction.Focus);
+            }
         }
 
         [ContextMenu("Remove")]
         public bool Remove()
         {
-            if(_handcards.Count == 0)
+            if (_handcards.Count == 0)
             {
                 return false;
             }
@@ -280,7 +326,7 @@ namespace TeamOdd.Ratocalypse.DeckLib
         }
 
 
-        public (Vector3 position,float angle) GetTransfrom(int index)
+        public (Vector3 position, float angle) GetTransfrom(int index)
         {
             float maxIndex = _handcards.Count - 1;
             float maxAngle = CalcInCircleRatio(0.5f);
@@ -304,7 +350,7 @@ namespace TeamOdd.Ratocalypse.DeckLib
             {
                 var (position, rotation) = GetTransfrom(i);
                 _handcards[i].SetOrigin(position, rotation);
-                if(force)
+                if (force)
                 {
                     _handcards[i].ForceUpdateOrigin();
                 }
@@ -325,16 +371,16 @@ namespace TeamOdd.Ratocalypse.DeckLib
         }
 
 
-        public void UpdateHandCards(DeckData deckData,Action callback = null)
+        public void UpdateHandCards(DeckData deckData, Action callback = null)
         {
-            if(_deckData == deckData)
+            if (_deckData == deckData)
             {
                 SetDeckFocused(true);
                 callback?.Invoke();
                 return;
             }
 
-            if(_deckData != null)
+            if (_deckData != null)
             {
                 _deckData.OnCardDrawn.RemoveListener(AddCardCallback);
                 _deckData.OnCardInsert.RemoveListener(InsertCardCallback);
@@ -352,7 +398,8 @@ namespace TeamOdd.Ratocalypse.DeckLib
                 transform.localPosition = _originPosition - _changeDeckHeight * Vector3.up;
                 _deckFocused = true;
                 UpdateCards();
-                transform.DOLocalMove(_originPosition, _changeDeckTime).SetEase(_changeDeckEase).OnComplete(()=>{
+                transform.DOLocalMove(_originPosition, _changeDeckTime).SetEase(_changeDeckEase).OnComplete(() =>
+                {
                     callback?.Invoke();
                 });
             });
@@ -361,7 +408,7 @@ namespace TeamOdd.Ratocalypse.DeckLib
         public void UpdateCards(bool force = true)
         {
             _isSelecting = false;
-            while(Remove()){};
+            while (Remove()) { };
             var newCards = _deckData.GetHandCards();
             for (int i = 0; i < newCards.Count; i++)
             {
@@ -374,8 +421,12 @@ namespace TeamOdd.Ratocalypse.DeckLib
 
         public void Select(Selection<List<int>> selection)
         {
+            if (_tileSelector.Selecting)
+            {
+                return;
+            }
             _selection = selection;
-            foreach(int index in _selection.GetCandidates())
+            foreach (int index in _selection.GetCandidates())
             {
                 _handcards[index].GetComponent<CardGlow>().SetActiveGlow();
             }
@@ -384,6 +435,10 @@ namespace TeamOdd.Ratocalypse.DeckLib
 
         public void SetTarget(CreatureData caster, Action callback = null)
         {
+            if (_tileSelector.Selecting)
+            {
+                return;
+            }
             _caster = caster;
             UpdateHandCards(caster.DeckData, callback);
         }

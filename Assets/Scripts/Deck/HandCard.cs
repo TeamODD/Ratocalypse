@@ -31,9 +31,7 @@ namespace TeamOdd.Ratocalypse.DeckLib
             None,
         }
 
-        [field: ReadOnly, SerializeField]
         public CardState CurrentState { get; private set; } = CardState.Normal;
-        [ReadOnly, SerializeField]
         private CardAction _currentAction = CardAction.None;
 
         private Vector3 _originPosition;
@@ -298,6 +296,8 @@ namespace TeamOdd.Ratocalypse.DeckLib
             return velocity;
         }
 
+        private bool _executeReady = false;
+
         private void Update()
         {
             if (AllowStates(CardState.Dragging))
@@ -307,10 +307,20 @@ namespace TeamOdd.Ratocalypse.DeckLib
 
                 if(transform.localPosition.y> _movementValues.ExecuteYlimit)
                 {
+                    if (!_executeReady)
+                    {
+                        transform.DOScale(_movementValues.ExecuteScale, _movementValues.ExecuteScaleTime).SetEase(Ease.OutBack);
+                    }
+                    _executeReady = true;
                     _cardGlow.SetHightLightGlow();
                 }
                 else
                 {
+                    if (_executeReady)
+                    {
+                        transform.DOScale(1, _movementValues.ExecuteScaleTime).SetEase(Ease.OutCubic);
+                    }
+                    _executeReady = false;
                     _cardGlow.SetActiveGlow();
                 }
 
@@ -370,6 +380,8 @@ namespace TeamOdd.Ratocalypse.DeckLib
             public float maxCardTiltSensitivity = 0.5f;
 
             public float ExecuteYlimit = 0.5f;
+            public float ExecuteScale = 1.05f;
+            public float ExecuteScaleTime = 0.5f;
         }
 
     }

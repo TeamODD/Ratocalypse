@@ -20,26 +20,22 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
         private IMapSelector _catMapSelector;
         private IMapSelector _ratMapSelector;
 
-        private ICardSelector _catHandSelector;
-        private ICardSelector _ratHandSelector;
 
         private Stack<Command> _commands = new Stack<Command>();
 
         private TurnUI _turnUI;
-
+        private PlayEvent _playEvent;
         public CommandExecutor(MapData mapData, GameStatistics gameStatistics,
          IMapSelector catMapSelector, IMapSelector ratMapSelecetor,
-         ICardSelector catHandSelector, ICardSelector ratHandSelector,
-         TurnUI turnUI)
+         TurnUI turnUI,PlayEvent playEvent)
         {
+            _playEvent = playEvent;
             _mapData = mapData;
             _gameStatistics = gameStatistics;
 
             _catMapSelector = catMapSelector;
             _ratMapSelector = ratMapSelecetor;
 
-            _catHandSelector = catHandSelector;
-            _ratHandSelector = ratHandSelector;
 
             _turnUI = turnUI;
         }
@@ -132,6 +128,7 @@ namespace TeamOdd.Ratocalypse.MapLib.GameLib
             (command as ICommandRequire<GameStatistics>)?.SetRequire(_gameStatistics);
             (command as ICommandRequire<TurnUI>)?.SetRequire(_turnUI);
             (command as IRequireExtraExcutor)?.SetRequire(Clone);
+            (command as ICommandRequire<PlayEvent>)?.SetRequire(_playEvent);
         }
 
         public void PushCommand(Command command)

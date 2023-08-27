@@ -1,5 +1,6 @@
 using UnityEngine;
 using TeamOdd.Ratocalypse.CreatureLib.Cat;
+using TeamOdd.Ratocalypse.TestScripts;
 
 namespace TeamOdd.Ratocalypse.UI
 {
@@ -8,11 +9,11 @@ namespace TeamOdd.Ratocalypse.UI
         [SerializeField]
         private CatIcon _prefab;
 
-        public CatIcon Create(Transform parent, CatData catData)
+        public CatIcon Create(Transform parent, CatData catData, TileSelector tileSelector)
         {
             CatIcon created = Instantiate(_prefab, parent);
             created.transform.localPosition = Vector3.zero;
-            created.Initialize(catData);
+            created.Initialize(catData, tileSelector);
             return created;
         }
     }

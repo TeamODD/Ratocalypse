@@ -18,8 +18,14 @@ namespace TeamOdd.Ratocalypse.CardLib
         private Renderer _cardBackground;
 
         [SerializeField]
+        private Renderer _chessImage;
+
+        [SerializeField]
         private List<Texture2D> _cardBackgrounds;
 
+        [SerializeField]
+        private List<Texture2D> _chessImages;
+        
         [SerializeField]
         private TextMeshPro _title;
 
@@ -36,11 +42,18 @@ namespace TeamOdd.Ratocalypse.CardLib
             SetTitle(cardData.GetTitle());
             SetCost(cardData.GetCost());
             SetDescription(cardData.GetDescription());
+            var index = (int)cardData.OriginValueData.rangeType;
+            SetChessImage(index);
         }
 
         public void SetBackground(int index)
         {
             _cardBackground.material.SetTexture("_Texture", _cardBackgrounds[index]);
+        }
+
+        public void SetChessImage(int index)
+        {
+            _chessImage.material.SetTexture("_Texture", _chessImages[index]);
         }
 
         public void SetTitle(string title)
