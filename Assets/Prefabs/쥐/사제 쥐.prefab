@@ -83,50 +83,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _placement:
-    <Coord>k__BackingField: {x: 0, y: 0}
-    <Shape>k__BackingField:
-      _coords:
-      - {x: 0, y: 0}
     OnCoordChanged:
       m_PersistentCalls:
         m_Calls: []
   _creatrueData:
-    <Coord>k__BackingField: {x: 0, y: 0}
-    <Shape>k__BackingField:
-      _coords:
-      - {x: 0, y: 0}
     OnCoordChanged:
       m_PersistentCalls:
         m_Calls: []
-    <MaxHp>k__BackingField: 0
-    <Hp>k__BackingField: 0
-    <Armor>k__BackingField: 0
-    <MaxStamina>k__BackingField: 0
-    <Stamina>k__BackingField: 0
-    <Strength>k__BackingField: 0
-    <DeckData>k__BackingField:
-      _handData:
-        _cardDatas: []
     OnTriggerdCard:
       m_PersistentCalls:
         m_Calls: []
   _ratData:
-    <Coord>k__BackingField: {x: 0, y: 0}
-    <Shape>k__BackingField:
-      _coords:
-      - {x: 0, y: 0}
     OnCoordChanged:
       m_PersistentCalls:
         m_Calls: []
-    <MaxHp>k__BackingField: 0
-    <Hp>k__BackingField: 0
-    <Armor>k__BackingField: 0
-    <MaxStamina>k__BackingField: 0
-    <Stamina>k__BackingField: 0
-    <Strength>k__BackingField: 0
-    <DeckData>k__BackingField:
-      _handData:
-        _cardDatas: []
     OnTriggerdCard:
       m_PersistentCalls:
         m_Calls: []
@@ -154,7 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c2809019f62584794a1a445fcc494e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Height: 2
+  Height: 10
   UpDuration: 0.5
   UpEase: 9
   UpTime: 0
