@@ -2,11 +2,13 @@ using TeamOdd.Ratocalypse.CreatureLib;
 using TeamOdd.Ratocalypse.UI;
 using UnityEngine;
 using System.Linq;
+using Unity.VisualScripting;
+using System.Collections.Generic;
 
 public class CreatureUI : MonoBehaviour
 {
     [SerializeField] // 테스트용 SerializeField
-    private Transform _target;
+    public Transform _target;
     [SerializeField]
     private Vector3 _uiOffset;
     private RectTransform _rectTransform;
@@ -18,7 +20,10 @@ public class CreatureUI : MonoBehaviour
 
     private CreatureData _creatureData;
     private Renderer _renderer;
-    
+
+    [SerializeField]
+    private float _modifyY;
+
     public void AttachUi(Transform target, Vector3 offset, CreatureData data)
     {
         _hpUI = gameObject.GetComponent<HPUI>();
@@ -28,6 +33,7 @@ public class CreatureUI : MonoBehaviour
         _creatureData = data;
         _target = target;
         _uiOffset = offset;
+        _modifyY = 0;
 
         data.OnHpReduced.AddListener((_)=>{UpdateData();});
         data.OnHpRestored.AddListener((_)=>{UpdateData();});
@@ -53,10 +59,16 @@ public class CreatureUI : MonoBehaviour
 
     private void LateUpdate()
     {
-
         // transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, target.position);
         //transform.position = Camera.main.WorldToScreenPoint(target.position + new Vector3(0, 150, 0)) ;
         _interfacePoint = RectTransformUtility.WorldToScreenPoint(Camera.main, _target.position);
-        _rectTransform.anchoredPosition = _interfacePoint + _uiOffset;
+        _rectTransform.anchoredPosition = _interfacePoint + _uiOffset + new Vector3(0, _modifyY, 0);
     }
+
+    public void OnCollisionStay(Collision collision)
+    {
+        if (collision.transform.position.y >transform.position.y) { _modifyY -= 0.1f; }
+        else { _modifyY += 0.1f; }
+    }
+
 }

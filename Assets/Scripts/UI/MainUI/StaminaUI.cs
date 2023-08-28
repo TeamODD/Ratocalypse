@@ -25,7 +25,6 @@ namespace TeamOdd.Ratocalypse.UI
 
         public void SetStamina(int stamina, int maxStamina)
         {
-
             var parent = transform.Find("Stamina/SmallStaminaGroup");
             _smallStaminaImage.Clear();
             for (int i = 0; i < parent.childCount; i++)
